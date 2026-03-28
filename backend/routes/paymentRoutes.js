@@ -54,11 +54,51 @@ router.post("/create-order", userAuth, async (req, res) => {
 
     res.json(order);
   } catch (err) {
-    console.error("🔥 Razorpay create error:", err);
+    console.error("🔥 Razorpay create error:", err.message);
     res.status(500).json({
       message: "Razorpay order failed",
       error: err.message,
     });
+  }
+});
+
+/* ======================================
+   VERIFY PAYMENT SIGNATURE (CRITICAL)
+====================================== */
+router.post("/verify", async (req, res) => {
+  try {
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    } = req.body;
+
+    if (
+      !razorpay_order_id ||
+      !razorpay_payment_id ||
+      !razorpay_signature
+    ) {
+      return res.status(400).json({ success: false });
+    }
+
+    const body = `${razorpay_order_id}|${razorpay_payment_id}`;
+
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+      .update(body)
+      .digest("hex");
+
+    if (expectedSignature !== razorpay_signature) {
+      console.log("❌ Invalid payment signature");
+      return res.status(400).json({ success: false });
+    }
+
+    console.log("✅ Payment verified:", razorpay_payment_id);
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("🔥 Verify error:", err.message);
+    res.status(500).json({ success: false });
   }
 });
 
@@ -84,6 +124,9 @@ router.post(
 
       const event = JSON.parse(req.body.toString());
 
+      /* ======================================
+         PAYMENT CAPTURED
+      ======================================= */
       if (event.event === "payment.captured") {
         const payment = event.payload.payment.entity;
 
@@ -139,13 +182,19 @@ router.post(
         console.log("✅ ORDER CREATED VIA WEBHOOK");
       }
 
+      /* ======================================
+         PAYMENT FAILED
+      ======================================= */
       if (event.event === "payment.failed") {
-        console.log("❌ Payment failed:", event.payload.payment.entity.id);
+        console.log(
+          "❌ Payment failed:",
+          event.payload.payment.entity.id
+        );
       }
 
       res.json({ status: "ok" });
     } catch (err) {
-      console.error("🔥 Webhook error:", err);
+      console.error("🔥 Webhook error:", err.message);
       res.status(500).send("Webhook failed");
     }
   }
