@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Instagram, Youtube, ArrowLeft } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import AuthModal from "./AuthModal";
 import ProfileMenu from "./ProfileMenu";
+import "../styles/Home/Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -11,158 +12,107 @@ export default function Navbar() {
   const { user } = useAuth();
 
   const [showAuth, setShowAuth] = useState(false);
-  const isMobile = window.innerWidth < 768;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  /* ---------------- BACK BUTTON LOGIC ---------------- */
+  /* ── SCROLL ── */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* ── RESIZE ── */
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  /* ── LOCK BODY WHEN MENU OPEN ── */
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   const showBack =
     location.pathname !== "/" &&
     !location.pathname.startsWith("/admin");
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <>
-      {/* AUTH MODAL */}
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
-      <header style={styles.header}>
-        {/* LEFT */}
-        <div style={styles.left}>
+      <button className={`nav-ham ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
+            <span />
+            <span style={{ opacity: menuOpen ? 0 : 1 }} />  {/* middle bar fades out */}
+            <span />
+          </button>
+
+      <nav className={scrolled ? "scrolled" : ""}>
+
+        {/* ── LEFT ── */}
+        <div className="nav-left">
           {showBack && (
-            <button
-              onClick={() => navigate(-1)}
-              style={styles.backBtn}
-              aria-label="Go back"
-            >
-              <ArrowLeft size={18} />
+            <button className="nav-back" onClick={() => navigate(-1)} aria-label="Go back">
+              <ArrowLeft size={16} />
             </button>
           )}
-
-          <h2 style={styles.logo} onClick={() => navigate("/")}>
-            KAEORN
-          </h2>
+          <a className="nav-logo" onClick={() => navigate("/")}>KAEORN</a>
         </div>
 
-        {/* RIGHT */}
-        <div style={styles.right}>
-          {/* SOCIALS */}
-          {!isMobile ? (
+        {/* ── CENTER ── */}
+        <div className="nav-center">
+          <a href="#collection">Collection</a>
+          <a href="#about">About</a>
+          <a href="#coming">Coming Soon</a>
+        </div>
+
+        {/* ── RIGHT ── */}
+        <div className="nav-right">
+
+          {!isMobile && (
             <>
-              <a
-                href="https://www.instagram.com/kaeornwellness/"
-                target="_blank"
-                rel="noreferrer"
-                style={styles.link}
-              >
+              <a href="https://www.instagram.com/kaeornwellness/" target="_blank" rel="noreferrer" className="nav-link">
                 Instagram
               </a>
-              <a
-                href="https://www.youtube.com/@KAEORNWELLNESS"
-                target="_blank"
-                rel="noreferrer"
-                style={styles.link}
-              >
+              <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" className="nav-link">
                 YouTube
               </a>
             </>
-          ) : (
-            <div style={styles.mobileIcons}>
-              <a
-                href="https://www.instagram.com/kaeornwellness/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Instagram size={18} />
-              </a>
-              <a
-                href="https://www.youtube.com/@KAEORNWELLNESS"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <Youtube size={18} />
-              </a>
-            </div>
           )}
 
-          {/* AUTH */}
+          <button className="nav-cart" id="cartBtn">
+            <span>Cart</span>
+            <span className="cart-badge" id="cartBadge">0</span>
+          </button>
+
           {!user ? (
-            <button
-              style={styles.signInBtn}
-              onClick={() => setShowAuth(true)}
-            >
+            <button className="nav-signin" onClick={() => setShowAuth(true)}>
               Sign in
             </button>
           ) : (
             <ProfileMenu />
           )}
+
         </div>
-      </header>
+      </nav>
+
+      {/* ── FULLSCREEN MOBILE MENU ── */}
+      <div className={`mob-menu ${menuOpen ? "open" : ""}`}>
+        <a href="#collection" onClick={closeMenu}>Collection</a>
+        <a href="#about" onClick={closeMenu}>About</a>
+        <a href="#coming" onClick={closeMenu}>Coming Soon</a>
+        <a href="https://www.instagram.com/kaeornwellness/" target="_blank" rel="noreferrer" onClick={closeMenu}>
+          Instagram
+        </a>
+        <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" onClick={closeMenu}>
+          YouTube
+        </a>
+      </div>
     </>
   );
 }
-
-/* ---------------- STYLES ---------------- */
-
-const styles = {
-  header: {
-    position: "sticky",
-    top: 0,
-    zIndex: 100,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "14px 20px",
-    background: "rgba(255,255,255,0.92)",
-    backdropFilter: "blur(8px)",
-    borderBottom: "1px solid #eee",
-    fontFamily: "Inter, sans-serif",
-  },
-
-  left: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-
-  backBtn: {
-    border: "none",
-    background: "transparent",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    padding: 0,
-  },
-
-  logo: {
-    fontSize: 15,
-    letterSpacing: 3,
-    fontWeight: 500,
-    cursor: "pointer",
-  },
-
-  right: {
-    display: "flex",
-    alignItems: "center",
-    gap: 14,
-  },
-
-  link: {
-    color: "#111",
-    textDecoration: "none",
-    fontSize: 13,
-  },
-
-  mobileIcons: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-  },
-
-  signInBtn: {
-    border: "1px solid #111",
-    background: "#111",
-    color: "#fff",
-    padding: "8px 16px",
-    borderRadius: 999,
-    fontSize: 13,
-    cursor: "pointer",
-  },
-};

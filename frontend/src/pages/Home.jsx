@@ -1,33 +1,90 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import "../styles/Home/Hero.css";
+import "../styles/Home/PerfumeSection.css";
+import "../styles/Home/Utils.css";
+import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
+import AuthModal from "../components/AuthModal";
 
-/* NO. 01 — THÉ NOIR MEN */
+
+/* ── PRODUCT IMAGES ── */
 const softSkinImg =
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769074475/ChatGPT_Image_Jan_22_2026_03_03_50_PM_kct4ad.png";
-
-/* NO. 02 — MORNING VEIL */
 const morningVeilImg =
   "https://res.cloudinary.com/dvmntn6vf/image/upload/v1769083998/ChatGPT_Image_Jan_22_2026_05_41_58_PM_ainmkh.png";
-
-/* NO. 03 — SOIE FEMME */
 const quietWoodsImg =
   "https://res.cloudinary.com/dvmntn6vf/image/upload/v1769081520/ChatGPT_Image_Jan_22_2026_05_01_01_PM_nzxsqv.png";
 
-/* 🌫️ HERO BACKGROUND IMAGE (ONLY UNDER HERO AREA) */
-const heroBg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1770669629/dc9fb4aaf164ae5f44160471f5eb9a7b_hmhsw6.jpg";
+
+/* ── MARQUEE ITEMS ── */
+const MARQUEE_ITEMS = [
+  "KAEORN", "·", "QUIET LUXURY", "·", "THÉ NOIR MEN", "·",
+  "SOIÉ FEMME", "·", "VEIL", "·", "EAU DE PARFUM", "·",
+  "MADE IN INDIA", "·", "BECAUSE CARE DESERVES LUXURY", "·",
+];
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user } = useAuth();  
   const [visible, setVisible] = useState(false);
+  const revealRefs = useRef([]);
+  const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
+   const [showAuth, setShowAuth] = useState(false);
 
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
+  /* ── CURSOR ── */
+useEffect(() => {
+  const cr   = document.getElementById('cr');
+  const cdot = document.getElementById('cd');
+  if (!cr || !cdot) return;
 
+  let mx = 0, my = 0, cx = 0, cy = 0;
+
+  const onMove = e => {
+    mx = e.clientX; my = e.clientY;
+    cdot.style.left = mx + 'px';
+    cdot.style.top  = my + 'px';
+    cr.classList.add('visible');
+    cdot.classList.add('visible');
+  };
+
+  let raf;
+  const animCursor = () => {
+    cx += (mx - cx) * .12;
+    cy += (my - cy) * .12;
+    // position the RING itself, not its parent wrapper
+    cr.style.left = cx + 'px';
+    cr.style.top  = cy + 'px';
+    raf = requestAnimationFrame(animCursor);
+  };
+  raf = requestAnimationFrame(animCursor);
+
+  document.addEventListener('mousemove', onMove);
+
+  const hoverEls = document.querySelectorAll('a, button, .prod-card');
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => cr.classList.add('grow'));
+    el.addEventListener('mouseleave', () => cr.classList.remove('grow'));
+  });
+
+  return () => {
+    document.removeEventListener('mousemove', onMove);
+    cancelAnimationFrame(raf);
+  };
+}, []);
+
+/* ── LOADER ── */
+useEffect(() => {
+  const loader = document.getElementById('loader');
+  if (!loader) return;
+  const t = setTimeout(() => loader.classList.add('out'), 2200);
+  return () => clearTimeout(t);
+}, []);
+
+  /* ── PAGE ENTER ── */
   useEffect(() => {
-    document.title =
-      "KAEORN WELLNESS | Quiet Luxury Skincare & Fragrance";
-
+    document.title = "KAEORN WELLNESS | Quiet Luxury Skincare & Fragrance";
     let meta = document.querySelector("meta[name='description']");
     if (!meta) {
       meta = document.createElement("meta");
@@ -36,330 +93,335 @@ export default function Home() {
     }
     meta.content =
       "Discover KAEORN — quiet luxury skincare and fragrance crafted for modern rituals.";
-
     const t = setTimeout(() => setVisible(true), 120);
     return () => clearTimeout(t);
   }, []);
 
+  /* ── SCROLL REVEAL ── */
+ const observerRef = useRef(null);
+
+useEffect(() => {
+  observerRef.current = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("visible");
+        observerRef.current.unobserve(e.target);
+      }
+    });
+  });
+}, []);
+
+const addReveal = (el) => {
+  if (el && observerRef.current) {
+    observerRef.current.observe(el);
+  }
+};
+
+ function PerfumeCard({ to, img, gender, name, mood, price, mrp, navigate, addToCart, user, setShowAuth, addReveal }) {
+  console.log("Rendering:", name);
+  const [added, setAdded] = useState(false);
+  const [authType, setAuthType] = useState(null);
+
+  function handleAdd(e) {
+    e.stopPropagation(); // prevent card navigate
+    if (!user) { setShowAuth(true); return; }
+    addToCart({ id: to, name, price: parseInt(price.replace(/[^0-9]/g, "")), image: img, quantity: 1 });
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  }
+
   return (
+    <div ref={addReveal} className="reveal" style={styles.perfumeCard} onClick={() => navigate(to)}>
+      <div style={styles.perfumeImageWrap}>
+        <img src={img} alt={name} style={styles.perfumeImage} />
+        <div style={styles.perfumeOverlay}>
+          <span style={styles.overlayText}>Discover →</span>
+        </div>
+      </div>
+      <div style={styles.cardInfo}>
+        <span style={styles.gender}>{gender} · EAU DE PARFUM</span>
+        <h4 style={styles.name}>{name}</h4>
+        <p style={styles.mood}>{mood}</p>
+        <div style={styles.priceRow}>
+          <span style={styles.price}>{price}</span>
+          <span style={styles.mrp}>{mrp}</span>
+        </div>
+        <div className="prod-actions">
+          <button className="prod-explore" onClick={(e) => { e.stopPropagation(); navigate(to); }}>
+            Explore
+          </button>
+          <button
+            className="prod-add"
+            onClick={handleAdd}
+            style={added ? { background: "var(--ink)", color: "var(--paper)" } : {}}
+          >
+            {added ? "Added ✓" : "+ Cart"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+  return (
+    <>
+     {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
+    
+    {/* -- CURSOR ------ */}
+      <div className="cursor" id="cursorRing">
+        <div className="cursor-ring" id="cr"></div>
+      </div>
+      
+      <div className="cursor-dot" id="cd"></div>
+
+      {/*-- LOADER --*/}
+      <div id="loader">
+      <div className="loader-word">KAEORN</div>
+      <div className="loader-line-wrap">
+        <div className="loader-line-fill"></div>
+      </div>
+      <div className="loader-sub">Because care deserves luxury</div>
+      </div>
+
     <main
       style={{
-        ...styles.page,
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(12px)",
         transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)",
       }}
     >
-      {/* ---------------- HERO ---------------- */}
-      <section
-        style={{
-          ...styles.hero,
-          minHeight: isMobile ? "88vh" : "92vh",
-          backgroundImage: `url(${heroBg})`,
-        }}
-      >
-        {/* soft luxury overlay so text stays readable */}
-        <div style={styles.heroOverlay} />
+      
 
-        <div style={styles.heroInner}>
-          <div style={styles.brandBadge}>KAEORN</div>
-
-          <div style={styles.brandTagline}>
-            Because care deserves luxury
-          </div>
-
-          <h1 style={styles.heroTitle}>
-            Where skincare meets the art of perfume
-            <br />
-            Crafted for modern skin, softly perfumed
+      {/* ── HERO ── */}
+      <section className="hero" id="hero">
+        <div className="hero-ambient" />
+        <div className="hero-content">
+          <p className="hero-eyebrow">KAEORN FRAGRANCE</p>
+          <h1 className="hero-title">
+            A quiet<br /><em>expression</em><br />of scent
           </h1>
-
-          <p style={styles.heroText}>
-            Thoughtfully crafted scents designed to linger softly and elevate
-            your daily ritual
+          <p className="hero-sub">
+            Crafted to sit close to skin — intimate, understated, and deeply personal.
           </p>
-
-          {/* 🔒 COMING SOON BUTTONS */}
-          <div
-            style={{
-              ...styles.productButton,
-              flexDirection: isMobile ? "column" : "row",
-              width: isMobile ? "100%" : "auto",
-              alignItems: "center",
-            }}
-          >
-            <button
-              disabled
-              style={{
-                ...styles.primaryBtn,
-                ...styles.disabledBtn,
-                width: isMobile ? "100%" : "auto",
-                maxWidth: 360,
-              }}
-            >
-              Discover Haetsal Veil™ Cream — Coming Soon
-            </button>
-
-            <button
-              disabled
-              style={{
-                ...styles.primaryBtnOutline,
-                ...styles.disabledBtnOutline,
-                width: isMobile ? "100%" : "auto",
-                maxWidth: 360,
-              }}
-            >
-              Discover Haetsal Veil™ Spray — Coming Soon
-            </button>
+          <div className="hero-actions">
+            <a href="#collection" className="btn-primary">Explore Collection</a>
+            <a href="#about" className="btn-outline">Our Story</a>
           </div>
-
-          {/* 🖤 NEW LUXURY LINE */}
-          <p style={styles.fragranceLine}>
-            Freshly launched fragrance — explore now
-          </p>
+        </div>
+        <div className="hero-scroll">
+          <span>Scroll</span>
+          <div className="scroll-track">
+            <div className="scroll-thumb" />
+          </div>
         </div>
       </section>
 
-      {/* ---------------- PERFUME SECTION ---------------- */}
-      <section style={styles.perfumeSection}>
-        <div style={styles.perfumeIntro}>
-          <p style={styles.label}>KAEORN FRAGRANCE</p>
-          <h2 style={styles.perfumeTitle}>
-            A quiet expression of scent
-          </h2>
-          <p style={styles.perfumeSubtitle}>
-            Crafted to sit close to skin — intimate, understated,
-            and deeply personal.
-          </p>
+      {/* ── MARQUEE ── */}
+      <div className="marquee-wrap">
+        <div className="marquee-track">
+          {/* Duplicated for seamless loop */}
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span
+              key={i}
+              className={`marquee-item${item === "·" ? " marquee-sep" : ""}`}
+            >
+              {item}
+            </span>
+          ))}
         </div>
+      </div>
+
+      {/* ── PERFUME SECTION ── */}
+      <section style={styles.perfumeSection} id="collection">
+        <div ref={addReveal} className="reveal">
+          <div className="collection-header">
+            <div>
+              <p className="section-eyebrow">THE COLLECTION</p>
+              <h2 className="section-title" ref={addReveal}>
+                Three moods.<br /><em>One world.</em>
+              </h2>
+            </div>
+            <div>
+              <p className="collection-intro">
+                Where skincare meets the art of perfume. Crafted for modern skin,
+                softly perfumed — each scent a quiet statement.
+              </p>
+            </div>
+          </div>
+        </div>
+
 
         <div style={styles.perfumeRow}>
-          <div
-            style={styles.perfumeCard}
-            onClick={() => navigate("/perfume/soft-skin")}
-          >
-            <img src={softSkinImg} alt="" style={styles.perfumeImage} />
-            <span style={styles.index}>MEN</span>
-            <h4 style={styles.name}>THÉ NOIR</h4>
-            <p style={styles.mood}>Woody · Aromatic · Musky</p>
+          {[
+            {
+              to: "/perfume/soft-skin",
+              img: softSkinImg,
+              gender: "MEN",
+              name: "THÉ NOIR",
+              mood: "Woody · Aromatic · Musky",
+              price: "₹2,499",
+              mrp: "₹6,799",
+            },
+            {
+              to: "/perfume/morning-veil",
+              img: morningVeilImg,
+              gender: "UNISEX",
+              name: "MORNING VEIL",
+              mood: "Clean · Airy · Luminous",
+              price: "₹2,699",
+              mrp: "₹7,499",
+            },
+            {
+              to: "/perfume/quiet-woods",
+              img: quietWoodsImg,
+              gender: "WOMEN",
+              name: "SOIE FEMME",
+              mood: "Luxury · Feminine",
+              price: "₹2,899",
+              mrp: "₹8,799",
+            },
+          ].map((p) => (
+             <PerfumeCard
+                key={p.name}
+                {...p}
+                navigate={navigate}
+                addToCart={addToCart}
+                user={user}
+                setShowAuth={setShowAuth}
+                addReveal={addReveal}
+              />
+            ))}
           </div>
-
-          <div
-            style={{ ...styles.perfumeCard, ...styles.offset }}
-            onClick={() => navigate("/perfume/morning-veil")}
-          >
-            <img src={morningVeilImg} alt="" style={styles.perfumeImage} />
-            <span style={styles.index}>UNISEX</span>
-            <h4 style={styles.name}>MORNING VEIL</h4>
-            <p style={styles.mood}>Clean · Airy · Luminous</p>
-          </div>
-
-          <div
-            style={styles.perfumeCard}
-            onClick={() => navigate("/perfume/quiet-woods")}
-          >
-            <img src={quietWoodsImg} alt="" style={styles.perfumeImage} />
-            <span style={styles.index}>WOMEN</span>
-            <h4 style={styles.name}>SOIE FEMME</h4>
-            <p style={styles.mood}>Luxury · Feminine</p>
-          </div>
-        </div>
-
-        <button
-          style={styles.viewAll}
-          onClick={() => navigate("/perfume")}
-        >
-          Explore Fragrance Collection
-        </button>
+          
+        {/* <button style={styles.viewAll} onClick={() => navigate("/perfume")}>
+          Explore Full Collection
+        </button> */}
       </section>
     </main>
+    </>
   );
 }
 
-/* ---------------- STYLES ---------------- */
-
+/* ── STYLES ── */
 const styles = {
-  page: {
-    fontFamily: "Inter, sans-serif",
-  },
-
-  hero: {
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    padding: "0 24px",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-
-  heroOverlay: {
-    position: "absolute",
-    inset: 0,
-    background:
-      "linear-gradient(to bottom, rgba(255,255,255,0.92), rgba(255,255,255,0.96))",
-  },
-
-  heroInner: {
-    position: "relative",
-    zIndex: 2,
-    maxWidth: 720,
-  },
-
-  brandBadge: {
-    fontSize: 11,
-    letterSpacing: 3,
-    padding: "8px 18px",
-    borderRadius: 999,
-    background: "rgba(0,0,0,0.05)",
-    marginBottom: 18,
-  },
-
-  brandTagline: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 24,
-  },
-
-  heroTitle: {
-    fontSize: "clamp(30px,5vw,44px)",
-    fontWeight: 500,
-    lineHeight: 1.25,
-    marginBottom: 24,
-  },
-
-  heroText: {
-    maxWidth: 560,
-    fontSize: 16,
-    lineHeight: 1.8,
-    color: "#666",
-    marginBottom: 36,
-  },
-
-  productButton: {
-    display: "flex",
-    gap: 16,
-    marginTop: 10,
-  },
-
-  primaryBtn: {
-    padding: "16px 28px",
-    borderRadius: 40,
-    background: "#111",
-    color: "#fff",
-    border: "none",
-    fontSize: 15,
-  },
-
-  primaryBtnOutline: {
-    padding: "16px 28px",
-    borderRadius: 40,
-    background: "transparent",
-    border: "1px solid #111",
-    fontSize: 15,
-  },
-
-  disabledBtn: {
-    opacity: 0.6,
-    cursor: "not-allowed",
-  },
-
-  disabledBtnOutline: {
-    opacity: 0.6,
-    cursor: "not-allowed",
-  },
-
-  fragranceLine: {
-    marginTop: 26,
-    fontSize: 14,
-    letterSpacing: 1,
-    color: "#888",
-  },
-
   perfumeSection: {
-    padding: "140px 24px",
-    background:
-      "radial-gradient(1000px 500px at 50% -10%, #f4f1ed 0%, #ffffff 60%)",
+    padding: "clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem)",
+    maxWidth: 1400,
+    margin: "0 auto",
   },
-
   perfumeIntro: {
     maxWidth: 620,
-    margin: "0 auto 120px",
+    margin: "0 auto 5rem",
     textAlign: "center",
   },
-
-  label: {
-    fontSize: 12,
-    letterSpacing: 3,
-    color: "#8a7f72",
-    marginBottom: 16,
-  },
-
-  perfumeTitle: {
-    fontSize: 40,
-    fontWeight: 400,
-    marginBottom: 24,
-  },
-
   perfumeSubtitle: {
-    fontSize: 17,
+    fontSize: "clamp(.85rem, 1.8vw, 1rem)",
     lineHeight: 1.9,
-    color: "#666",
+    color: "var(--muted)",
+    marginTop: "1.25rem",
   },
-
   perfumeRow: {
-    maxWidth: 1200,
-    margin: "0 auto 80px",
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-    gap: 80,
+    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+    gap: "1.5px",
+    background: "var(--border)",
+    marginBottom: "4rem",
   },
-
   perfumeCard: {
-    textAlign: "center",
+    background: "var(--paper)",
     cursor: "pointer",
+    position: "relative",
+    overflow: "hidden",
   },
-
   offset: {
     transform: "translateY(32px)",
   },
-
+  perfumeImageWrap: {
+    position: "relative",
+    overflow: "hidden",
+    aspectRatio: "3 / 4",
+  },
   perfumeImage: {
     width: "100%",
-    height: 420,
+    height: "100%",
     objectFit: "cover",
-    borderRadius: 28,
-    marginBottom: 22,
+    display: "block",
+    transition: "transform .9s cubic-bezier(0.25,0.46,0.45,0.94)",
   },
-
-  index: {
-    fontSize: 12,
-    letterSpacing: 2.5,
-    color: "#888",
-    marginBottom: 6,
+  perfumeOverlay: {
+    position: "absolute",
+    inset: 0,
+    background: "linear-gradient(to top, rgba(13,12,11,.6) 0%, transparent 50%)",
+    opacity: 0,
+    transition: "opacity .4s",
+    display: "flex",
+    alignItems: "flex-end",
+    padding: "1.5rem",
   },
-
+  overlayText: {
+    fontFamily: "'DM Mono', monospace",
+    fontSize: ".65rem",
+    letterSpacing: ".15em",
+    textTransform: "uppercase",
+    color: "var(--paper)",
+  },
+  cardInfo: {
+    padding: "1.75rem 1.75rem 2rem",
+    borderTop: "1px solid var(--border)",
+  },
+  gender: {
+    fontFamily: "'DM Mono', monospace",
+    fontSize: ".6rem",
+    letterSpacing: ".2em",
+    color: "var(--muted)",
+    textTransform: "uppercase",
+    display: "block",
+    marginBottom: ".6rem",
+  },
   name: {
-    fontSize: 20,
+    fontFamily: "'Cormorant Garamond', serif",
+    fontSize: "1.65rem",
     fontWeight: 400,
-    marginBottom: 6,
+    letterSpacing: ".02em",
+    lineHeight: 1.1,
+    marginBottom: ".5rem",
   },
-
   mood: {
-    fontSize: 14,
-    color: "#777",
+    fontFamily: "'DM Mono', monospace",
+    fontSize: ".62rem",
+    letterSpacing: ".1em",
+    color: "var(--muted)",
+    marginBottom: "1rem",
   },
-
+  priceRow: {
+    display: "flex",
+    alignItems: "baseline",
+    gap: ".75rem",
+  },
+  price: {
+    fontFamily: "'Cormorant Garamond', serif",
+    fontSize: "1.5rem",
+    fontWeight: 400,
+  },
+  mrp: {
+    fontSize: ".8rem",
+    color: "var(--muted)",
+    textDecoration: "line-through",
+  },
   viewAll: {
     margin: "0 auto",
     display: "block",
-    padding: "16px 38px",
-    borderRadius: 40,
-    background: "#111",
-    color: "#fff",
+    padding: ".85rem 2.25rem",
+    background: "var(--ink)",
+    color: "var(--paper)",
     border: "none",
-    fontSize: 14,
+    fontFamily: "'DM Mono', monospace",
+    fontSize: ".7rem",
+    letterSpacing: ".15em",
+    textTransform: "uppercase",
+    cursor: "pointer",
+    transition: "background .2s",
   },
 };

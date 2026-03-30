@@ -55,6 +55,7 @@ import ResetPassword from "./pages/ResetPassword";
 import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
 import AdminAnalytics from "./pages/AdminAnalytics";
+import './index.css'
 
 
 /* ---------------- NAVBAR CONTROLLER ---------------- */
