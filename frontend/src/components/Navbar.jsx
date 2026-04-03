@@ -85,10 +85,10 @@ export default function Navbar() {
             </>
           )}
 
-          <button className="nav-cart" id="cartBtn">
+          {/* <button className="nav-cart" id="cartBtn">
             <span>Cart</span>
             <span className="cart-badge" id="cartBadge">0</span>
-          </button>
+          </button> */}
 
           {!user ? (
             <button className="nav-signin" onClick={() => setShowAuth(true)}>

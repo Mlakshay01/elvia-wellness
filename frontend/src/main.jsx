@@ -20,12 +20,12 @@ import Payment from "./pages/Payment";
 import OrderSuccess from "./pages/OrderSuccess";
 import Success from "./pages/Success";
 
-import About from "./pages/legal/About";
-import Contact from "./pages/legal/Contact";
-import Privacy from "./pages/legal/Privacy";
-import Terms from "./pages/legal/Terms";
-import Refund from "./pages/legal/Refund";
-import Shipping from "./pages/legal/Shipping";
+import About from "./components/legal/About";
+import Contact from "./components/legal/Contact";
+import Privacy from "./components/legal/Privacy";
+import Terms from "./components/legal/Terms";
+import Refund from "./components/legal/Refund";
+import Shipping from "./components/legal/Shipping";
 
 import MyOrders from "./pages/MyOrders";
 import OrderDetail from "./pages/OrderDetail";
@@ -56,6 +56,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Footer from "./components/Footer";
 import AdminAnalytics from "./pages/AdminAnalytics";
 import './index.css'
+import Loader from "./components/Loader";
 
 
 /* ---------------- NAVBAR CONTROLLER ---------------- */
@@ -78,7 +79,9 @@ function AppRoot() {
   return (
     <Layout>
       <ScrollToTop />
+      <Loader/>
       <Routes>
+        
         {/* ---------- PUBLIC ---------- */}
         <Route path="/" element={<Home />} />
         <Route path="/product" element={<App />} />
@@ -107,6 +110,12 @@ function AppRoot() {
           }
         />
 
+        {/*-------- Working Legal --------*/}
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/refund" element={<Refund />} />
+        <Route path="/privacy" element={<Privacy />} />
+        
+
         {/* ---------- LEGAL ---------- */}
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
@@ -116,6 +125,8 @@ function AppRoot() {
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/success" element={<Success />} />
+
+
 
 
         {/* ---------- CART ---------- */}

@@ -2,10 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import "../styles/Home/Hero.css";
 import "../styles/Home/PerfumeSection.css";
-import "../styles/Home/Utils.css";
+import "../styles/Global/Utils.css";
+import "../styles/Home/About.css";
+import "../styles/Home/ComingSoon.css";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
+
+
 
 
 /* ── PRODUCT IMAGES ── */
@@ -34,7 +38,7 @@ export default function Home() {
    const [showAuth, setShowAuth] = useState(false);
 
   /* ── CURSOR ── */
-useEffect(() => {
+ useEffect(() => {
   const cr   = document.getElementById('cr');
   const cdot = document.getElementById('cd');
   if (!cr || !cdot) return;
@@ -72,15 +76,8 @@ useEffect(() => {
     document.removeEventListener('mousemove', onMove);
     cancelAnimationFrame(raf);
   };
-}, []);
+ }, []);
 
-/* ── LOADER ── */
-useEffect(() => {
-  const loader = document.getElementById('loader');
-  if (!loader) return;
-  const t = setTimeout(() => loader.classList.add('out'), 2200);
-  return () => clearTimeout(t);
-}, []);
 
   /* ── PAGE ENTER ── */
   useEffect(() => {
@@ -100,7 +97,7 @@ useEffect(() => {
   /* ── SCROLL REVEAL ── */
  const observerRef = useRef(null);
 
-useEffect(() => {
+ useEffect(() => {
   observerRef.current = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
@@ -109,18 +106,17 @@ useEffect(() => {
       }
     });
   });
-}, []);
+ }, []);
 
-const addReveal = (el) => {
+ const addReveal = (el) => {
   if (el && observerRef.current) {
     observerRef.current.observe(el);
   }
-};
+ };
 
  function PerfumeCard({ to, img, gender, name, mood, price, mrp, navigate, addToCart, user, setShowAuth, addReveal }) {
-  console.log("Rendering:", name);
   const [added, setAdded] = useState(false);
-  const [authType, setAuthType] = useState(null);
+
 
   function handleAdd(e) {
     e.stopPropagation(); // prevent card navigate
@@ -161,7 +157,7 @@ const addReveal = (el) => {
       </div>
     </div>
   );
-}
+ }
 
 
 
@@ -175,15 +171,6 @@ const addReveal = (el) => {
       </div>
       
       <div className="cursor-dot" id="cd"></div>
-
-      {/*-- LOADER --*/}
-      <div id="loader">
-      <div className="loader-word">KAEORN</div>
-      <div className="loader-line-wrap">
-        <div className="loader-line-fill"></div>
-      </div>
-      <div className="loader-sub">Because care deserves luxury</div>
-      </div>
 
     <main
       style={{
@@ -261,8 +248,8 @@ const addReveal = (el) => {
               gender: "MEN",
               name: "THÉ NOIR",
               mood: "Woody · Aromatic · Musky",
-              price: "₹2,499",
-              mrp: "₹4,599",
+              price: "₹1,199",
+              mrp: "₹1,499",
             },
             {
               to: "/perfume/morning-veil",
@@ -270,8 +257,8 @@ const addReveal = (el) => {
               gender: "UNISEX",
               name: "MORNING VEIL",
               mood: "Clean · Airy · Luminous",
-              price: "₹2,699",
-              mrp: "₹5,640",
+              price: "₹1,199",
+              mrp: "₹1,499",
             },
             {
               to: "/perfume/quiet-woods",
@@ -279,8 +266,8 @@ const addReveal = (el) => {
               gender: "WOMEN",
               name: "SOIE FEMME",
               mood: "Luxury · Feminine",
-              price: "₹2,499",
-              mrp: "₹4,599",
+              price: "₹1,199",
+              mrp: "₹1,499",
             },
           ].map((p) => (
              <PerfumeCard
@@ -299,8 +286,93 @@ const addReveal = (el) => {
           Explore Full Collection
         </button> */}
       </section>
+
+
+      
+      {/*-- ABOUT --*/}
+      <section className="about" id="about">
+        <div className="about-inner">
+        <div className="about-top">
+        <div>
+        <p ref={addReveal} className="section-eyebrow about-eyebrow reveal">THE PHILOSOPHY</p>
+        <h2 ref={addReveal} className="about-title reveal reveal-delay-1">
+          Where skincare<br/>meets the art<br/>of <em>perfume.</em>
+        </h2>
+      </div>
+      <div ref={addReveal} className="about-body reveal reveal-delay-2">
+        <p>
+          KAEORN was born from a single conviction: that fragrance should feel like a second skin, not a statement. We craft scents designed to linger softly and elevate your daily ritual.
+        </p>
+        <p>
+          Each KAEORN fragrance is built around a human truth — a feeling worth preserving. Our perfumers work with the finest raw materials to create olfactory signatures that are intimate, understated, and deeply personal.
+        </p>
+        <p>
+          The name KAEORN brings together two ideas — to endure, and to radiate. We make things that stay with you.
+        </p>
+        <div className="about-quote">
+          <blockquote>"Because care deserves luxury."</blockquote>
+          <cite>— KAEORN Brand Philosophy</cite>
+        </div>
+      </div>
+    </div>
+    <div className="about-stats">
+      <div ref={addReveal} className="stat reveal">
+        <div className="stat-n">3</div>
+        <div className="stat-l">Fragrances Crafted</div>
+      </div>
+      <div ref={addReveal} className="stat reveal reveal-delay-1">
+        <div className="stat-n">500+</div>
+        <div className="stat-l">Happy Wearers</div>
+      </div>
+      <div ref={addReveal} className="stat reveal reveal-delay-2">
+        <div className="stat-n">100%</div>
+        <div className="stat-l">Cruelty Free</div>
+      </div>
+    </div>
+    </div>
+    </section>
+
+      {/*-- COMING SOON --*/}
+      <section className="coming" id="coming">
+      <div className="coming-inner">
+    <div className="coming-header">
+      <p ref={addReveal} className="section-eyebrow reveal">WHAT'S NEXT</p>
+      <h2 ref={addReveal} className="section-title reveal reveal-delay-1">The world of<br/>KAEORN <em>expands.</em></h2>
+    </div>
+    <div className="coming-grid">
+      <div ref={addReveal} className="coming-card coming-cream reveal">
+        <div className="coming-soon-badge">Coming Soon</div>
+        <div className="coming-icon">☀</div>
+        <h3 className="coming-name">Haetsal Veil™ Cream</h3>
+        <p className="coming-sub">Skincare Line</p>
+        <p className="coming-desc">
+          Protection that feels like skin, not armor. Luxurious, softly scented skincare crafted for faces that refuse to hide. The first intersection of KAEORN fragrance and skincare.
+        </p>
+        <div className="coming-notify">
+          <input type="email" className="coming-email" placeholder="Enter your email" id="emailCream"/>
+          <button className="coming-submit" onClick={()=>"notifyMe('cream')"}>Notify Me</button>
+        </div>
+      </div>
+      <div ref={addReveal} className="coming-card coming-spray reveal reveal-delay-1">
+        <div className="coming-soon-badge">Coming Soon</div>
+        <div className="coming-icon">◈</div>
+        <h3 className="coming-name">Haetsal Veil™ Spray</h3>
+        <p className="coming-sub">Body Spray Line</p>
+        <p className="coming-desc">
+          The scent that moves with you. Everyday body sprays with the same depth as our perfumes — lighter, breezier, and built for every moment of your day.
+        </p>
+        <div className="coming-notify">
+          <input type="email" className="coming-email" placeholder="Enter your email" id="emailSpray"/>
+          <button className="coming-submit" onClick={()=>"notifyMe('spray')"}>Notify Me</button>
+        </div>
+      </div>
+    </div>
+     </div>
+    </section>
+
     </main>
     </>
+
   );
 }
 

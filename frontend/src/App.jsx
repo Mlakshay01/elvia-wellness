@@ -5,6 +5,7 @@ import { useCart } from "./context/CartContext";
 import AuthModal from "./components/AuthModal";
 import Footer from "./components/Footer";
 
+
 /* ---------------- CLOUDINARY IMAGES ---------------- */
 const img2 =
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_800/v1768897906/ChatGPT_Image_Jan_20_2026_01_53_50_PM_ekdg0l.png";
