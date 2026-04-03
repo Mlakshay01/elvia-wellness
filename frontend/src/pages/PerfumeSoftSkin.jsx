@@ -53,13 +53,13 @@ export default function PerfumeSoftSkin() {
 
   function handleBuy() {
     if (!user) return setAuthType("login");
-    addToCart({ ...product, image: galleryImages[0], quantity: 1 });
+    addToCart("/perfume/soft-skin");
     navigate("/cart");
   }
 
   function handleAdd() {
     if (!user) return setAuthType("login");
-    addToCart({ ...product, image: galleryImages[0], quantity: 1 });
+    addToCart("/perfume/soft-skin");
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }

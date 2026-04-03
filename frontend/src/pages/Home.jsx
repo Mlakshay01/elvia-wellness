@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import "../styles/Home/Hero.css";
-import "../styles/Home/PerfumeSection.css";
 import "../styles/Global/Utils.css";
 import "../styles/Home/About.css";
 import "../styles/Home/ComingSoon.css";
+import "../styles/Home/PerfumeSection.css";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
+
 
 
 
@@ -108,11 +109,17 @@ export default function Home() {
   });
  }, []);
 
- const addReveal = (el) => {
+const addReveal = (el) => {
   if (el && observerRef.current) {
     observerRef.current.observe(el);
+
+    // fallback if already visible
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add("visible");
+    }
   }
- };
+};
 
  function PerfumeCard({ to, img, gender, name, mood, price, mrp, navigate, addToCart, user, setShowAuth, addReveal }) {
   const [added, setAdded] = useState(false);
@@ -121,7 +128,7 @@ export default function Home() {
   function handleAdd(e) {
     e.stopPropagation(); // prevent card navigate
     if (!user) { setShowAuth(true); return; }
-    addToCart({ id: to, name, price: parseInt(price.replace(/[^0-9]/g, "")), image: img, quantity: 1 });
+    addToCart(to);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }

@@ -89,112 +89,7 @@
 .prod-placeholder-bottle {
   position: relative; z-index: 1;
 }
-/* THÉ NOIR — amber glass */
-.bottle-the-noir { width: 85px; height: 130px; position: relative; }
-.bottle-the-noir .b-body {
-  width: 70px; height: 100px;
-  background: linear-gradient(135deg, #c8932a 0%, #a0711e 40%, #6b4a10 100%);
-  border-radius: 4px 4px 3px 3px;
-  margin: 0 auto;
-  box-shadow: inset 3px 0 8px rgba(255,255,255,.25), inset -3px 0 8px rgba(0,0,0,.3), 0 8px 32px rgba(107,74,16,.4);
-  position: relative; overflow: hidden;
-}
-.bottle-the-noir .b-body::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(120deg, rgba(255,255,255,.2) 0%, transparent 40%);
-}
-.bottle-the-noir .b-label {
-  position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%);
-  width: 50px;
-  background: rgba(247,244,240,.88);
-  padding: 5px 4px;
-  text-align: center;
-}
-.bottle-the-noir .b-label .bl-brand { font-family: 'Cormorant Garamond', serif; font-size: 5px; letter-spacing: .15em; color: var(--ink); display: block; }
-.bottle-the-noir .b-label .bl-name { font-family: 'Cormorant Garamond', serif; font-size: 7px; letter-spacing: .1em; color: var(--ink); display: block; font-weight: 500; }
-.bottle-the-noir .b-label .bl-type { font-family: 'DM Mono', monospace; font-size: 4px; color: var(--muted); display: block; margin-top: 1px; }
-.bottle-the-noir .b-neck {
-  width: 22px; height: 22px; margin: 0 auto;
-  background: linear-gradient(135deg, #c8932a, #8a6015);
-  border-radius: 2px 2px 0 0;
-  box-shadow: inset 2px 0 4px rgba(255,255,255,.2);
-}
-.bottle-the-noir .b-cap {
-  width: 30px; height: 18px; margin: 0 auto;
-  background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.4);
-}
 
-/* SOIÉ FEMME — warm peach/gold */
-.bottle-soie { width: 85px; height: 130px; position: relative; }
-.bottle-soie .b-body {
-  width: 72px; height: 98px;
-  background: linear-gradient(135deg, #e8c89a 0%, #c9956b 40%, #a0704a 100%);
-  border-radius: 3px 3px 2px 2px;
-  margin: 0 auto;
-  box-shadow: inset 3px 0 10px rgba(255,255,255,.3), inset -2px 0 8px rgba(0,0,0,.2), 0 8px 32px rgba(160,112,74,.35);
-  position: relative; overflow: hidden;
-}
-.bottle-soie .b-body::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(110deg, rgba(255,255,255,.25) 0%, transparent 45%);
-}
-.bottle-soie .b-label {
-  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-  width: 52px; background: rgba(247,244,240,.9);
-  padding: 5px 4px; text-align: center;
-}
-.bottle-soie .b-label .bl-brand { font-family: 'Cormorant Garamond', serif; font-size: 5px; letter-spacing: .15em; color: var(--ink); display: block; }
-.bottle-soie .b-label .bl-name { font-family: 'Cormorant Garamond', serif; font-size: 6.5px; letter-spacing: .08em; color: var(--ink); display: block; font-weight: 500; }
-.bottle-soie .b-label .bl-type { font-family: 'DM Mono', monospace; font-size: 4px; color: var(--muted); display: block; margin-top: 1px; }
-.bottle-soie .b-neck {
-  width: 20px; height: 20px; margin: 0 auto;
-  background: linear-gradient(135deg, #d4a870, #a07840);
-  border-radius: 2px 2px 0 0;
-}
-.bottle-soie .b-cap {
-  width: 28px; height: 16px; margin: 0 auto;
-  background: linear-gradient(135deg, #c9a84c, #9a7a2a);
-  border-radius: 1px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.3);
-}
-
-/* VEIL — frosted clear */
-.bottle-veil { width: 75px; height: 130px; position: relative; }
-.bottle-veil .b-body {
-  width: 65px; height: 108px;
-  background: linear-gradient(135deg, rgba(240,237,232,.9) 0%, rgba(215,208,198,.8) 50%, rgba(190,183,172,.7) 100%);
-  border-radius: 2px;
-  margin: 0 auto;
-  box-shadow: inset 4px 0 12px rgba(255,255,255,.6), inset -3px 0 8px rgba(0,0,0,.08), 0 4px 24px rgba(0,0,0,.12), 0 0 0 1px rgba(0,0,0,.06);
-  position: relative; overflow: hidden;
-  backdrop-filter: blur(2px);
-}
-.bottle-veil .b-body::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(115deg, rgba(255,255,255,.5) 0%, transparent 50%);
-}
-.bottle-veil .b-label {
-  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-  width: 48px; background: rgba(255,255,255,.75);
-  padding: 5px 3px; text-align: center;
-  border: .5px solid rgba(0,0,0,.06);
-}
-.bottle-veil .b-label .bl-brand { font-family: 'Cormorant Garamond', serif; font-size: 5px; letter-spacing: .15em; color: var(--ink); display: block; }
-.bottle-veil .b-label .bl-name { font-family: 'Cormorant Garamond', serif; font-size: 8px; letter-spacing: .12em; color: var(--ink); display: block; font-weight: 400; }
-.bottle-veil .b-label .bl-type { font-family: 'DM Mono', monospace; font-size: 4px; color: var(--muted); display: block; margin-top: 1px; }
-.bottle-veil .b-neck {
-  width: 18px; height: 14px; margin: 0 auto;
-  background: rgba(220,215,208,.8);
-  border-radius: 1px 1px 0 0;
-  box-shadow: 0 0 0 .5px rgba(0,0,0,.06);
-}
-.bottle-veil .b-cap {
-  width: 30px; height: 12px; margin: 0 auto;
-  background: linear-gradient(135deg, #d8d4ce, #b8b2aa);
-  border-radius: 1px;
-}
 
 .prod-bg-m { background: linear-gradient(160deg, #f5ede0 0%, #ead9c5 100%); }
 .prod-bg-f { background: linear-gradient(160deg, #f5ece6 0%, #edd5c8 100%); }
@@ -258,7 +153,8 @@
 /* Mobile horizontal scroll on small screens */
 @media (max-width: 900px) {
   .product-grid {
-    display: flex; gap: 1px;
+    display: flex; 
+    gap: 1px;
     overflow-x: auto; scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     background: var(--border);
@@ -268,4 +164,5 @@
   .prod-card { min-width: min(85vw, 360px); scroll-snap-align: start; flex-shrink: 0; }
   .prod-visual { aspect-ratio: 4/5; }
 }
+
 

@@ -54,7 +54,7 @@ export default function PerfumeQuietWoods() {
       setAuthType("login");
       return;
     }
-    addToCart({ ...product, image: images[0], quantity: 1 });
+    addToCart("/perfume/quiet-woods");
     navigate("/cart");
   }
 
@@ -63,7 +63,7 @@ export default function PerfumeQuietWoods() {
       setAuthType("login");
       return;
     }
-    addToCart({ ...product, image: images[0], quantity: 1 });
+    addToCart("/perfume/quiet-woods");
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   }

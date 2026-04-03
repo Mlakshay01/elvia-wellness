@@ -38,11 +38,11 @@ export default function PerfumeMorningVeil() {
     return () => obs.disconnect();
   }, []);
 
-  const product = {
-    id: "perfume-veil-unisex",
-    name: "KAEORN — VEIL",
-    price: 1199,
-  };
+  // const product = {
+  //   id: "perfume-veil-unisex",
+  //   name: "KAEORN — VEIL",
+  //   price: 1199,
+  // };
 
   const originalPrice = 1499;
   const discountPercent = Math.round(
@@ -54,7 +54,7 @@ export default function PerfumeMorningVeil() {
       setAuthType("login");
       return;
     }
-    addToCart({ ...product, image: images[0], quantity: 1 });
+    addToCart("/perfume/morning-veil");
     navigate("/cart");
   }
 
@@ -63,7 +63,7 @@ export default function PerfumeMorningVeil() {
       setAuthType("login");
       return;
     }
-    addToCart({ ...product, image: images[0], quantity: 1 });
+    addToCart("/perfume/morning-veil");
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   }

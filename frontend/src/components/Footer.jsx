@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import "../styles/Footer/Footer.css";
 
 export default function Footer() {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const [hovered, setHovered] = useState(null);
   
@@ -20,13 +20,23 @@ export default function Footer() {
       }
     });
   });
+
+  return () => {
+    if (observerRef.current) observerRef.current.disconnect();
+  };
  }, []);
 
  const addReveal = (el) => {
   if (el && observerRef.current) {
     observerRef.current.observe(el);
+
+    // fallback if already visible
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add("visible");
+    }
   }
- };
+};
 
   return (
     <>
@@ -40,9 +50,9 @@ export default function Footer() {
             </div>
             <div ref={addReveal} className="footer-col reveal">
               <h4>Collection</h4>
-              <span className="link" onClick={() => Navigate("/perfume/soft-skin")}>Thé Noir Men</span>
-              <span className="link" onClick={() => Navigate("/perfume/quiet-woods")}>Soié Femme</span>
-              <span className="link" onClick={() => Navigate("/perfume/morning-veil")}>Veil</span>
+              <span className="link" onClick={() => navigate("/perfume/soft-skin")}>Thé Noir Men</span>
+              <span className="link" onClick={() => navigate("/perfume/quiet-woods")}>Soié Femme</span>
+              <span className="link" onClick={() => navigate("/perfume/morning-veil")}>Veil</span>
             </div>
             <div ref={addReveal} className="footer-col reveal">
               <h4>Brand</h4>
@@ -66,10 +76,10 @@ export default function Footer() {
           <div ref={addReveal} className="footer-bottom reveal">
             <span className="footer-copy">© 2024 KAEORN. All rights reserved.</span>
             <div className="footer-social">
-              <span className="link" onClick={() => Navigate("/privacy")}>Privacy</span>
-              <span className="link" onClick={() => Navigate("/terms")}>Terms</span>
-              <span className="link" onClick={() => Navigate("/refund")}>Refund</span>
-              <span className="link" onClick={() => Navigate("/shipping")}>Shipping</span>
+              <span className="link" onClick={() => navigate("/privacy")}>Privacy</span>
+              <span className="link" onClick={() => navigate("/terms")}>Terms</span>
+              <span className="link" onClick={() => navigate("/refund")}>Refund</span>
+              <span className="link" onClick={() => navigate("/shipping")}>Shipping</span>
             
               <a href="https://kaeorn.com" target="_blank">
                 kaeorn.com
