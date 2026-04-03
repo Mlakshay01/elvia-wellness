@@ -1,24 +1,34 @@
+import { Helmet } from "react-helmet-async";
 export default function Shipping() {
   return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>Shipping Policy</h1>
+    <>
+      <Helmet>
+        <title>Shipping Policy | KAEORN</title>
+        <meta
+          name="description"
+          content="Learn about KAEORN shipping timelines, delivery process, and policies."
+        />
+      </Helmet>
+      <div style={styles.page}>
+        <h1 style={styles.heading}>Shipping Policy</h1>
 
-      <p style={styles.text}>
-        Orders placed with KAEORN Wellness are processed within 1–3 business
-        days, excluding weekends and public holidays.
-      </p>
+        <p style={styles.text}>
+          Orders placed with KAEORN Wellness are processed within 1–3 business
+          days, excluding weekends and public holidays.
+        </p>
 
-      <p style={styles.text}>
-        Delivery timelines typically range between 5–10 business days,
-        depending on the shipping location and courier partner.
-      </p>
+        <p style={styles.text}>
+          Delivery timelines typically range between 5–10 business days,
+          depending on the shipping location and courier partner.
+        </p>
 
-      <p style={styles.text}>
-        Once shipped, tracking details will be shared via email or SMS. Delays
-        caused by courier partners, weather conditions, or regional restrictions
-        are beyond our control.
-      </p>
-    </div>
+        <p style={styles.text}>
+          Once shipped, tracking details will be shared via email or SMS. Delays
+          caused by courier partners, weather conditions, or regional
+          restrictions are beyond our control.
+        </p>
+      </div>
+    </>
   );
 }
 

@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+Disallow: /admin
+Disallow: /checkout
+Disallow: /cart
+Disallow: /account
+
 Sitemap: https://kaeorn.com/sitemap.xml

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import "../styles/Home/Hero.css";
 import "../styles/Global/Utils.css";
 import "../styles/Home/About.css";
@@ -82,7 +83,7 @@ export default function Home() {
 
   /* ── PAGE ENTER ── */
   useEffect(() => {
-    document.title = "KAEORN WELLNESS | Quiet Luxury Skincare & Fragrance";
+    document.title = "KAEORN | Luxury Wellness Perfumes in India";
     let meta = document.querySelector("meta[name='description']");
     if (!meta) {
       meta = document.createElement("meta");
@@ -90,7 +91,7 @@ export default function Home() {
       document.head.appendChild(meta);
     }
     meta.content =
-      "Discover KAEORN — quiet luxury skincare and fragrance crafted for modern rituals.";
+      "Kaeorn Wellness is a luxury fragrance brand offering premium perfumes for men, women, and unisex wear. Discover refined scents crafted for everyday elegance.";
     const t = setTimeout(() => setVisible(true), 120);
     return () => clearTimeout(t);
   }, []);
@@ -170,6 +171,13 @@ const addReveal = (el) => {
 
   return (
     <>
+     <Helmet>
+  <title>KAEORN | Luxury Wellness Perfumes in India</title>
+  <meta
+    name="description"
+    content="Kaeorn Wellness is a luxury fragrance brand offering premium perfumes for men, women, and unisex wear. Discover refined scents crafted for everyday elegance."
+  />
+</Helmet>
      {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     
     {/* -- CURSOR ------ */}

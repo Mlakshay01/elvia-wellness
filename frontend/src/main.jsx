@@ -7,6 +7,8 @@ import {
   useLocation,
 } from "react-router-dom";
 
+import { HelmetProvider } from "react-helmet-async";
+
 import Navbar from "./components/Navbar";
 
 import App from "./App";
@@ -77,6 +79,7 @@ function Layout({ children }) {
 
 function AppRoot() {
   return (
+    <HelmetProvider>
     <Layout>
       <ScrollToTop />
       <Loader/>
@@ -213,6 +216,7 @@ function AppRoot() {
       </Routes>
       <Footer />
     </Layout>
+    </HelmetProvider>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
@@ -32,7 +33,7 @@ export default function PerfumeQuietWoods() {
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([e]) => e.isIntersecting && setVisible(true),
-      { threshold: 0.25 }
+      { threshold: 0.25 },
     );
     productRef.current && obs.observe(productRef.current);
     return () => obs.disconnect();
@@ -46,7 +47,7 @@ export default function PerfumeQuietWoods() {
 
   const originalPrice = 1499;
   const discountPercent = Math.round(
-    ((originalPrice - product.price) / originalPrice) * 100
+    ((originalPrice - product.price) / originalPrice) * 100,
   );
 
   function handleOrderNow() {
@@ -86,6 +87,13 @@ export default function PerfumeQuietWoods() {
 
   return (
     <>
+      <Helmet>
+        <title>Soie Femme Perfume | KAEORN</title>
+        <meta
+          name="description"
+          content="Experience Soie Femme by KAEORN — a luxurious feminine fragrance crafted with elegance and softness."
+        />
+      </Helmet>
       {authType && (
         <AuthModal type={authType} onClose={() => setAuthType(null)} />
       )}
@@ -128,8 +136,9 @@ export default function PerfumeQuietWoods() {
             </div>
 
             <p style={styles.subtitle}>
-              A luminous feminine fragrance designed for elegance without effort.
-              Smooth, soft and modern — crafted to feel intimate yet unforgettable.
+              A luminous feminine fragrance designed for elegance without
+              effort. Smooth, soft and modern — crafted to feel intimate yet
+              unforgettable.
             </p>
 
             <div style={styles.ctaRow}>
@@ -150,35 +159,40 @@ export default function PerfumeQuietWoods() {
 
             <div style={styles.accordionWrap}>
               <Accordion title="DESCRIPTION" id="description">
-                SOIE FEMME opens with a luminous softness that instantly feels elegant and modern.
-                The scent stays close to the skin, creating a refined aura rather than loud projection.
-                As it settles, gentle warmth and creamy femininity emerge — polished, graceful and deeply comforting.
+                SOIE FEMME opens with a luminous softness that instantly feels
+                elegant and modern. The scent stays close to the skin, creating
+                a refined aura rather than loud projection. As it settles,
+                gentle warmth and creamy femininity emerge — polished, graceful
+                and deeply comforting.
               </Accordion>
 
               <Accordion title="HOW IT MAKES YOU FEEL" id="feel">
-                Wearing SOIE FEMME feels calm, confident and emotionally grounding.
-                It enhances femininity without exaggeration — soft confidence, quiet beauty and modern grace.
+                Wearing SOIE FEMME feels calm, confident and emotionally
+                grounding. It enhances femininity without exaggeration — soft
+                confidence, quiet beauty and modern grace.
               </Accordion>
 
               <Accordion title="PERFORMANCE" id="performance">
                 Longevity up to 24 hours with a smooth, evolving profile.
-                Projection remains refined and elegant, designed for intimate luxury.
+                Projection remains refined and elegant, designed for intimate
+                luxury.
               </Accordion>
 
               <Accordion title="HOW TO APPLY" id="apply">
-                Apply 2–4 sprays on pulse points such as neck, wrists and collarbone.
-                Avoid rubbing to preserve the fragrance structure.
+                Apply 2–4 sprays on pulse points such as neck, wrists and
+                collarbone. Avoid rubbing to preserve the fragrance structure.
               </Accordion>
 
               <Accordion title="REVIEWS FROM INDIA" id="reviews">
-                ★★★★★ Riya — Delhi: “Feels truly premium.”  
-                ★★★★★ Aanya — Mumbai: “Soft, elegant and addictive.”  
-                ★★★★☆ Kavya — Bangalore: “Perfect everyday luxury scent.”
+                ★★★★★ Riya — Delhi: “Feels truly premium.” ★★★★★ Aanya — Mumbai:
+                “Soft, elegant and addictive.” ★★★★☆ Kavya — Bangalore: “Perfect
+                everyday luxury scent.”
               </Accordion>
 
               <Accordion title="KAEORN PHILOSOPHY" id="philosophy">
-                KAEORN creates fragrances for quiet luxury — refined, intentional and intimate.
-                Beauty that doesn’t shout, but stays remembered.
+                KAEORN creates fragrances for quiet luxury — refined,
+                intentional and intimate. Beauty that doesn’t shout, but stays
+                remembered.
               </Accordion>
             </div>
           </div>

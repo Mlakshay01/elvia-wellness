@@ -12,11 +12,31 @@ export default function Footer() {
  const observerRef = useRef(null);
 
  useEffect(() => {
-  observerRef.current = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        e.target.classList.add("visible");
-        observerRef.current.unobserve(e.target);
+  observerRef.current = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observerRef.current.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+    }
+  );
+
+  // 🔥 FIX: check all reveal elements after mount
+  const elements = document.querySelectorAll(".reveal");
+
+  elements.forEach((el) => {
+    observerRef.current.observe(el);
+
+    // fallback check AFTER paint
+    requestAnimationFrame(() => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        el.classList.add("visible");
       }
     });
   });
@@ -24,19 +44,7 @@ export default function Footer() {
   return () => {
     if (observerRef.current) observerRef.current.disconnect();
   };
- }, []);
-
- const addReveal = (el) => {
-  if (el && observerRef.current) {
-    observerRef.current.observe(el);
-
-    // fallback if already visible
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight) {
-      el.classList.add("visible");
-    }
-  }
-};
+}, []);
 
   return (
     <>
@@ -44,22 +52,22 @@ export default function Footer() {
       <footer>
         <div className="footer-inner">
           <div  className="footer-top">
-            <div ref={addReveal} className="footer-logo-block reveal">
+            <div  className="footer-logo-block reveal">
               <div className="footer-logo">KAEORN</div>
               <p className="footer-tagline">Because care deserves luxury.</p>
             </div>
-            <div ref={addReveal} className="footer-col reveal">
+            <div  className="footer-col reveal">
               <h4>Collection</h4>
               <span className="link" onClick={() => navigate("/perfume/soft-skin")}>Thé Noir Men</span>
               <span className="link" onClick={() => navigate("/perfume/quiet-woods")}>Soié Femme</span>
               <span className="link" onClick={() => navigate("/perfume/morning-veil")}>Veil</span>
             </div>
-            <div ref={addReveal} className="footer-col reveal">
+            <div className="footer-col reveal">
               <h4>Brand</h4>
               <a href="#about">Our Story</a>
               <a href="#coming">Coming Soon</a>
             </div>
-            <div ref={addReveal} className="footer-col reveal">
+            <div className="footer-col reveal">
               <h4>Connect</h4>
               <a
                 href="https://www.instagram.com/kaeornwellness"
@@ -73,11 +81,12 @@ export default function Footer() {
               <a href="#">Newsletter</a>
             </div>
           </div>
-          <div ref={addReveal} className="footer-bottom reveal">
+          <div  className="footer-bottom reveal">
             <span className="footer-copy">© 2024 KAEORN. All rights reserved.</span>
             <div className="footer-social">
               <span className="link" onClick={() => navigate("/privacy")}>Privacy</span>
               <span className="link" onClick={() => navigate("/terms")}>Terms</span>
+              <span className="link" onClick={() => navigate("/contact")}>Contact</span>
               <span className="link" onClick={() => navigate("/refund")}>Refund</span>
               <span className="link" onClick={() => navigate("/shipping")}>Shipping</span>
             

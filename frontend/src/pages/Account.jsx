@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { useAuth } from "../context/AuthContext";
 
 export default function Account() {
@@ -11,37 +12,43 @@ export default function Account() {
   }
 
   return (
-    <div style={styles.page}>
-      <h2 style={styles.heading}>Account</h2>
+    <>
+      <Helmet>
+        <title>Your Account | KAEORN</title>
+        <meta
+          name="description"
+          content="Manage your KAEORN account, orders, and personal details."
+        />
+      </Helmet>
+      <div style={styles.page}>
+        <h2 style={styles.heading}>Account</h2>
 
-      <div style={styles.card}>
-        <p style={styles.label}>NAME</p>
-        <p>{user.name || "—"}</p>
+        <div style={styles.card}>
+          <p style={styles.label}>NAME</p>
+          <p>{user.name || "—"}</p>
 
-        <p style={styles.label}>EMAIL</p>
-        <p>{user.email}</p>
-      </div>
+          <p style={styles.label}>EMAIL</p>
+          <p>{user.email}</p>
+        </div>
 
-      <div style={styles.actions}>
-        <button
-          style={styles.linkBtn}
-          onClick={() => navigate("/my-orders")}
-        >
-          My Orders →
+        <div style={styles.actions}>
+          <button style={styles.linkBtn} onClick={() => navigate("/my-orders")}>
+            My Orders →
+          </button>
+
+          <button
+            style={styles.linkBtn}
+            onClick={() => navigate("/previous-orders")}
+          >
+            Previous Orders →
+          </button>
+        </div>
+
+        <button style={styles.logoutBtn} onClick={logout}>
+          Logout
         </button>
-
-        <button
-          style={styles.linkBtn}
-          onClick={() => navigate("/previous-orders")}
-        >
-          Previous Orders →
-        </button>
       </div>
-
-      <button style={styles.logoutBtn} onClick={logout}>
-        Logout
-      </button>
-    </div>
+    </>
   );
 }
 

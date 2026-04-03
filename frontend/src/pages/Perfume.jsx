@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import Footer from "../components/Footer";
 
 /* IMAGES */
@@ -47,6 +48,14 @@ export default function Perfume() {
   }
 
   return (
+    <>
+    <Helmet>
+  <title>Perfume Collection | KAEORN</title>
+  <meta
+    name="description"
+    content="Explore KAEORN's luxury perfume collection including woody, fresh, and feminine fragrances designed for modern lifestyles."
+  />
+</Helmet>
     <main style={styles.page}>
       {/* ---------- HERO ---------- */}
       <section style={styles.hero}>
@@ -107,6 +116,7 @@ export default function Perfume() {
         />
       </section>
     </main>
+    </>
     
     
   );

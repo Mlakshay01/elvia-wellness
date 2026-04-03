@@ -7,18 +7,63 @@
   </url>
 
   <url>
+    <loc>https://kaeorn.com/product</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/product/spray</loc>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
     <loc>https://kaeorn.com/perfume</loc>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://kaeorn.com/product</loc>
+    <loc>https://kaeorn.com/perfume/soft-skin</loc>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://kaeorn.com/product/spray</loc>
+    <loc>https://kaeorn.com/perfume/morning-veil</loc>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/perfume/quiet-woods</loc>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/about</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/contact</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/privacy</loc>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/terms</loc>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/refund</loc>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://kaeorn.com/shipping</loc>
+    <priority>0.3</priority>
   </url>
 
 </urlset>

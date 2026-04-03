@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -38,11 +39,11 @@ export default function PerfumeMorningVeil() {
     return () => obs.disconnect();
   }, []);
 
-  // const product = {
-  //   id: "perfume-veil-unisex",
-  //   name: "KAEORN — VEIL",
-  //   price: 1199,
-  // };
+  const product = {
+    id: "perfume-veil-unisex",
+    name: "KAEORN — VEIL",
+    price: 1199,
+  };
 
   const originalPrice = 1499;
   const discountPercent = Math.round(
@@ -86,6 +87,13 @@ export default function PerfumeMorningVeil() {
 
   return (
     <>
+    <Helmet>
+  <title>Morning Veil Perfume | KAEORN</title>
+  <meta
+    name="description"
+    content="Discover Morning Veil by KAEORN — a clean, airy unisex fragrance designed for a soft and luminous everyday scent."
+  />
+</Helmet>
       {authType && (
         <AuthModal type={authType} onClose={() => setAuthType(null)} />
       )}

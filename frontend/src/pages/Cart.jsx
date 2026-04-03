@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { useCart } from "../context/CartContext";
+
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -31,6 +33,14 @@ export default function Cart() {
 
   /* ---------------- CART UI ---------------- */
   return (
+    <>
+    <Helmet>
+  <title>Your Cart | KAEORN</title>
+  <meta
+    name="description"
+    content="Review your selected KAEORN perfumes and proceed to checkout securely."
+  />
+</Helmet>
     <div style={styles.page}>
       <h1 style={styles.heading}>Your Cart</h1>
 
@@ -122,6 +132,7 @@ export default function Cart() {
         Free shipping · Secure checkout · Easy returns
       </p>
     </div>
+    </>
   );
 }
 

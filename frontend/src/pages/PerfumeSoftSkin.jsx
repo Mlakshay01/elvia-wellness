@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
@@ -37,15 +38,13 @@ export default function PerfumeSoftSkin() {
   };
 
   const discount = Math.round(
-    ((product.originalPrice - product.price) /
-      product.originalPrice) *
-      100
+    ((product.originalPrice - product.price) / product.originalPrice) * 100,
   );
 
   useEffect(() => {
     const io = new IntersectionObserver(
       ([e]) => e.isIntersecting && setVisible(true),
-      { threshold: 0.25 }
+      { threshold: 0.25 },
     );
     if (sectionRef.current) io.observe(sectionRef.current);
     return () => io.disconnect();
@@ -71,6 +70,13 @@ export default function PerfumeSoftSkin() {
 
   return (
     <>
+      <Helmet>
+        <title>THÉ NOIR Perfume | KAEORN</title>
+        <meta
+          name="description"
+          content="Shop THÉ NOIR by KAEORN — a woody, aromatic fragrance for men. Long-lasting, refined, and crafted for everyday luxury."
+        />
+      </Helmet>
       {authType && (
         <AuthModal type={authType} onClose={() => setAuthType(null)} />
       )}
@@ -114,16 +120,14 @@ export default function PerfumeSoftSkin() {
 
             <div style={styles.priceRow}>
               <span style={styles.price}>₹{product.price}</span>
-              <span style={styles.strike}>
-                ₹{product.originalPrice}
-              </span>
+              <span style={styles.strike}>₹{product.originalPrice}</span>
               <span style={styles.off}>{discount}% OFF</span>
             </div>
 
             <p style={styles.shortDesc}>
-              A refined masculine fragrance crafted for presence without
-              excess. Smooth, modern and quietly addictive — designed to
-              feel intimate yet unforgettable.
+              A refined masculine fragrance crafted for presence without excess.
+              Smooth, modern and quietly addictive — designed to feel intimate
+              yet unforgettable.
             </p>
 
             <div style={styles.cta}>
@@ -153,9 +157,9 @@ export default function PerfumeSoftSkin() {
                 signals understated luxury. As the fragrance settles, a warm,
                 softly sweet depth emerges — smooth, composed, and undeniably
                 masculine. It feels polished rather than loud, intimate rather
-                than overpowering. This is a scent designed to be discovered
-                up close, leaving a quiet impression that lingers long after
-                the moment has passed.
+                than overpowering. This is a scent designed to be discovered up
+                close, leaving a quiet impression that lingers long after the
+                moment has passed.
               </Accordion>
 
               <Accordion
@@ -165,9 +169,9 @@ export default function PerfumeSoftSkin() {
               >
                 Wearing THÉ NOIR MEN evokes calm confidence and quiet control.
                 It enhances your presence without announcing itself. You feel
-                grounded, refined, and effortlessly put together — the kind
-                of confidence that doesn’t need validation. Ideal for moments
-                where subtle impact matters more than attention.
+                grounded, refined, and effortlessly put together — the kind of
+                confidence that doesn’t need validation. Ideal for moments where
+                subtle impact matters more than attention.
               </Accordion>
 
               <Accordion
@@ -178,8 +182,8 @@ export default function PerfumeSoftSkin() {
                 Designed for endurance, THÉ NOIR MEN lasts up to 24 hours on
                 skin. Its projection remains refined and close, creating a
                 premium aura rather than an overpowering trail. The scent
-                evolves slowly throughout the day, maintaining elegance
-                from first spray to final note.
+                evolves slowly throughout the day, maintaining elegance from
+                first spray to final note.
               </Accordion>
 
               <Accordion
@@ -187,10 +191,10 @@ export default function PerfumeSoftSkin() {
                 open={open === "apply"}
                 onClick={() => setOpen("apply")}
               >
-                Apply 2–4 sprays to pulse points such as the neck, wrists,
-                and collarbone. Avoid rubbing after application to allow the
-                fragrance to develop naturally. Best applied on moisturized
-                skin for smoother diffusion and longer wear.
+                Apply 2–4 sprays to pulse points such as the neck, wrists, and
+                collarbone. Avoid rubbing after application to allow the
+                fragrance to develop naturally. Best applied on moisturized skin
+                for smoother diffusion and longer wear.
               </Accordion>
 
               <Accordion
@@ -198,9 +202,9 @@ export default function PerfumeSoftSkin() {
                 open={open === "reviews"}
                 onClick={() => setOpen("reviews")}
               >
-                ★★★★★ Arjun, Delhi — “Feels expensive and composed.”  
-                ★★★★★ Karan, Mumbai — “People asked what I was wearing.”  
-                ★★★★☆ Raghav, Bangalore — “Perfect for office and evenings.”
+                ★★★★★ Arjun, Delhi — “Feels expensive and composed.” ★★★★★
+                Karan, Mumbai — “People asked what I was wearing.” ★★★★☆ Raghav,
+                Bangalore — “Perfect for office and evenings.”
               </Accordion>
 
               <Accordion
@@ -208,11 +212,11 @@ export default function PerfumeSoftSkin() {
                 open={open === "brand"}
                 onClick={() => setOpen("brand")}
               >
-                KAEORN is built on the belief that true luxury is quiet.
-                Our fragrances are designed to complement individuality,
-                not overpower it. Every creation is intentional — refined,
-                intimate, and crafted for modern rituals where subtlety
-                defines sophistication.
+                KAEORN is built on the belief that true luxury is quiet. Our
+                fragrances are designed to complement individuality, not
+                overpower it. Every creation is intentional — refined, intimate,
+                and crafted for modern rituals where subtlety defines
+                sophistication.
               </Accordion>
             </div>
           </div>

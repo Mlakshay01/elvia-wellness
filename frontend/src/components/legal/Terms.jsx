@@ -1,27 +1,38 @@
+import { Helmet } from "react-helmet-async";
 export default function Terms() {
   return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>Terms & Conditions</h1>
+    <>
+      <Helmet>
+        <title>Terms & Conditions | KAEORN</title>
+        <meta
+          name="description"
+          content="Review the terms and conditions for using KAEORN's website and services."
+        />
+      </Helmet>
+      <div style={styles.page}>
+        <h1 style={styles.heading}>Terms & Conditions</h1>
 
-      <p style={styles.text}>
-        By accessing and using the KAEORN Wellness website, you agree to comply
-        with and be bound by the terms and conditions outlined on this page.
-      </p>
+        <p style={styles.text}>
+          By accessing and using the KAEORN Wellness website, you agree to
+          comply with and be bound by the terms and conditions outlined on this
+          page.
+        </p>
 
-      <p style={styles.text}>
-        All product descriptions, pricing, availability, and policies are
-        subject to change at any time without prior notice.
-      </p>
+        <p style={styles.text}>
+          All product descriptions, pricing, availability, and policies are
+          subject to change at any time without prior notice.
+        </p>
 
-      <p style={styles.text}>
-        KAEORN Wellness reserves the right to refuse service, cancel orders, or
-        limit quantities at its discretion.
-      </p>
+        <p style={styles.text}>
+          KAEORN Wellness reserves the right to refuse service, cancel orders,
+          or limit quantities at its discretion.
+        </p>
 
-      <p style={styles.text}>
-        Continued use of the website constitutes acceptance of these terms.
-      </p>
-    </div>
+        <p style={styles.text}>
+          Continued use of the website constitutes acceptance of these terms.
+        </p>
+      </div>
+    </>
   );
 }
 

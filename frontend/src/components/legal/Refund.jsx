@@ -1,29 +1,39 @@
+import { Helmet } from "react-helmet-async";
 export default function Refund() {
   return (
-    <div style={styles.page}>
-      <h1 style={styles.heading}>Refund & Cancellation Policy</h1>
+    <>
+      <Helmet>
+        <title>Refund Policy | KAEORN</title>
+        <meta
+          name="description"
+          content="Understand KAEORN's refund and return policies for purchases."
+        />
+      </Helmet>
+      <div style={styles.page}>
+        <h1 style={styles.heading}>Refund & Cancellation Policy</h1>
 
-      <p style={styles.text}>
-        At KAEORN Wellness, we take great care in packaging and quality checks.
-        Refunds or replacements are applicable only in cases where products are
-        damaged, defective, or incorrect upon delivery.
-      </p>
+        <p style={styles.text}>
+          At KAEORN Wellness, we take great care in packaging and quality
+          checks. Refunds or replacements are applicable only in cases where
+          products are damaged, defective, or incorrect upon delivery.
+        </p>
 
-      <p style={styles.text}>
-        Any such issue must be reported within 48 hours of receiving the order,
-        along with clear images and order details for verification.
-      </p>
+        <p style={styles.text}>
+          Any such issue must be reported within 48 hours of receiving the
+          order, along with clear images and order details for verification.
+        </p>
 
-      <p style={styles.text}>
-        Once approved, refunds will be processed to the original payment method
-        within 7–10 business days. Shipping charges, if applicable, are
-        non-refundable.
-      </p>
+        <p style={styles.text}>
+          Once approved, refunds will be processed to the original payment
+          method within 7–10 business days. Shipping charges, if applicable, are
+          non-refundable.
+        </p>
 
-      <p style={styles.text}>
-        Orders once placed cannot be cancelled after they have been shipped.
-      </p>
-    </div>
+        <p style={styles.text}>
+          Orders once placed cannot be cancelled after they have been shipped.
+        </p>
+      </div>
+    </>
   );
 }
 
