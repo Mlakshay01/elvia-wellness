@@ -130,8 +130,8 @@ export default function Cart() {
 const styles = {
   page: {
     maxWidth: "1000px",
-    margin: "0 auto",
-    padding: "48px 20px",
+    margin: "20px auto",
+    padding: "80px 45px",
     fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
   },
 

@@ -1,13 +1,28 @@
-import { createContext, useContext, useState } from "react";
-import { PRODUCTS } from "../data/products"; // 
+import { createContext, useContext, useState, useEffect } from "react";
+import { PRODUCTS } from "../data/products";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
 
+  /* ---------------- STATE (rehydrate from localStorage) ---------------- */
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const stored = localStorage.getItem("kaeorn_cart");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  /* ---------------- SYNC to localStorage on every change ---------------- */
+  useEffect(() => {
+    localStorage.setItem("kaeorn_cart", JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  /* ---------------- ADD TO CART ---------------- */
   function addToCart(productId) {
-    const product = PRODUCTS[productId]; // ← always use canonical data
+    const product = PRODUCTS[productId];
     if (!product) {
       console.warn("addToCart: unknown product id", productId);
       return;
@@ -78,7 +93,7 @@ export function CartProvider({ children }) {
       value={{
         cartItems,
         addToCart,
-        setCart,          // ✅ NEW
+        setCart,
         increaseQty,
         decreaseQty,
         removeFromCart,
@@ -94,9 +109,3 @@ export function CartProvider({ children }) {
 export function useCart() {
   return useContext(CartContext);
 }
-
-
-
-
-
-
