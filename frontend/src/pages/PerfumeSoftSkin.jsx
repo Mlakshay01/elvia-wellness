@@ -10,7 +10,7 @@ const galleryImages = [
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775277347/ChatGPT_Image_Apr_4_2026_10_05_23_AM_heqntp.png",
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775277087/ChatGPT_Image_Apr_4_2026_10_00_20_AM_di0hwz.png",
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775276759/ChatGPT_Image_Apr_4_2026_09_46_24_AM_sps175.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775278650/ChatGPT_Image_Apr_4_2026_10_27_09_AM_ngpczc.png",
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775279065/ChatGPT_Image_Apr_4_2026_10_33_48_AM_rgmzrl.png",
 ];
 
 /* ---------------- BACKGROUND IMAGE ---------------- */
