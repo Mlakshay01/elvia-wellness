@@ -8,7 +8,7 @@ import AuthModal from "../components/AuthModal";
 /* ---------------- GALLERY IMAGES ---------------- */
 const galleryImages = [
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769079990/ChatGPT_Image_Jan_22_2026_04_35_39_PM_kssram.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769078862/ChatGPT_Image_Jan_22_2026_04_17_01_PM_s8dmvb.png",
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775277087/ChatGPT_Image_Apr_4_2026_10_00_20_AM_di0hwz.png",
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775276759/ChatGPT_Image_Apr_4_2026_09_46_24_AM_sps175.png",
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769079569/ChatGPT_Image_Jan_22_2026_04_28_32_PM_fxa20n.png",
 ];
