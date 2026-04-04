@@ -16,7 +16,7 @@ import AuthModal from "../components/AuthModal";
 
 /* ── PRODUCT IMAGES ── */
 const softSkinImg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769074475/ChatGPT_Image_Jan_22_2026_03_03_50_PM_kct4ad.png";
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775275614/ChatGPT_Image_Apr_4_2026_09_35_50_AM_pkb6za.png";
 const morningVeilImg =
   "https://res.cloudinary.com/dvmntn6vf/image/upload/v1769083998/ChatGPT_Image_Jan_22_2026_05_41_58_PM_ainmkh.png";
 const quietWoodsImg =
