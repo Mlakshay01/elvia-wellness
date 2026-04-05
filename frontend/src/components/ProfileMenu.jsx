@@ -59,7 +59,7 @@ export default function ProfileMenu() {
           </button> */}
 
           {/* NEW: CART */}
-          <button
+          {/* <button
             style={styles.item}
             onClick={() => {
               navigate("/cart");
@@ -67,7 +67,7 @@ export default function ProfileMenu() {
             }}
           >
             Cart
-          </button>
+          </button> */}
 
           <div style={styles.divider} />
 

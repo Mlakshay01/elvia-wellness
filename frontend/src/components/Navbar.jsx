@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import AuthModal from "./AuthModal";
 import ProfileMenu from "./ProfileMenu";
 import "../styles/Home/Navbar.css";
+import { useCart } from "../context/CartContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -15,6 +16,9 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const { cartItems } = useCart();
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   /* ── SCROLL ── */
   useEffect(() => {
@@ -85,18 +89,31 @@ export default function Navbar() {
             </>
           )}
 
-          {/* <button className="nav-cart" id="cartBtn">
-            <span>Cart</span>
-            <span className="cart-badge" id="cartBadge">0</span>
-          </button> */}
+          
 
           {!user ? (
             <button name="signIn" className="nav-signin" onClick={() => setShowAuth(true)}>
               Sign in
             </button>
           ) : (
-            <ProfileMenu />
-          )}
+  <>
+    <button
+      className="nav-cart"
+      id="cartBtn"
+      onClick={() => {
+        navigate("/cart");
+        setOpen(false);
+      }}
+    >
+      <span>Cart</span>
+      <span className="cart-badge" id="cartBadge">
+        {cartCount}
+      </span>
+    </button>
+
+    <ProfileMenu />
+  </>
+)}
 
         </div>
       </nav>

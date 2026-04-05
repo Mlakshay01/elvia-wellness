@@ -11,7 +11,6 @@ import { HelmetProvider } from "react-helmet-async";
 
 import Navbar from "./components/Navbar";
 
-import App from "./App";
 import Home from "./pages/Home";
 import ProductSpray from "./pages/ProductSpray";
 import Chats from "./admin/Chats";
@@ -34,7 +33,7 @@ import OrderDetail from "./pages/OrderDetail";
 import Account from "./pages/Account";
 import AddressBook from "./pages/AddressBook";
 
-import Perfume from "./pages/Perfume";
+// import Perfume from "./pages/Perfume";
 import PerfumeSoftSkin from "./pages/PerfumeSoftSkin";
 import PerfumeMorningVeil from "./pages/PerfumeMorningVeil";
 import PerfumeQuietWoods from "./pages/PerfumeQuietWoods";
@@ -87,11 +86,11 @@ function AppRoot() {
         
         {/* ---------- PUBLIC ---------- */}
         <Route path="/" element={<Home />} />
-        <Route path="/product" element={<App />} />
-        <Route path="/product/spray" element={<ProductSpray />} />
+        {/* <Route path="/product" element={<App />} />
+        <Route path="/product/spray" element={<ProductSpray />} /> */}
 
         {/* ---------- PERFUME ---------- */}
-        <Route path="/perfume" element={<Perfume />} />
+        {/* <Route path="/perfume" element={<Perfume />} /> */}
         <Route path="/perfume/soft-skin" element={<PerfumeSoftSkin />} />
         <Route path="/perfume/morning-veil" element={<PerfumeMorningVeil />} />
         <Route path="/perfume/quiet-woods" element={<PerfumeQuietWoods />} />
@@ -113,18 +112,15 @@ function AppRoot() {
           }
         />
 
-        {/*-------- Working Legal --------*/}
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/refund" element={<Refund />} />
-        <Route path="/privacy" element={<Privacy />} />
+
         
 
         {/* ---------- LEGAL ---------- */}
+                <Route path="/terms" element={<Terms />} />
+        <Route path="/refund" element={<Refund />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/refund" element={<Refund />} />
         <Route path="/shipping" element={<Shipping />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/success" element={<Success />} />

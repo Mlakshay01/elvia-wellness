@@ -128,10 +128,19 @@ const addReveal = (el) => {
 
   function handleAdd(e) {
     e.stopPropagation(); // prevent card navigate
-    if (!user) { setShowAuth(true); return; }
-    addToCart(to);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    if (!user) 
+      { setShowAuth(true);
+         return; 
+        }
+        const success = addToCart(to);
+
+        if(success){
+          setAdded("success");
+        }else{
+          setAdded("error");
+        }
+
+        setTimeout(() => setAdded(null), 2000);
   }
 
   return (
@@ -159,7 +168,11 @@ const addReveal = (el) => {
             onClick={handleAdd}
             style={added ? { background: "var(--ink)", color: "var(--paper)" } : {}}
           >
-            {added ? "Added ✓" : "+ Cart"}
+            {added === "success"
+            ? "Added ✓"
+             : added === "error"
+             ? "Couldn't add" 
+             : "+ Cart"}
           </button>
         </div>
       </div>

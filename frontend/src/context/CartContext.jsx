@@ -25,7 +25,7 @@ export function CartProvider({ children }) {
     const product = PRODUCTS[productId];
     if (!product) {
       console.warn("addToCart: unknown product id", productId);
-      return;
+      return false;
     }
 
     setCartItems((prev) => {
@@ -39,6 +39,8 @@ export function CartProvider({ children }) {
       }
       return [...prev, { ...product, quantity: 1 }];
     });
+
+    return true;
   }
 
   /* ---------------- SET CART (RE-ORDER) ---------------- */
