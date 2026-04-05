@@ -7,12 +7,11 @@ import AuthModal from "../components/AuthModal";
 
 /* ---------------- IMAGES ---------------- */
 const images = [
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769084646/ChatGPT_Image_Jan_22_2026_05_53_40_PM_fxiq9d.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769084897/ChatGPT_Image_Jan_22_2026_05_57_33_PM_omnxe9.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769084884/ChatGPT_Image_Jan_22_2026_05_54_05_PM_hzov1u.png",
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383691/Apr_5_2026_03_37_30_PM_e7nqb0.png",
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383626/ChatGPT_Image_Apr_4_2026_11_07_27_AM_j4ve7n.png",
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png",
   "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769085158/ChatGPT_Image_Jan_22_2026_06_01_54_PM_pz0txu.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769085354/ChatGPT_Image_Jan_22_2026_06_05_02_PM_hvhel5.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1769085557/ChatGPT_Image_Jan_22_2026_06_08_42_PM_nlsn7w.png",
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383877/ChatGPT_Image_Apr_5_2026_03_40_29_PM_h29chh.png",
 ];
 
 /* 🌫️ BACKGROUND */
