@@ -59,7 +59,7 @@ export default function Footer() {
               <h4>Collection</h4>
               <span className="link" onClick={() => navigate("/perfume/soft-skin")}>Thé Noir Men</span>
               <span className="link" onClick={() => navigate("/perfume/quiet-woods")}>Soié Femme</span>
-              <span className="link" onClick={() => navigate("/perfume/morning-veil")}>Veil</span>
+              <span className="link" onClick={() => navigate("/perfume/morning-veil")}>Morning Veil</span>
               <span className="link" onClick={() => navigate("/perfume/nox")}>Nox</span>
               <span className="link" onClick={() => navigate("/perfume/velion")}>Velion</span>
             </div>

@@ -74,6 +74,7 @@ export default function PerfumeMorningVeil() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addToCart } = useCart();
+  const descRef = useRef(null);
 
   const productRef = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -127,6 +128,11 @@ export default function PerfumeMorningVeil() {
     setTimeout(() => setAdded(false), 2200);
   }
 
+    function scrollToDesc() {
+    descRef.current?.scrollIntoView({ behavior: "smooth" });
+    setOpen("description");
+  }
+
   return (
     <>
       <Helmet>
@@ -173,7 +179,6 @@ export default function PerfumeMorningVeil() {
           ...(visible ? styles.show : styles.hide),
         }}
       >
-        {/* ── GALLERY ── */}
         {/* ── GALLERY ── */}
         <div style={styles.galleryWrap}>
           <div
@@ -252,6 +257,10 @@ export default function PerfumeMorningVeil() {
             <p style={styles.category}>UNISEX · EAU DE PARFUM</p>
             <h1 style={styles.productTitle}>MORNING VEIL</h1>
             <span style={styles.volume}>100 ml</span>
+            <span style={styles.volume}>Longevity: 8-10hrs</span>
+            <span>25% Natural Oils Concentration</span>
+            <br />
+            <button style={styles.readMore} onClick={scrollToDesc}>Read more about this fragrance</button>
 
             <div style={styles.priceWrap}>
               <span style={styles.price}>₹{price}</span>
@@ -281,7 +290,7 @@ export default function PerfumeMorningVeil() {
             </div>
 
             {/* ── ACCORDIONS ── */}
-            <div style={styles.accordionWrap}>
+            <div ref={descRef}style={styles.accordionWrap}>
               <Accordion
                 title="DESCRIPTION"
                 id="description"
@@ -484,6 +493,16 @@ dot: {
     fontFamily: "'DM Mono', monospace",
     display: "block",
     marginBottom: "16px",
+  },
+      readMore: {
+    border: "none",
+    background: "transparent",
+    fontSize: 13,
+    cursor: "pointer",
+    textDecoration: "underline",
+    marginBottom: 12,
+    padding: 0,
+    color: "#555",
   },
   priceWrap: {
     display: "flex",

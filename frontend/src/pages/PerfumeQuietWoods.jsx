@@ -65,6 +65,7 @@ export default function PerfumeQuietWoods() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addToCart } = useCart();
+  const descRef = useRef(null);
 
   const productRef = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -116,6 +117,11 @@ export default function PerfumeQuietWoods() {
     addToCart("/perfume/quiet-woods");
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
+  }
+
+  function scrollToDesc() {
+    descRef.current?.scrollIntoView({ behavior: "smooth" });
+    setOpen("description");
   }
 
   return (
@@ -242,6 +248,10 @@ export default function PerfumeQuietWoods() {
             <p style={styles.category}>WOMEN · EAU DE PARFUM</p>
             <h1 style={styles.productTitle}>SOIE FEMME</h1>
             <span style={styles.volume}>100 ml</span>
+            <span style={styles.volume}>Longevity: 8-10hrs</span>
+            <span>25% Natural Oils Concentration</span>
+            <br />
+            <button style={styles.readMore} onClick={scrollToDesc}>Read more about this fragrance</button>
 
             {/* <div style={styles.saleBadge}>RELEASE SALE</div> */}
 
@@ -273,7 +283,7 @@ export default function PerfumeQuietWoods() {
             </div>
 
             {/* ── ACCORDIONS ── */}
-            <div style={styles.accordionWrap}>
+            <div ref={descRef} style={styles.accordionWrap}>
               <Accordion
                 title="DESCRIPTION"
                 id="description"
@@ -471,6 +481,16 @@ galleryImage: {
     fontFamily: "'DM Mono', monospace",
     display: "block",
     marginBottom: "16px",
+  },
+    readMore: {
+    border: "none",
+    background: "transparent",
+    fontSize: 13,
+    cursor: "pointer",
+    textDecoration: "underline",
+    marginBottom: 12,
+    padding: 0,
+    color: "#555",
   },
   saleBadge: {
     display: "inline-block",

@@ -236,6 +236,9 @@ export default function PerfumeSoftSkin() {
             <p style={styles.category}>MEN · EAU DE PARFUM</p>
             <h1 style={styles.title}>THÉ NOIR</h1>
             <span style={styles.volume}>100 ml</span>
+            <span style={styles.volume}>Longevity: 8-10hrs</span>
+            <span>25% Natural Oils Concentration</span>
+            <br />
 
             <button style={styles.readMore} onClick={scrollToDesc}>
               Read more about this fragrance

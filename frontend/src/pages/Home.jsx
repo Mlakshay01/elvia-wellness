@@ -61,6 +61,7 @@ function PerfumeCard({
   gender,
   name,
   mood,
+  concentration,
   price,
   mrp,
   navigate,
@@ -109,6 +110,8 @@ function PerfumeCard({
         <h4 style={styles.name}>{name}</h4>
         <p style={styles.mood}>{mood}</p>
         <span style={styles.volume}>100 ml</span>
+        <span style={styles.volume}>Longevity: 8-10hrs</span>
+        <span>{concentration} Natural Oils</span>
         <div style={styles.priceRow}>
           <span style={styles.price}>{price}</span>
           <span style={styles.mrp}>{mrp}</span>
@@ -347,6 +350,7 @@ export default function Home() {
                 gender: "MEN",
                 name: "THÉ NOIR",
                 mood: "Fruity · Aromatic · Gourmand",
+                concentration: "25%",
                 price: "₹1,399",
                 // mrp: "₹1,499",
               },
@@ -356,6 +360,7 @@ export default function Home() {
                 gender: "UNISEX",
                 name: "MORNING VEIL",
                 mood: "Citrus · Spicy · Woody",
+                concentration: "25%",
                 price: "₹1,399",
                 // mrp: "₹1,499",
               },
@@ -365,6 +370,7 @@ export default function Home() {
                 gender: "WOMEN",
                 name: "SOIE FEMME",
                 mood: "Floral · Roasted · Gourmand",
+                concentration: "30%",
                 price: "₹1,399",
                 // mrp: "₹1,499",
               },
