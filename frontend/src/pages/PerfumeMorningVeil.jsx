@@ -143,7 +143,7 @@ export default function PerfumeMorningVeil() {
         />
         <link
           rel="canonical"
-          href="https://www.kaeorn.com/perfume/morning-veil"
+          href="https://kaeorn.com/perfume/morning-veil"
         />
         <meta
           property="og:title"
@@ -159,7 +159,7 @@ export default function PerfumeMorningVeil() {
         />
         <meta
           property="og:url"
-          content="https://www.kaeorn.com/perfume/morning-veil"
+          content="https://kaeorn.com/perfume/morning-veil"
         />
         <meta property="og:type" content="product" />
       </Helmet>

@@ -10,7 +10,7 @@ export default function Contact() {
           name="description"
           content="Reach out to Kaeorn for order support, fragrance questions, or collaboration inquiries. We respond within 24–48 business hours."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/contact" />
+        <link rel="canonical" href="https://kaeorn.com/contact" />
       </Helmet>
 
       <PolicyLayout eyebrow="REACH US" title="Contact">

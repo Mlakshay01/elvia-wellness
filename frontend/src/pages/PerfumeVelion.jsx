@@ -136,7 +136,7 @@ export default function PerfumeVelion() {
           name="description"
           content="VELION is a radiant solid perfume — a crystalline fusion of exotic saffron and radiant cedar grounded by golden amber. A skin-close luxury. 10g balm, ₹349. Made in India."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/perfume/velion" />
+        <link rel="canonical" href="https://kaeorn.com/perfume/velion" />
         <meta
           property="og:title"
           content="VELION — Unisex Solid Perfume Balm | KAEORN"
@@ -148,7 +148,7 @@ export default function PerfumeVelion() {
         <meta property="og:image" content={images[0]} />
         <meta
           property="og:url"
-          content="https://www.kaeorn.com/perfume/velion"
+          content="https://kaeorn.com/perfume/velion"
         />
         <meta property="og:type" content="product" />
       </Helmet>

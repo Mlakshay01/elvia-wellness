@@ -134,7 +134,7 @@ export default function PerfumeQuietWoods() {
         />
         <link
           rel="canonical"
-          href="https://www.kaeorn.com/perfume/quiet-woods"
+          href="https://kaeorn.com/perfume/quiet-woods"
         />
         <meta
           property="og:title"
@@ -150,7 +150,7 @@ export default function PerfumeQuietWoods() {
         />
         <meta
           property="og:url"
-          content="https://www.kaeorn.com/perfume/quiet-woods"
+          content="https://kaeorn.com/perfume/quiet-woods"
         />
         <meta property="og:type" content="product" />
       </Helmet>

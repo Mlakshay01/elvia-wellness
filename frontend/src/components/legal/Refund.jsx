@@ -10,7 +10,7 @@ export default function Refund() {
           name="description"
           content="Kaeorn's refund and cancellation policy — what qualifies, how to report an issue, and how refunds are processed."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/refund" />
+        <link rel="canonical" href="https://kaeorn.com/refund" />
       </Helmet>
 
       <PolicyLayout eyebrow="RETURNS & REFUNDS" title="Refund & Cancellation Policy">

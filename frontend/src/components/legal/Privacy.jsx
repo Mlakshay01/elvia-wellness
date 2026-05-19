@@ -10,7 +10,7 @@ export default function Privacy() {
           name="description"
           content="Kaeorn's privacy policy — how we collect, use, and protect your personal information when you shop with us."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/privacy" />
+        <link rel="canonical" href="https://kaeorn.com/privacy" />
       </Helmet>
 
       <PolicyLayout eyebrow="YOUR DATA" title="Privacy Policy">

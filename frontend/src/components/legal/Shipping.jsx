@@ -10,7 +10,7 @@ export default function Shipping() {
           name="description"
           content="Kaeorn shipping policy — order processing times, delivery timelines, and tracking details for India-wide delivery."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/shipping" />
+        <link rel="canonical" href="https://kaeorn.com/shipping" />
       </Helmet>
 
       <PolicyLayout eyebrow="DELIVERY" title="Shipping Policy">

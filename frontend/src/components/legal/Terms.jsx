@@ -10,7 +10,7 @@ export default function Terms() {
           name="description"
           content="Terms and conditions for using the Kaeorn website and purchasing our products."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/terms" />
+        <link rel="canonical" href="https://kaeorn.com/terms" />
       </Helmet>
 
       <PolicyLayout eyebrow="LEGAL" title="Terms & Conditions">

@@ -132,7 +132,7 @@ export default function PerfumeNox() {
           name="description"
           content="NOX is a warm, smoky solid perfume built around rare oud wood. Smooth, deep and intimate — designed to stay close yet noticeable. 10g balm, ₹349."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/perfume/nox" />
+        <link rel="canonical" href="https://kaeorn.com/perfume/nox" />
         <meta
           property="og:title"
           content="NOX — Unisex Solid Perfume Balm | KAEORN"
@@ -142,7 +142,7 @@ export default function PerfumeNox() {
           content="A warm, smoky solid perfume. Notes of Rare Oud Wood, Sandalwood & Chinese Pepper. ₹349 — Made in India."
         />
         <meta property="og:image" content={images[0]} />
-        <meta property="og:url" content="https://www.kaeorn.com/perfume/nox" />
+        <meta property="og:url" content="https://kaeorn.com/perfume/nox" />
         <meta property="og:type" content="product" />
       </Helmet>
 

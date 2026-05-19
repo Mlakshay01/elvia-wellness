@@ -10,7 +10,7 @@ export default function About() {
           name="description"
           content="Kaeorn is a luxury perfume brand made in India. Built on the belief that fragrance should feel like a second skin — quiet, intimate, and entirely your own."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/about" />
+        <link rel="canonical" href="https://kaeorn.com/about" />
       </Helmet>
 
       <PolicyLayout eyebrow="WHO WE ARE" title="About KAEORN">
