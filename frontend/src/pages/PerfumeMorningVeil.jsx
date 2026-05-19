@@ -114,7 +114,7 @@ export default function PerfumeMorningVeil() {
       setAuthType("login");
       return;
     }
-    addToCart("/perfume/morning-veil");
+    addToCart("/perfume/veil-fresh-perfume");
     navigate("/cart");
   }
 
@@ -123,7 +123,7 @@ export default function PerfumeMorningVeil() {
       setAuthType("login");
       return;
     }
-    addToCart("/perfume/morning-veil");
+    addToCart("/perfume/veil-fresh-perfume");
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   }
@@ -143,7 +143,7 @@ export default function PerfumeMorningVeil() {
         />
         <link
           rel="canonical"
-          href="https://kaeorn.com/perfume/morning-veil"
+          href="https://kaeorn.com/perfume/veil-fresh-perfume"
         />
         <meta
           property="og:title"
@@ -159,7 +159,7 @@ export default function PerfumeMorningVeil() {
         />
         <meta
           property="og:url"
-          content="https://kaeorn.com/perfume/morning-veil"
+          content="https://kaeorn.com/perfume/veil-fresh-perfume"
         />
         <meta property="og:type" content="product" />
       </Helmet>

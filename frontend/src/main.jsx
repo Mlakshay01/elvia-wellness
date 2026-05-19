@@ -159,9 +159,9 @@ function AppRoot() {
           <Route path="/" element={<Home />} />
 
           {/* ── PERFUMES ── */}
-          <Route path="/perfume/soft-skin" element={<PerfumeSoftSkin />} />
-          <Route path="/perfume/morning-veil" element={<PerfumeMorningVeil />} />
-          <Route path="/perfume/quiet-woods" element={<PerfumeQuietWoods />} />
+          <Route path="/perfume/noir-party-perfume" element={<PerfumeSoftSkin />} />
+          <Route path="/perfume/veil-fresh-perfume" element={<PerfumeMorningVeil />} />
+          <Route path="/perfume/soie-femme-floral-perfume" element={<PerfumeQuietWoods />} />
           <Route path="/perfume/nox" element={<PerfumeNox />} />
           <Route path="/perfume/velion" element={<PerfumeVelion />} />
 

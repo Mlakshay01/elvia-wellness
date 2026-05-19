@@ -345,7 +345,7 @@ export default function Home() {
           <div style={styles.perfumeRow}>
             {[
               {
-                to: "/perfume/soft-skin",
+                to: "/perfume/noir-party-perfume",
                 img: softSkinImg,
                 gender: "MEN",
                 name: "THÉ NOIR",
@@ -355,7 +355,7 @@ export default function Home() {
                 // mrp: "₹1,499",
               },
               {
-                to: "/perfume/morning-veil",
+                to: "/perfume/veil-fresh-perfume",
                 img: morningVeilImg,
                 gender: "UNISEX",
                 name: "MORNING VEIL",
@@ -365,7 +365,7 @@ export default function Home() {
                 // mrp: "₹1,499",
               },
               {
-                to: "/perfume/quiet-woods",
+                to: "/perfume/soie-femme-floral-perfume",
                 img: quietWoodsImg,
                 gender: "WOMEN",
                 name: "SOIE FEMME",

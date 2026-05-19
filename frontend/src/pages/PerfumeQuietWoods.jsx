@@ -105,7 +105,7 @@ export default function PerfumeQuietWoods() {
       setAuthType("login");
       return;
     }
-    addToCart("/perfume/quiet-woods");
+    addToCart("/perfume/soie-femme-floral-perfume");
     navigate("/cart");
   }
 
@@ -114,7 +114,7 @@ export default function PerfumeQuietWoods() {
       setAuthType("login");
       return;
     }
-    addToCart("/perfume/quiet-woods");
+    addToCart("/perfume/soie-femme-floral-perfume");
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   }
@@ -134,7 +134,7 @@ export default function PerfumeQuietWoods() {
         />
         <link
           rel="canonical"
-          href="https://kaeorn.com/perfume/quiet-woods"
+          href="https://kaeorn.com/perfume/soie-femme-floral-perfume"
         />
         <meta
           property="og:title"
@@ -150,7 +150,7 @@ export default function PerfumeQuietWoods() {
         />
         <meta
           property="og:url"
-          content="https://kaeorn.com/perfume/quiet-woods"
+          content="https://kaeorn.com/perfume/soie-femme-floral-perfume"
         />
         <meta property="og:type" content="product" />
       </Helmet>
