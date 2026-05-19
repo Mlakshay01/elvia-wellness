@@ -137,7 +137,7 @@ export default function PerfumeSoftSkin() {
         />
         <meta
           property="og:url"
-          content="https://.kaeorn.com/perfume/soft-skin"
+          content="https://kaeorn.com/perfume/soft-skin"
         />
         <meta property="og:type" content="product" />
       </Helmet>

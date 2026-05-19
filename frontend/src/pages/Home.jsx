@@ -52,7 +52,7 @@ const ORGANIZATION_SCHEMA = {
     "@type": "Country",
     name: "India",
   },
-  sameAs: ["https://instagram.com/kaeorn", "https://facebook.com/kaeorn"],
+  sameAs: ["https://instagram.com/kaeorn.co", "https://facebook.com/kaeorn"],
 };
 
 function PerfumeCard({

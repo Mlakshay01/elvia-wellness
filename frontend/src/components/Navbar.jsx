@@ -80,7 +80,7 @@ export default function Navbar() {
 
           {!isMobile && (
             <>
-              <a href="https://www.instagram.com/kaeornwellness/" target="_blank" rel="noreferrer" className="nav-link">
+              <a href="https://www.instagram.com/kaeorn.co/" target="_blank" rel="noreferrer" className="nav-link">
                 Instagram
               </a>
               <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" className="nav-link">
@@ -123,7 +123,7 @@ export default function Navbar() {
         <a href="#collection" onClick={closeMenu}>Collection</a>
         <a href="#about" onClick={closeMenu}>About</a>
         <a href="#coming" onClick={closeMenu}>Coming Soon</a>
-        <a href="https://www.instagram.com/kaeornwellness/" target="_blank" rel="noreferrer" onClick={closeMenu}>
+        <a href="https://www.instagram.com/kaeorn.co/" target="_blank" rel="noreferrer" onClick={closeMenu}>
           Instagram
         </a>
         <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" onClick={closeMenu}>

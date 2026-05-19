@@ -71,7 +71,7 @@ export default function Footer() {
             <div className="footer-col reveal">
               <h4>Connect</h4>
               <a
-                href="https://www.instagram.com/kaeornwellness"
+                href="https://www.instagram.com/kaeorn.co"
                 target="_blank"
               >
                 Instagram
