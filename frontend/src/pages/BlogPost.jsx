@@ -53,7 +53,7 @@ export default function BlogPost() {
     day: "numeric",
   });
 
-  const canonicalUrl = `https://www.kaeorn.com/blogs/${slug}`;
+  const canonicalUrl = `https://kaeorn.com/blogs/${slug}`;
 
   return (
     <>

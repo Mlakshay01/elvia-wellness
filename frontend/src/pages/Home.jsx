@@ -45,7 +45,7 @@ const ORGANIZATION_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Kaeorn",
-  url: "https://www.kaeorn.com",
+  url: "https://kaeorn.com",
   description:
     "Kaeorn is a luxury perfume brand offering premium Eau de Parfum for men, women, and unisex wear. Made in India.",
   foundingLocation: {
@@ -221,7 +221,7 @@ export default function Home() {
           content="Kaeorn is a luxury perfume brand offering premium Eau de Parfum for men, women, and unisex wear. Discover THÉ NOIR, MORNING VEIL & SOIE FEMME. Made in India."
         />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.kaeorn.com/" />
+        <link rel="canonical" href="https://kaeorn.com/" />
 
         <meta property="og:title" content="KAEORN | Luxury Perfumes" />
         <meta
@@ -229,7 +229,7 @@ export default function Home() {
           content="Premium Eau de Parfum crafted for everyday elegance. Discover the world of Kaeorn."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.kaeorn.com/" />
+        <meta property="og:url" content="https://kaeorn.com/" />
         <meta
           property="og:image"
           content="https://res.cloudinary.com/dvmntn6vf/image/upload/v1775275614/ChatGPT_Image_Apr_4_2026_09_35_50_AM_pkb6za.png"

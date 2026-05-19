@@ -122,7 +122,7 @@ export default function PerfumeSoftSkin() {
           name="description"
           content="THÉ NOIR by Kaeorn — a woody, aromatic men's Eau de Parfum with notes of Apple, Lavender, and Tonka Bean. Quiet luxury, made in India. ₹1,399."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/perfume/soft-skin" />
+        <link rel="canonical" href="https://kaeorn.com/perfume/soft-skin" />
         <meta
           property="og:title"
           content="THÉ NOIR — Men's Eau de Parfum | KAEORN"
@@ -137,7 +137,7 @@ export default function PerfumeSoftSkin() {
         />
         <meta
           property="og:url"
-          content="https://www.kaeorn.com/perfume/soft-skin"
+          content="https://.kaeorn.com/perfume/soft-skin"
         />
         <meta property="og:type" content="product" />
       </Helmet>

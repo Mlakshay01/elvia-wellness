@@ -24,10 +24,10 @@ export default function Blogs() {
           name="description"
           content="Stories, insights, and the world of Kaeorn — fragrance, quiet luxury, and the art of everyday elegance."
         />
-        <link rel="canonical" href="https://www.kaeorn.com/blogs" />
+        <link rel="canonical" href="https://kaeorn.com/blogs" />
         <meta property="og:title" content="Journal | KAEORN" />
         <meta property="og:description" content="Stories and insights from the world of Kaeorn." />
-        <meta property="og:url" content="https://www.kaeorn.com/blogs" />
+        <meta property="og:url" content="https://kaeorn.com/blogs" />
         <meta property="og:type" content="website" />
       </Helmet>
 
