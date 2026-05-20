@@ -214,15 +214,13 @@ export default function Home() {
 
   return (
     <>
-      <head>
-       <meta name="msvalidate.01" content="67F58E3194DD09F40FDEBEC5C0E2A230" />
-      </head>
       <Helmet>
         <title>KAEORN | Luxury Perfumes</title>
         <meta
           name="description"
           content="Kaeorn is a luxury perfume brand offering premium Eau de Parfum for men, women, and unisex wear. Discover THÉ NOIR, MORNING VEIL & SOIE FEMME. Made in India."
         />
+        <meta name="msvalidate.01" content="67F58E3194DD09F40FDEBEC5C0E2A230" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://kaeorn.com/" />
 
