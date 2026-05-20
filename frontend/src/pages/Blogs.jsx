@@ -45,7 +45,7 @@ export default function Blogs() {
         )}
 
         {/* ── EMPTY STATE ── */}
-        {!loading && blogs.length === 0 && (
+        {!loading && blogs.length === 0 &&(
           <div style={s.emptyWrap}>
             <p style={s.emptyText}>The journal is quiet for now.</p>
             <p style={s.emptySubtext}>New stories are on their way.</p>
