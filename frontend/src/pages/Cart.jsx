@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useCart } from "../context/CartContext";
@@ -10,56 +10,75 @@ export default function Cart() {
     useCart();
 
   const [navigating, setNavigating] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponStatus, setCouponStatus] = useState(null);
+  const [couponData, setCouponData] = useState(null);
 
-  // add at top of Cart.jsx
-const [couponCode, setCouponCode] = useState('')
-const [couponStatus, setCouponStatus] = useState(null) // null | 'loading' | 'valid' | 'invalid'
-const [couponData, setCouponData] = useState(null) // { discountPercent, influencerName }
+  // ── single validate function used everywhere ──
+  async function applyCouponByCode(code) {
+    if (!code?.trim()) return;
+    setCouponStatus("loading");
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_INFLUENCER_API}/api/coupon/validate/${code.trim().toUpperCase()}`
+      );
+      const data = await res.json();
+      if (data.success) {
+        setCouponStatus("valid");
+        setCouponData(data.data);
+        setCouponCode(code.trim().toUpperCase());
+        localStorage.setItem(
+          "appliedCoupon",
+          JSON.stringify({
+            code: code.trim().toUpperCase(),
+            discountPercent: data.data.discountPercent,
+            influencerName: data.data.influencerName,
+          })
+        );
+      } else {
+        setCouponStatus("invalid");
+        setCouponData(null);
+        localStorage.removeItem("appliedCoupon");
+      }
+    } catch {
+      setCouponStatus("invalid");
+    }
+  }
+
+  // ── button click ──
+  function applyCoupon() {
+    applyCouponByCode(couponCode);
+  }
+
+  function removeCoupon() {
+    setCouponCode("");
+    setCouponStatus(null);
+    setCouponData(null);
+    localStorage.removeItem("appliedCoupon");
+    localStorage.removeItem("appliedCoupon");
+  }
+
+  // ── auto-apply from URL param or pendingCoupon in localStorage ──
+  // must be AFTER function definitions, BEFORE early returns
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const couponFromUrl = params.get("coupon");
+    const pendingCoupon = localStorage.getItem("pendingCoupon");
+    const codeToApply = couponFromUrl || pendingCoupon;
+
+    if (codeToApply) {
+      applyCouponByCode(codeToApply.toUpperCase());
+      localStorage.removeItem("pendingCoupon");
+    }
+  }, []);
+
+  const discount = couponData
+    ? Math.round((getCartTotal() * couponData.discountPercent) / 100)
+    : 0;
+
+  const finalTotal = getCartTotal() - discount;
 
   if (navigating) return <PageLoader />;
-
-async function applyCoupon() {
-  if (!couponCode.trim()) return
-  setCouponStatus('loading')
-  try {
-    const res = await fetch(
-      `${import.meta.env.VITE_INFLUENCER_API}/api/coupon/validate/${couponCode.trim().toUpperCase()}`
-    )
-    const data = await res.json()
-    if (data.success) {
-      setCouponStatus('valid')
-      setCouponData(data.data)
-      localStorage.setItem('appliedCoupon', JSON.stringify({
-        code: couponCode.trim().toUpperCase(),
-        discountPercent: data.data.discountPercent,
-        influencerName: data.data.influencerName,
-      }))
-    } else {
-      setCouponStatus('invalid')
-      setCouponData(null)
-      localStorage.removeItem('appliedCoupon')
-    }
-  } catch {
-    setCouponStatus('invalid')
-  }
-}
-
-function removeCoupon() {
-  setCouponCode('')
-  setCouponStatus(null)
-  setCouponData(null)
-  localStorage.removeItem('appliedCoupon')
-}
-
-const discount = couponData
-  ? Math.round(getCartTotal() * couponData.discountPercent / 100)
-  : 0
-
-const finalTotal = getCartTotal() - discount
-
-
-
-
 
   /* ---------------- EMPTY CART ---------------- */
   if (!cartItems || cartItems.length === 0) {
@@ -94,117 +113,93 @@ const finalTotal = getCartTotal() - discount
           {cartItems.map((item) => (
             <div key={item.id} style={styles.card}>
               <img src={item.image} alt={item.name} style={styles.image} />
-
               <div style={styles.details}>
-                <p style={styles.category}>SUN PROTECTION</p>
+                <p style={styles.category}>EAU DE PARFUM</p>
                 <h2 style={styles.title}>{item.name}</h2>
                 <p style={styles.price}>₹{item.price}</p>
-
-                {/* QUANTITY */}
                 <div style={styles.qtyRow}>
-                  <button
-                    style={styles.qtyBtn}
-                    onClick={() => decreaseQty(item.id)}
-                  >
-                    −
-                  </button>
-
+                  <button style={styles.qtyBtn} onClick={() => decreaseQty(item.id)}>−</button>
                   <span style={styles.qty}>{item.quantity}</span>
-
-                  <button
-                    style={styles.qtyBtn}
-                    onClick={() => increaseQty(item.id)}
-                  >
-                    +
-                  </button>
+                  <button style={styles.qtyBtn} onClick={() => increaseQty(item.id)}>+</button>
                 </div>
-
-                <button
-                  style={styles.removeBtn}
-                  onClick={() => removeFromCart(item.id)}
-                >
+                <button style={styles.removeBtn} onClick={() => removeFromCart(item.id)}>
                   Remove
                 </button>
               </div>
-
               <p style={styles.itemTotal}>₹{item.price * item.quantity}</p>
             </div>
           ))}
         </div>
 
         {/* OFFER CODE */}
-        {/* OFFER CODE */}
-<div style={styles.offerBox}>
-  <input
-    placeholder="Enter influencer / offer code"
-    style={styles.offerInput}
-    value={couponCode}
-    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-    disabled={couponStatus === 'valid'}
-  />
-  {couponStatus === 'valid' ? (
-    <button style={{ ...styles.applyBtn, background: '#c00' }} onClick={removeCoupon}>
-      Remove
-    </button>
-  ) : (
-    <button style={styles.applyBtn} onClick={applyCoupon} disabled={couponStatus === 'loading'}>
-      {couponStatus === 'loading' ? '...' : 'Apply'}
-    </button>
-  )}
-</div>
+        <div style={styles.offerBox}>
+          <input
+            placeholder="Enter influencer / offer code"
+            style={styles.offerInput}
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+            disabled={couponStatus === "valid"}
+            onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
+          />
+          {couponStatus === "valid" ? (
+            <button
+              style={{ ...styles.applyBtn, background: "#c00" }}
+              onClick={removeCoupon}
+            >
+              Remove
+            </button>
+          ) : (
+            <button
+              style={styles.applyBtn}
+              onClick={applyCoupon}
+              disabled={couponStatus === "loading"}
+            >
+              {couponStatus === "loading" ? "..." : "Apply"}
+            </button>
+          )}
+        </div>
 
-{/* COUPON FEEDBACK */}
-{couponStatus === 'valid' && couponData && (
-  <div style={{ background: '#f0fdf0', border: '1px solid #bbf7d0', borderRadius: 10, padding: '12px 16px', marginBottom: 16, fontSize: 13, color: '#166534' }}>
-    ✓ Code <strong>{couponCode}</strong> applied — {couponData.discountPercent}% off via {couponData.influencerName}
-  </div>
-)}
-{couponStatus === 'invalid' && (
-  <div style={{ background: '#fff5f5', border: '1px solid #fecaca', borderRadius: 10, padding: '12px 16px', marginBottom: 16, fontSize: 13, color: '#c00' }}>
-    ✗ Invalid or expired coupon code
-  </div>
-)}
+        {/* COUPON FEEDBACK */}
+        {couponStatus === "valid" && couponData && (
+          <div style={styles.couponSuccess}>
+            ✓ Code <strong>{couponCode}</strong> applied —{" "}
+            {couponData.discountPercent}% off via {couponData.influencerName}
+          </div>
+        )}
+        {couponStatus === "invalid" && (
+          <div style={styles.couponError}>
+            ✗ Invalid or expired coupon code
+          </div>
+        )}
 
         {/* SUMMARY */}
-       {/* SUMMARY */}
-<div style={styles.summary}>
-  <div style={styles.row}>
-    <span>Subtotal</span>
-    <span>₹{getCartTotal()}</span>
-  </div>
-  {discount > 0 && (
-    <div style={{ ...styles.row, color: '#166534' }}>
-      <span>Discount ({couponData.discountPercent}%)</span>
-      <span>−₹{discount}</span>
-    </div>
-  )}
-  <div style={styles.row}>
-    <span>Delivery</span>
-    <span>Free</span>
-  </div>
-  <div style={styles.totalRow}>
-    <span>Total</span>
-    <span>₹{finalTotal}</span>
-  </div>
-</div>
+        <div style={styles.summary}>
+          <div style={styles.row}>
+            <span>Subtotal</span>
+            <span>₹{getCartTotal()}</span>
+          </div>
+          {discount > 0 && (
+            <div style={{ ...styles.row, color: "#166534" }}>
+              <span>Discount ({couponData.discountPercent}%)</span>
+              <span>−₹{discount}</span>
+            </div>
+          )}
+          <div style={styles.row}>
+            <span>Delivery</span>
+            <span>Free</span>
+          </div>
+          <div style={styles.totalRow}>
+            <span>Total</span>
+            <span>₹{finalTotal}</span>
+          </div>
+        </div>
 
-<button
-  style={styles.checkoutBtn}
-  onClick={() => {
-    setNavigating(true)
-    // save final total so Payment.jsx uses discounted amount
-    localStorage.setItem('cartFinalTotal', finalTotal)
-    setTimeout(() => navigate('/checkout/address'), 300)
-  }}
->
-  Proceed to Checkout
-</button>
-
-        {/* CHECKOUT */}
+        {/* CHECKOUT — only one button */}
         <button
           style={styles.checkoutBtn}
           onClick={() => {
             setNavigating(true);
+            localStorage.setItem("cartFinalTotal", finalTotal);
             setTimeout(() => navigate("/checkout/address"), 300);
           }}
         >
@@ -219,8 +214,6 @@ const finalTotal = getCartTotal() - discount
   );
 }
 
-/* ---------------- STYLES ---------------- */
-
 const styles = {
   page: {
     maxWidth: "1000px",
@@ -228,14 +221,7 @@ const styles = {
     padding: "80px 45px",
     fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
   },
-
-  heading: {
-    fontSize: "30px",
-    fontWeight: "500",
-    marginBottom: "36px",
-  },
-
-  /* EMPTY CART */
+  heading: { fontSize: "30px", fontWeight: "500", marginBottom: "36px" },
   emptyPage: {
     minHeight: "70vh",
     display: "flex",
@@ -245,14 +231,8 @@ const styles = {
     textAlign: "center",
     padding: "40px 20px",
   },
-  emptyTitle: {
-    fontSize: "26px",
-    marginBottom: "12px",
-  },
-  emptyText: {
-    color: "#666",
-    marginBottom: "24px",
-  },
+  emptyTitle: { fontSize: "26px", marginBottom: "12px" },
+  emptyText: { color: "#666", marginBottom: "24px" },
   backBtn: {
     padding: "14px 28px",
     borderRadius: "40px",
@@ -262,14 +242,7 @@ const styles = {
     fontSize: "15px",
     cursor: "pointer",
   },
-
-  /* ITEMS */
-  itemsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "28px",
-  },
-
+  itemsWrap: { display: "flex", flexDirection: "column", gap: "28px" },
   card: {
     display: "flex",
     gap: "24px",
@@ -278,141 +251,49 @@ const styles = {
     paddingBottom: "24px",
     flexWrap: "wrap",
   },
-
-  image: {
-    width: "120px",
-    height: "140px",
-    borderRadius: "14px",
-    objectFit: "cover",
-  },
-
-  details: {
-    flex: 1,
-    minWidth: "220px",
-  },
-
-  category: {
-    fontSize: "11px",
-    letterSpacing: "2px",
-    color: "#888",
-    marginBottom: "6px",
-  },
-
-  title: {
-    fontSize: "18px",
-    marginBottom: "6px",
-  },
-
-  price: {
-    color: "#555",
-    marginBottom: "14px",
-  },
-
-  qtyRow: {
-    display: "flex",
-    alignItems: "center",
-    gap: "14px",
-    marginBottom: "10px",
-  },
-
+  image: { width: "120px", height: "140px", borderRadius: "14px", objectFit: "cover" },
+  details: { flex: 1, minWidth: "220px" },
+  category: { fontSize: "11px", letterSpacing: "2px", color: "#888", marginBottom: "6px" },
+  title: { fontSize: "18px", marginBottom: "6px" },
+  price: { color: "#555", marginBottom: "14px" },
+  qtyRow: { display: "flex", alignItems: "center", gap: "14px", marginBottom: "10px" },
   qtyBtn: {
-    width: "32px",
-    height: "32px",
-    borderRadius: "50%",
-    border: "1px solid #ccc",
-    background: "white",
-    cursor: "pointer",
-    fontSize: "18px",
-    lineHeight: "0",
+    width: "32px", height: "32px", borderRadius: "50%",
+    border: "1px solid #ccc", background: "white",
+    cursor: "pointer", fontSize: "18px", lineHeight: "0",
   },
-
-  qty: {
-    minWidth: "20px",
-    textAlign: "center",
-    fontSize: "14px",
-  },
-
-  removeBtn: {
-    border: "none",
-    background: "none",
-    color: "#999",
-    fontSize: "13px",
-    cursor: "pointer",
-    padding: 0,
-  },
-
-  itemTotal: {
-    fontSize: "16px",
-    fontWeight: "500",
-    minWidth: "80px",
-    textAlign: "right",
-  },
-
-  /* OFFER */
+  qty: { minWidth: "20px", textAlign: "center", fontSize: "14px" },
+  removeBtn: { border: "none", background: "none", color: "#999", fontSize: "13px", cursor: "pointer", padding: 0 },
+  itemTotal: { fontSize: "16px", fontWeight: "500", minWidth: "80px", textAlign: "right" },
   offerBox: {
-    display: "flex",
-    gap: "12px",
-    marginTop: "36px",
-    marginBottom: "36px",
-    flexWrap: "wrap",
+    display: "flex", gap: "12px",
+    marginTop: "36px", marginBottom: "16px", flexWrap: "wrap",
   },
-
   offerInput: {
-    flex: 1,
-    minWidth: "220px",
-    padding: "14px",
-    borderRadius: "10px",
-    border: "1px solid #ccc",
-    fontSize: "14px",
+    flex: 1, minWidth: "220px", padding: "14px",
+    borderRadius: "10px", border: "1px solid #ccc", fontSize: "14px",
   },
-
   applyBtn: {
-    padding: "14px 24px",
-    borderRadius: "10px",
-    border: "none",
-    background: "#111",
-    color: "white",
-    cursor: "pointer",
-    fontSize: "14px",
+    padding: "14px 24px", borderRadius: "10px", border: "none",
+    background: "#111", color: "white", cursor: "pointer", fontSize: "14px",
   },
-
-  /* SUMMARY */
-  summary: {
-    borderTop: "1px solid #eee",
-    paddingTop: "24px",
-    marginBottom: "36px",
+  couponSuccess: {
+    background: "#f0fdf0", border: "1px solid #bbf7d0",
+    borderRadius: 10, padding: "12px 16px",
+    marginBottom: 16, fontSize: 13, color: "#166534",
   },
-
-  row: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "12px",
-    color: "#555",
+  couponError: {
+    background: "#fff5f5", border: "1px solid #fecaca",
+    borderRadius: 10, padding: "12px 16px",
+    marginBottom: 16, fontSize: 13, color: "#c00",
   },
-
-  totalRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    fontSize: "18px",
-    fontWeight: "500",
-  },
-
-  /* CHECKOUT */
+  summary: { borderTop: "1px solid #eee", paddingTop: "24px", marginBottom: "36px" },
+  row: { display: "flex", justifyContent: "space-between", marginBottom: "12px", color: "#555" },
+  totalRow: { display: "flex", justifyContent: "space-between", fontSize: "18px", fontWeight: "500" },
   checkoutBtn: {
-    width: "100%",
-    padding: "18px",
-    borderRadius: "40px",
-    border: "none",
-    background: "#111",
-    color: "white",
-    fontSize: "16px",
-    cursor: "pointer",
+    width: "100%", padding: "18px", borderRadius: "40px",
+    border: "none", background: "#111", color: "white",
+    fontSize: "16px", cursor: "pointer",
   },
-
-  checkoutNote: {
-    marginTop: "14px",
-    fontSize: "13px",
-    color: "#777",
-    textAlign: "center",
-  },
+  checkoutNote: { marginTop: "14px", fontSize: "13px", color: "#777", textAlign: "center" },
 };

@@ -73,6 +73,7 @@ function PerfumeCard({
   const [added, setAdded] = useState(false);
   const cardRef = useRef(null);
 
+
   useEffect(() => {
     if (cardRef.current) addReveal(cardRef.current);
   }, []);
@@ -87,6 +88,8 @@ function PerfumeCard({
     setAdded(success ? "success" : "error");
     setTimeout(() => setAdded(null), 2000);
   }
+
+
 
   return (
     <div
@@ -157,6 +160,15 @@ export default function Home() {
     const t = setTimeout(() => setVisible(true), 120);
     return () => clearTimeout(t);
   }, []);
+
+    useEffect(() => {
+  const params = new URLSearchParams(window.location.search)
+  const coupon = params.get('coupon')
+  if (coupon) {
+    // save to localStorage so cart picks it up automatically
+    localStorage.setItem('pendingCoupon', coupon.toUpperCase())
+  }
+}, [])
 
   /* ── NOTIFY ME ── */
   function notifyMe(product) {
