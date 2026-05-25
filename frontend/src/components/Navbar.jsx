@@ -102,7 +102,6 @@ export default function Navbar() {
       id="cartBtn"
       onClick={() => {
         navigate("/cart");
-        setOpen(false);
       }}
     >
       <span>Cart</span>
