@@ -86,6 +86,9 @@ export default function Navbar() {
               <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" className="nav-link">
                 YouTube
               </a>
+              <a href="https://www.facebook.com/people/Kaeorn/61590374977606" target="_blank" rel="noreferrer" className="nav-link">
+                Facebook
+              </a>
             </>
           )}
 
@@ -128,6 +131,9 @@ export default function Navbar() {
         <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" onClick={closeMenu}>
           YouTube
         </a>
+        <a href="https://www.facebook.com/people/Kaeorn/61590374977606" target="_blank" rel="noreferrer" onClick={closeMenu}>
+                Facebook
+              </a>
       </div>
     </>
   );
