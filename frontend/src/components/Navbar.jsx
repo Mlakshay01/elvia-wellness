@@ -65,7 +65,7 @@ export default function Navbar() {
               <ArrowLeft size={16} />
             </button>
           )}
-          <a className="nav-logo" onClick={() => navigate("/")}>KAEORN</a>
+          <a className="nav-logo" onClick={() => navigate("https://kaeorn.com")}>KAEORN</a>
         </div>
 
         {/* ── CENTER ── */}
@@ -85,6 +85,9 @@ export default function Navbar() {
               </a>
               <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" className="nav-link">
                 YouTube
+              </a>
+              <a href="https://www.facebook.com/people/Kaeorn/61590374977606" target="_blank" rel="noreferrer" className="nav-link">
+                Facebook
               </a>
             </>
           )}
@@ -128,6 +131,9 @@ export default function Navbar() {
         <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noreferrer" onClick={closeMenu}>
           YouTube
         </a>
+        <a href="https://www.facebook.com/people/Kaeorn/61590374977606" target="_blank" rel="noreferrer" onClick={closeMenu}>
+                Facebook
+              </a>
       </div>
     </>
   );

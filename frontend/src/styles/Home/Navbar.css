@@ -145,6 +145,7 @@ nav.scrolled {
 .mob-menu.open a:nth-child(3) { animation-delay: .3s; }
 .mob-menu.open a:nth-child(4) { animation-delay: .4s; }
 .mob-menu.open a:nth-child(5) { animation-delay: .5s; }
+.mob-menu.open a:nth-child(6) { animation-delay: .6s; }
 .mob-menu a:hover { color: var(--faint); }
 @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
