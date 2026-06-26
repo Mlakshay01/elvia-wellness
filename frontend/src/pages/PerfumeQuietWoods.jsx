@@ -28,7 +28,7 @@ const NOTES = [
     desc: "Floral elegance",
   },
   {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776065745/23e6e349-01f2-4d3b-89ad-37ba7375f429.png",
+    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776065745/23e6e599-01f2-4d3b-89ad-37ba7375f429.png",
     name: "Vanilla",
     desc: "Soft sensuality",
   },
@@ -94,8 +94,8 @@ export default function PerfumeQuietWoods() {
     return () => obs.disconnect();
   }, []);
 
-  const originalPrice = 1499;
-  const price = 1399;
+  const originalPrice = 3599;
+  const price = 1799;
   const discountPercent = Math.round(
     ((originalPrice - price) / originalPrice) * 100,
   );
@@ -249,16 +249,18 @@ export default function PerfumeQuietWoods() {
             <h1 style={styles.productTitle}>SOIE FEMME</h1>
             <span style={styles.volume}>100 ml</span>
             <span style={styles.volume}>Longevity: 8-10hrs</span>
-            <span>30% Natural Oils Concentration</span>
+            <span>50% Natural Oils Concentration</span>
             <br />
-            <button style={styles.readMore} onClick={scrollToDesc}>Read more about this fragrance</button>
+            <button style={styles.readMore} onClick={scrollToDesc}>
+              Read more about this fragrance
+            </button>
 
-            {/* <div style={styles.saleBadge}>RELEASE SALE</div> */}
+            <div style={styles.saleBadge}>RELEASE SALE</div>
 
             <div style={styles.priceWrap}>
               <span style={styles.price}>₹{price}</span>
-              {/* <span style={styles.originalPrice}>₹{originalPrice}</span>
-              <span style={styles.discount}>{discountPercent}% OFF</span> */}
+              <span style={styles.originalPrice}>₹{originalPrice}</span>
+              <span style={styles.discount}>{discountPercent}% OFF</span>
             </div>
 
             <p style={styles.subtitle}>
@@ -380,7 +382,6 @@ export default function PerfumeQuietWoods() {
             </div>
           </div>
         </div>
-    
       </section>
     </>
   );
@@ -455,17 +456,17 @@ const styles = {
     overflow: "hidden",
   },
   // ADD these two to your styles object:
-imageSlide: {
-  minWidth: "100%",
-  scrollSnapAlign: "center",
-},
-galleryImage: {
-  width: "100%",
-  height: "100%",
-  objectFit: "cover",
-  borderRadius: 26,
-  display: "block",
-},
+  imageSlide: {
+    minWidth: "100%",
+    scrollSnapAlign: "center",
+  },
+  galleryImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    borderRadius: 26,
+    display: "block",
+  },
   overlay: {
     position: "absolute",
     inset: 0,
@@ -482,7 +483,7 @@ galleryImage: {
     display: "block",
     marginBottom: "16px",
   },
-    readMore: {
+  readMore: {
     border: "none",
     background: "transparent",
     fontSize: 13,

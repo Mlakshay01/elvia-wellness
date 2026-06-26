@@ -102,8 +102,8 @@ export default function PerfumeNox() {
     return () => obs.disconnect();
   }, []);
 
-  const price = 349;
-  const originalPrice = 499;
+  const price = 599;
+  const originalPrice = 1199;
 
   function handleOrderNow() {
     if (!user) {
@@ -130,7 +130,7 @@ export default function PerfumeNox() {
         <title>NOX — Unisex Solid Perfume Balm | KAEORN</title>
         <meta
           name="description"
-          content="NOX is a warm, smoky solid perfume built around rare oud wood. Smooth, deep and intimate — designed to stay close yet noticeable. 10g balm, ₹349."
+          content="NOX is a warm, smoky solid perfume built around rare oud wood. Smooth, deep and intimate — designed to stay close yet noticeable. 10g balm, ₹599."
         />
         <link rel="canonical" href="https://kaeorn.com/perfume/nox" />
         <meta
@@ -139,7 +139,7 @@ export default function PerfumeNox() {
         />
         <meta
           property="og:description"
-          content="A warm, smoky solid perfume. Notes of Rare Oud Wood, Sandalwood & Chinese Pepper. ₹349 — Made in India."
+          content="A warm, smoky solid perfume. Notes of Rare Oud Wood, Sandalwood & Chinese Pepper. ₹599 — Made in India."
         />
         <meta property="og:image" content={images[0]} />
         <meta property="og:url" content="https://kaeorn.com/perfume/nox" />
@@ -251,7 +251,7 @@ export default function PerfumeNox() {
             <div style={styles.priceWrap}>
               <span style={styles.price}>₹{price}</span>
               <span style={styles.originalPrice}>₹{originalPrice}</span>
-              <span style={styles.saveBadge}>30% OFF</span>
+              <span style={styles.saveBadge}>50% OFF</span>
             </div>
 
             <p style={styles.subtitle}>
@@ -404,52 +404,52 @@ const styles = {
   },
   hide: { opacity: 0, transform: "translateY(40px)" },
   show: { opacity: 1, transform: "translateY(0)", transition: "0.9s ease" },
- // REPLACE gallery with:
-gallery: {
-  display: "flex",
-  overflowX: "auto",
-  scrollSnapType: "x mandatory",
-  scrollbarWidth: "none",
-},
+  // REPLACE gallery with:
+  gallery: {
+    display: "flex",
+    overflowX: "auto",
+    scrollSnapType: "x mandatory",
+    scrollbarWidth: "none",
+  },
 
-// ADD these four new ones anywhere in the styles object:
-galleryWrap: {
-  flex: 1,
-  minWidth: 320,
-  position: "relative",
-  borderRadius: 24,
-  overflow: "hidden",
-},
-navBtn: {
-  position: "absolute",
-  left: 16,
-  top: "50%",
-  transform: "translateY(-50%)",
-  width: 40,
-  height: 40,
-  borderRadius: "50%",
-  background: "rgba(255,255,255,0.85)",
-  border: "0.5px solid rgba(0,0,0,0.1)",
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  zIndex: 2,
-},
-dots: {
-  position: "absolute",
-  bottom: 18,
-  left: "50%",
-  transform: "translateX(-50%)",
-  display: "flex",
-  gap: 6,
-},
-dot: {
-  height: 6,
-  borderRadius: 3,
-  cursor: "pointer",
-  transition: "all 0.3s ease",
-},
+  // ADD these four new ones anywhere in the styles object:
+  galleryWrap: {
+    flex: 1,
+    minWidth: 320,
+    position: "relative",
+    borderRadius: 24,
+    overflow: "hidden",
+  },
+  navBtn: {
+    position: "absolute",
+    left: 16,
+    top: "50%",
+    transform: "translateY(-50%)",
+    width: 40,
+    height: 40,
+    borderRadius: "50%",
+    background: "rgba(255,255,255,0.85)",
+    border: "0.5px solid rgba(0,0,0,0.1)",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 2,
+  },
+  dots: {
+    position: "absolute",
+    bottom: 18,
+    left: "50%",
+    transform: "translateX(-50%)",
+    display: "flex",
+    gap: 6,
+  },
+  dot: {
+    height: 6,
+    borderRadius: 3,
+    cursor: "pointer",
+    transition: "all 0.3s ease",
+  },
   slide: { minWidth: "100%", scrollSnapAlign: "center" },
   mainImage: {
     width: "100%",

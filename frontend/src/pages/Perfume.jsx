@@ -84,11 +84,11 @@
 //           imageStyle={imageStyle}
 //         />
 
-//         {/* MORNING VEIL */}
+//         {/* VEIL */}
 //         <Card
 //           index={1}
 //           image={morningVeilImg}
-//           title="MORNING VEIL"
+//           title="VEIL"
 //           type="UNISEX"
 //           mood="Clean · Airy · Luminous"
 //           onClick={() => navigate("/perfume/morning-veil")}
@@ -117,8 +117,7 @@
 //       </section>
 //     </main>
 //     </>
-    
-    
+
 //   );
 // }
 

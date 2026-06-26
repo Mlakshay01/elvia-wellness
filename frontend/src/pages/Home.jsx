@@ -31,7 +31,7 @@ const MARQUEE_ITEMS = [
   "·",
   "SOIE FEMME",
   "·",
-  "MORNING VEIL",
+  "VEIL",
   "·",
   "EAU DE PARFUM",
   "·",
@@ -228,7 +228,7 @@ export default function Home() {
         <title>KAEORN | Luxury Perfumes</title>
         <meta
           name="description"
-          content="Kaeorn is a luxury perfume brand offering premium Eau de Parfum for men, women, and unisex wear. Discover THÉ NOIR, MORNING VEIL & SOIE FEMME. Made in India."
+          content="Kaeorn is a luxury perfume brand offering premium Eau de Parfum for men, women, and unisex wear. Discover THÉ NOIR, VEIL & SOIE FEMME. Made in India."
         />
         <meta name="msvalidate.01" content="67F58E3194DD09F40FDEBEC5C0E2A230" />
         <meta name="robots" content="index, follow" />
@@ -362,18 +362,18 @@ export default function Home() {
                 name: "THÉ NOIR",
                 mood: "Fruity · Aromatic · Gourmand",
                 concentration: "25%",
-                price: "₹1,399",
-                // mrp: "₹1,499",
+                price: "₹1,799",
+                mrp: "₹3,599",
               },
               {
                 to: "/perfume/veil-fresh-perfume",
                 img: morningVeilImg,
                 gender: "UNISEX",
-                name: "MORNING VEIL",
+                name: "VEIL",
                 mood: "Citrus · Spicy · Woody",
                 concentration: "25%",
-                price: "₹1,399",
-                // mrp: "₹1,499",
+                price: "₹1,799",
+                mrp: "₹3,599",
               },
               {
                 to: "/perfume/soie-femme-floral-perfume",
@@ -381,9 +381,9 @@ export default function Home() {
                 gender: "WOMEN",
                 name: "SOIE FEMME",
                 mood: "Floral · Roasted · Gourmand",
-                concentration: "30%",
-                price: "₹1,399",
-                // mrp: "₹1,499",
+                concentration: "50%",
+                price: "₹1,799",
+                mrp: "₹3,599",
               },
             ].map((p) => (
               <PerfumeCard

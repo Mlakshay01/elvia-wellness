@@ -106,8 +106,8 @@ export default function PerfumeVelion() {
     return () => obs.disconnect();
   }, []);
 
-  const price = 349;
-  const originalPrice = 499;
+  const price = 599;
+  const originalPrice = 1199;
 
   function handleOrderNow() {
     if (!user) {
@@ -134,7 +134,7 @@ export default function PerfumeVelion() {
         <title>VELION — Unisex Solid Perfume Balm | KAEORN</title>
         <meta
           name="description"
-          content="VELION is a radiant solid perfume — a crystalline fusion of exotic saffron and radiant cedar grounded by golden amber. A skin-close luxury. 10g balm, ₹349. Made in India."
+          content="VELION is a radiant solid perfume — a crystalline fusion of exotic saffron and radiant cedar grounded by golden amber. A skin-close luxury. 10g balm, ₹599. Made in India."
         />
         <link rel="canonical" href="https://kaeorn.com/perfume/velion" />
         <meta
@@ -143,13 +143,10 @@ export default function PerfumeVelion() {
         />
         <meta
           property="og:description"
-          content="Fresh · Floral · Luminous. Notes of Cedar, Amberwood & Saffron. ₹349 — Made in India."
+          content="Fresh · Floral · Luminous. Notes of Cedar, Amberwood & Saffron. ₹599 — Made in India."
         />
         <meta property="og:image" content={images[0]} />
-        <meta
-          property="og:url"
-          content="https://kaeorn.com/perfume/velion"
-        />
+        <meta property="og:url" content="https://kaeorn.com/perfume/velion" />
         <meta property="og:type" content="product" />
       </Helmet>
 
@@ -258,7 +255,7 @@ export default function PerfumeVelion() {
             <div style={styles.priceWrap}>
               <span style={styles.price}>₹{price}</span>
               <span style={styles.originalPrice}>₹{originalPrice}</span>
-              <span style={styles.saveBadge}>30% OFF</span>
+              <span style={styles.saveBadge}>50% OFF</span>
             </div>
 
             <p style={styles.subtitle}>

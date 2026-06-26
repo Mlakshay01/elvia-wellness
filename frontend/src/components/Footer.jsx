@@ -71,7 +71,7 @@ export default function Footer() {
                 className="link"
                 onClick={() => navigate("/perfume/veil-fresh-perfume")}
               >
-                Morning Veil
+                Veil
               </span>
               <span className="link" onClick={() => navigate("/perfume/nox")}>
                 Nox

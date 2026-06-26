@@ -27,8 +27,8 @@ const PRODUCTS = [
     character: "Warm · Smoky · Skin-close",
     notes: ["Rare Oud Wood", "Sandalwood", "Chinese Pepper"],
     desc: "Built around rare oud wood — deep, intimate, and made to stay close to the skin. No projection. Just presence.",
-    price: "₹349",
-    originalPrice: "₹499",
+    price: "₹599",
+    originalPrice: "₹1199",
     size: "10 g",
     gender: "Unisex",
     img: NOX_IMG,
@@ -44,8 +44,8 @@ const PRODUCTS = [
     character: "Fresh · Floral · Luminous",
     notes: ["Exotic Saffron", "Radiant Cedar", "Golden Amber"],
     desc: "An ode to radiant warmth — sheer florals lifted by amberwood and saffron. Inspired by the world's most coveted crystals.",
-    price: "₹349",
-    originalPrice: "₹499",
+    price: "₹599",
+    originalPrice: "₹1199",
     size: "10 g",
     gender: "Unisex",
     img: VELION_IMG,
@@ -121,9 +121,7 @@ function ArrivalCard({
           </div>
 
           {/* sale badge */}
-          <div style={cardStyles.newBadge}>
-            {product.tag}
-          </div>
+          <div style={cardStyles.newBadge}>{product.tag}</div>
         </div>
       </div>
 
@@ -164,12 +162,16 @@ function ArrivalCard({
         </div>
 
         {/* ── SALE BANNER ── */}
-        <div style={{
-          ...cardStyles.saleBanner,
-          alignSelf: isRight ? "flex-end" : "flex-start",
-        }}>
+        <div
+          style={{
+            ...cardStyles.saleBanner,
+            alignSelf: isRight ? "flex-end" : "flex-start",
+          }}
+        >
           <span style={cardStyles.saleBannerDot} />
-          <span style={cardStyles.saleBannerText}>New Arrival Sale · Limited Period</span>
+          <span style={cardStyles.saleBannerText}>
+            New Arrival Sale · Limited Period
+          </span>
           <span style={cardStyles.saleBannerDot} />
         </div>
 
@@ -182,7 +184,7 @@ function ArrivalCard({
             >
               <p style={cardStyles.price}>{product.price}</p>
               <p style={cardStyles.originalPrice}>{product.originalPrice}</p>
-              <span style={cardStyles.saveBadge}>30% OFF</span>
+              <span style={cardStyles.saveBadge}>50% OFF</span>
             </div>
           </div>
           <div style={cardStyles.ctaRow}>
