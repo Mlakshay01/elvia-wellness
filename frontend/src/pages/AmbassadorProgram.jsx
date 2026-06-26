@@ -45,10 +45,24 @@ function ApplyModal({ onClose }) {
       return;
     }
     setLoading(true);
-    // TODO: Replace with your actual form endpoint (e.g. Formspree, your backend)
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-    setSubmitted(true);
+    try {
+      const res = await fetch("https://formspree.io/f/mbdvgzpq", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          instagram: form.instagram,
+          email: form.email,
+          reason: form.reason,
+        }),
+      });
+      if (!res.ok) throw new Error("Submission failed");
+      setSubmitted(true);
+    } catch {
+      alert("Something went wrong. Please try again or email us directly.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -250,8 +264,8 @@ export default function AmbassadorProgram() {
               <p className="ap-term-body">
                 Your 50% ambassador discount applies to personal Kaeorn orders. These are processed
                 manually — simply email us at{" "}
-                <a href="mailto:contact@kaeornwellness.com" className="ap-term-link">
-                  contact@kaeornwellness.com
+                <a href="mailto:kaeornwellness@gmail.com" className="ap-term-link">
+                  kaeornwellness@gmail.com
                 </a>{" "}
                 with your order details and we'll take care of it.
               </p>
