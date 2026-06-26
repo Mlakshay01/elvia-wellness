@@ -133,6 +133,16 @@ export default function AmbassadorProgram() {
             Join a small circle of creators who believe scent deserves more than a swipe-up.
             Build with us — and earn commission on every bottle you move.
           </p>
+          <div className="ap-hero-reqs">
+            <p className="ap-hero-reqs-label">To apply, you must</p>
+            <ul className="ap-hero-reqs-list">
+              <li>Follow <strong>@kaeorn.co</strong> on Instagram</li>
+              <li>Have personally used at least one Kaeorn fragrance</li>
+              <li>Be willing to post 1 Reel + 2 Stories at launch</li>
+              <li>Align with Kaeorn's aesthetic — quiet, intentional, real</li>
+            </ul>
+          </div>
+
           <button className="ap-btn-primary ap-hero-cta" onClick={() => setShowModal(true)}>
             Apply Now →
           </button>

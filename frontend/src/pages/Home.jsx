@@ -381,7 +381,7 @@ export default function Home() {
                 gender: "WOMEN",
                 name: "SOIE FEMME",
                 mood: "Floral · Roasted · Gourmand",
-                concentration: "50%",
+                concentration: "30%",
                 price: "₹1,799",
                 mrp: "₹3,599",
               },
