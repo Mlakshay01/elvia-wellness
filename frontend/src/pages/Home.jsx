@@ -96,7 +96,7 @@ function PerfumeCard({
       style={styles.perfumeCard}
       onClick={() => navigate(to)}
     >
-      <div style={styles.perfumeImageWrap}>
+      <div style={styles.perfumeImageWrap}> 
         <img
           src={img}
           alt={`${name} – ${gender} Eau de Parfum by Kaeorn`}
@@ -461,7 +461,11 @@ export default function Home() {
         </section>
 
         {/*-- Ambassador Program --*/}
-        <AmbassadorSection addReveal={addReveal} navigate={navigate} />
+        <div id="ambassador">
+          <AmbassadorSection addReveal={addReveal} navigate={navigate}/>
+          </div>
+        
+        
 
         {/* ── COMING SOON ── */}
         <section className="coming" id="coming">
