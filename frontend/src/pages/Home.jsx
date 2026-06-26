@@ -96,7 +96,7 @@ function PerfumeCard({
       style={styles.perfumeCard}
       onClick={() => navigate(to)}
     >
-      <div style={styles.perfumeImageWrap}>
+      <div style={styles.perfumeImageWrap}> 
         <img
           src={img}
           alt={`${name} – ${gender} Eau de Parfum by Kaeorn`}
