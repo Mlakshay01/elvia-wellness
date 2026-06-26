@@ -461,7 +461,11 @@ export default function Home() {
         </section>
 
         {/*-- Ambassador Program --*/}
-        <AmbassadorSection addReveal={addReveal} navigate={navigate} />
+        <div id="ambassador">
+          <AmbassadorSection addReveal={addReveal} navigate={navigate}/>
+          </div>
+        
+        
 
         {/* ── COMING SOON ── */}
         <section className="coming" id="coming">

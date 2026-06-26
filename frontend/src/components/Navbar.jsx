@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Instagram, Youtube, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import AuthModal from "./AuthModal";
 import ProfileMenu from "./ProfileMenu";
 import "../styles/Home/Navbar.css";
 import { useCart } from "../context/CartContext";
+
+const NAV_LINKS = [
+  { label: "Collection", id: "collection" },
+  { label: "About", id: "about" },
+  { label: "Ambassador", id: "ambassador" },
+  { label: "Coming Soon", id: "coming" },
+  
+];
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -46,15 +54,29 @@ export default function Navbar() {
 
   const closeMenu = () => setMenuOpen(false);
 
+  function scrollToSection(id) {
+    if (location.pathname === "/") {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 350);
+    }
+  }
+
   return (
     <>
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
 
-      <button className={`nav-ham ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
-            <span />
-            <span style={{ opacity: menuOpen ? 0 : 1 }} />  {/* middle bar fades out */}
-            <span />
-          </button>
+      <button
+        className={`nav-ham ${menuOpen ? "open" : ""}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        <span />
+        <span style={{ opacity: menuOpen ? 0 : 1 }} />
+        <span />
+      </button>
 
       <nav className={scrolled ? "scrolled" : ""}>
 
@@ -65,19 +87,27 @@ export default function Navbar() {
               <ArrowLeft size={16} />
             </button>
           )}
-          <a className="nav-logo" onClick={() => navigate("https://kaeorn.com")}>KAEORN</a>
+          <a className="nav-logo" onClick={() => navigate("/")}>KAEORN</a>
         </div>
 
         {/* ── CENTER ── */}
         <div className="nav-center">
-          <a href="#collection">Collection</a>
-          <a href="#about">About</a>
-          <a href="#coming">Coming Soon</a>
+          {NAV_LINKS.map(({ label, id }) => (
+            <a
+              key={id}
+              href={`/#${id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection(id);
+              }}
+            >
+              {label}
+            </a>
+          ))}
         </div>
 
         {/* ── RIGHT ── */}
         <div className="nav-right">
-
           {!isMobile && (
             <>
               <a href="https://www.instagram.com/kaeorn.co/" target="_blank" rel="noreferrer" className="nav-link">
@@ -92,39 +122,41 @@ export default function Navbar() {
             </>
           )}
 
-          
-
           {!user ? (
             <button name="signIn" className="nav-signin" onClick={() => setShowAuth(true)}>
               Sign in
             </button>
           ) : (
-  <>
-    <button
-      className="nav-cart"
-      id="cartBtn"
-      onClick={() => {
-        navigate("/cart");
-      }}
-    >
-      <span>Cart</span>
-      <span className="cart-badge" id="cartBadge">
-        {cartCount}
-      </span>
-    </button>
-
-    <ProfileMenu />
-  </>
-)}
-
+            <>
+              <button
+                className="nav-cart"
+                id="cartBtn"
+                onClick={() => navigate("/cart")}
+              >
+                <span>Cart</span>
+                <span className="cart-badge" id="cartBadge">{cartCount}</span>
+              </button>
+              <ProfileMenu />
+            </>
+          )}
         </div>
       </nav>
 
       {/* ── FULLSCREEN MOBILE MENU ── */}
       <div className={`mob-menu ${menuOpen ? "open" : ""}`}>
-        <a href="#collection" onClick={closeMenu}>Collection</a>
-        <a href="#about" onClick={closeMenu}>About</a>
-        <a href="#coming" onClick={closeMenu}>Coming Soon</a>
+        {NAV_LINKS.map(({ label, id }) => (
+          <a
+            key={id}
+            href={`/#${id}`}
+            onClick={(e) => {
+              e.preventDefault();
+              closeMenu();
+              scrollToSection(id);
+            }}
+          >
+            {label}
+          </a>
+        ))}
         <a href="https://www.instagram.com/kaeorn.co/" target="_blank" rel="noreferrer" onClick={closeMenu}>
           Instagram
         </a>
@@ -132,8 +164,8 @@ export default function Navbar() {
           YouTube
         </a>
         <a href="https://www.facebook.com/people/Kaeorn/61590374977606" target="_blank" rel="noreferrer" onClick={closeMenu}>
-                Facebook
-              </a>
+          Facebook
+        </a>
       </div>
     </>
   );
