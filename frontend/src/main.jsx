@@ -23,6 +23,7 @@ import Support from "./pages/Support";
 import AdminAnalytics from "./pages/AdminAnalytics";
 import Blogs from "./pages/Blogs";
 import BlogPost from "./pages/BlogPost";
+import AmbassadorProgram from "./pages/AmbassadorProgram";
 
 import PerfumeSoftSkin from "./pages/PerfumeSoftSkin";
 import PerfumeMorningVeil from "./pages/PerfumeMorningVeil";
@@ -50,6 +51,8 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminProtected from "./components/AdminProtected";
+
+
 
 import "./index.css";
 
@@ -164,6 +167,9 @@ function AppRoot() {
           <Route path="/perfume/soie-femme-floral-perfume" element={<PerfumeQuietWoods />} />
           <Route path="/perfume/nox" element={<PerfumeNox />} />
           <Route path="/perfume/velion" element={<PerfumeVelion />} />
+
+          {/* AMBASSADOR PROGRAM */}
+          <Route path="/program/ambassador" element={<AmbassadorProgram />} />
 
           {/* ── BLOG ── */}
           <Route path="/blogs" element={<Blogs />} />

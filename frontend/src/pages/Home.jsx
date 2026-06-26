@@ -11,6 +11,7 @@ import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
 import { useCallback } from "react";
 import NewArrivals from "../components/NewArrivals";
+import AmbassadorSection from "../components/AmbassadorSection";
 
 /* ── PRODUCT IMAGES ── */
 const softSkinImg =
@@ -73,7 +74,6 @@ function PerfumeCard({
   const [added, setAdded] = useState(false);
   const cardRef = useRef(null);
 
-
   useEffect(() => {
     if (cardRef.current) addReveal(cardRef.current);
   }, []);
@@ -88,8 +88,6 @@ function PerfumeCard({
     setAdded(success ? "success" : "error");
     setTimeout(() => setAdded(null), 2000);
   }
-
-
 
   return (
     <div
@@ -161,14 +159,14 @@ export default function Home() {
     return () => clearTimeout(t);
   }, []);
 
-    useEffect(() => {
-  const params = new URLSearchParams(window.location.search)
-  const coupon = params.get('coupon')
-  if (coupon) {
-    // save to localStorage so cart picks it up automatically
-    localStorage.setItem('pendingCoupon', coupon.toUpperCase())
-  }
-}, [])
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const coupon = params.get("coupon");
+    if (coupon) {
+      // save to localStorage so cart picks it up automatically
+      localStorage.setItem("pendingCoupon", coupon.toUpperCase());
+    }
+  }, []);
 
   /* ── NOTIFY ME ── */
   function notifyMe(product) {
@@ -461,6 +459,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/*-- Ambassador Program --*/}
+        <AmbassadorSection addReveal={addReveal} navigate={navigate} />
 
         {/* ── COMING SOON ── */}
         <section className="coming" id="coming">
