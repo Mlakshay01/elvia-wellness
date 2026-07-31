@@ -8,7 +8,52 @@ const adminAuth = require("../middleware/adminAuth");
 const queueOrderEmail = require("../utils/emailQueue");
 
 /* =========================================================
+   IMAGE HELPER
+
+   Your Product.images field stores an array of image
+   objects (e.g. { url, secure_url, ... }), not plain
+   strings. This normalizes either shape into a single
+   usable URL string.
+   ========================================================= */
+
+function resolveProductImage(product) {
+  const images = product?.images;
+
+  if (!Array.isArray(images) || images.length === 0) {
+    return "";
+  }
+
+  const firstImage = images[0];
+
+  if (typeof firstImage === "string") {
+    return firstImage;
+  }
+
+  if (firstImage && typeof firstImage === "object") {
+    return (
+      firstImage.url ||
+      firstImage.secure_url ||
+      firstImage.image ||
+      firstImage.src ||
+      ""
+    );
+  }
+
+  return "";
+}
+
+/* =========================================================
    CREATE ORDER
+
+   NOTE ON AMOUNTS:
+   totalAmount / originalAmount are ALWAYS computed here
+   from verified product prices. We no longer fall back to
+   req.body.totalAmount / req.body.originalAmount — trusting
+   a frontend-supplied amount (even as a fallback) means a
+   modified client could pass a custom sale price. If you
+   need coupon-based discounts on this route later, compute
+   the discount server-side the same way checkoutRazorpay.js
+   does, rather than accepting a client-provided total.
    ========================================================= */
 router.post("/", userAuth, async (req, res) => {
   try {
@@ -32,18 +77,40 @@ router.post("/", userAuth, async (req, res) => {
         });
       }
 
+      const quantity = Number(item.quantity);
+
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        return res.status(400).json({
+          message: `Invalid quantity for product: ${item.productId}`,
+        });
+      }
+
+      const price = Number(product.price);
+
+      if (!Number.isFinite(price) || price <= 0) {
+        return res.status(400).json({
+          message: `Invalid price for product: ${product.name}`,
+        });
+      }
+
+      const image = resolveProductImage(product);
+
       validatedItems.push({
         productId: product.productId,
         name: product.name,
-        price: product.price,
-        quantity: item.quantity,
-        image: item.image,
+        price,
+        quantity,
+        image,
       });
     }
 
+    /* ======================================
+       SERVER-COMPUTED TOTAL — SOURCE OF TRUTH
+    ====================================== */
+
     const totalAmount = validatedItems.reduce(
       (sum, i) => sum + i.price * i.quantity,
-      0
+      0,
     );
 
     const userEmail = req.user?.email || null;
@@ -53,8 +120,8 @@ router.post("/", userAuth, async (req, res) => {
       userEmail,
       items: validatedItems,
       address: req.body.address || null,
-      totalAmount: req.body.totalAmount || totalAmount,
-      originalAmount: req.body.originalAmount || totalAmount,
+      totalAmount,
+      originalAmount: totalAmount,
       couponCode: req.body.couponCode || null,
       commissionRecorded: false,
       status: "Pending",
@@ -150,7 +217,10 @@ router.get("/", adminAuth, async (req, res) => {
    ========================================================= */
 router.get("/:id", adminAuth, async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate("user", "email name");
+    const order = await Order.findById(req.params.id).populate(
+      "user",
+      "email name",
+    );
     if (!order) return res.status(404).json({ message: "Order not found" });
 
     res.json({
@@ -169,7 +239,10 @@ router.get("/:id", adminAuth, async (req, res) => {
    ========================================================= */
 router.put("/:id/status", adminAuth, async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate("user", "email name");
+    const order = await Order.findById(req.params.id).populate(
+      "user",
+      "email name",
+    );
     if (!order) return res.status(404).json({ message: "Order not found" });
 
     const previousStatus = order.status;
@@ -207,7 +280,7 @@ router.put("/:id/status", adminAuth, async (req, res) => {
               customerName: order.address?.fullName || "",
               customerEmail: order.userEmail || order.address?.email || "",
             }),
-          }
+          },
         );
 
         const commissionData = await commissionRes.json();
@@ -216,9 +289,14 @@ router.put("/:id/status", adminAuth, async (req, res) => {
           // mark so it never fires twice even if status is toggled
           order.commissionRecorded = true;
           await order.save();
-          console.log(`✅ Commission recorded for order ${order._id} — code ${order.couponCode}`);
+          console.log(
+            `✅ Commission recorded for order ${order._id} — code ${order.couponCode}`,
+          );
         } else {
-          console.error("Commission recording failed:", commissionData.message);
+          console.error(
+            "Commission recording failed:",
+            commissionData.message,
+          );
         }
       } catch (commissionErr) {
         // never block the admin action if influencer portal is down

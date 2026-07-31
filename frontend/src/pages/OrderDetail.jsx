@@ -4,20 +4,16 @@ import OrderTimeline from "../components/OrderTimeline";
 import { useCart } from "../context/CartContext";
 
 const STATUS_COPY = {
-  Pending:
-    "We’ve received your order and are preparing it with care.",
-  Shipped:
-    "Your order has left our facility and is on its way to you.",
-  "Out for Delivery":
-    "Your order is out for delivery and will reach you soon.",
-  Delivered:
-    "Your order has been delivered. We hope you love it.",
+  Pending: "We’ve received your order and are preparing it with care.",
+  Shipped: "Your order has left our facility and is on its way to you.",
+  "Out for Delivery": "Your order is out for delivery and will reach you soon.",
+  Delivered: "Your order has been delivered. We hope you love it.",
 };
 
 export default function OrderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { setCartItems } = useCart();
+  const { setCart } = useCart();
 
   const [order, setOrder] = useState(null);
 
@@ -46,22 +42,18 @@ export default function OrderDetail() {
       image: item.image,
     }));
 
-    setCartItems(items);
+    setCart(items);
     navigate("/cart");
   }
 
   return (
     <div style={styles.page}>
-      <h2 style={styles.heading}>
-        Order #{order._id.slice(-6).toUpperCase()}
-      </h2>
+      <h2 style={styles.heading}>Order #{order._id.slice(-6).toUpperCase()}</h2>
 
       {/* TRACKING HEADER */}
       <div style={styles.trackingCard}>
         <h3 style={styles.statusTitle}>{order.status}</h3>
-        <p style={styles.statusText}>
-          {STATUS_COPY[order.status]}
-        </p>
+        <p style={styles.statusText}>{STATUS_COPY[order.status]}</p>
 
         <p style={styles.eta}>
           Estimated delivery: <b>3–5 business days</b>
@@ -86,8 +78,10 @@ export default function OrderDetail() {
       <div style={styles.card}>
         <h3 style={styles.section}>Delivery Address</h3>
         <p>
-          {order.address.fullName}<br />
-          {order.address.street}<br />
+          {order.address.fullName}
+          <br />
+          {order.address.street}
+          <br />
           {order.address.city}, {order.address.state} –{" "}
           {order.address.postalCode}
         </p>
@@ -99,10 +93,7 @@ export default function OrderDetail() {
           Re-order
         </button>
 
-        <button
-          style={styles.secondaryBtn}
-          onClick={() => navigate("/")}
-        >
+        <button style={styles.secondaryBtn} onClick={() => navigate("/")}>
           Continue Shopping
         </button>
       </div>

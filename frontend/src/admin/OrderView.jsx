@@ -63,20 +63,20 @@ export default function OrderView() {
 
   /* =========================================================
      CUSTOMER INFORMATION
+
+     email + phone + name live inside order.address
+     (confirmed from actual DB documents), so we read
+     them from there directly rather than guessing across
+     multiple possible top-level fields.
   ========================================================= */
 
   const address = order.address || {};
 
-  const customerEmail =
-    order.customerEmail ||
-    order.userEmail ||
-    order.user?.email ||
-    address.email ||
-    "N/A";
-
-  const customerName = address.fullName || order.user?.name || "—";
+  const customerName = address.fullName || "—";
 
   const customerPhone = address.phone || "—";
+
+  const customerEmail = address.email || order.userEmail || "—";
 
   /* =========================================================
      DELIVERY ADDRESS
