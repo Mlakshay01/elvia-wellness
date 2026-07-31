@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 
-const STATUS_FLOW = [
-  "Pending",
-  "Shipped",
-  "Out for Delivery",
-  "Delivered",
-];
+const STATUS_FLOW = ["Pending", "Shipped", "Out for Delivery", "Delivered"];
 
 export default function OrderPage() {
   const { id } = useParams();
@@ -36,7 +31,7 @@ export default function OrderPage() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!res.ok) {
@@ -70,7 +65,7 @@ export default function OrderPage() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ status }),
-        }
+        },
       );
 
       if (!res.ok) {
@@ -101,7 +96,7 @@ export default function OrderPage() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       if (!res.ok) {
@@ -167,18 +162,31 @@ export default function OrderPage() {
         {/* CUSTOMER */}
         <div style={styles.card}>
           <h3 style={styles.subheading}>Customer</h3>
-          <p><b>Name:</b> {address.fullName || "-"}</p>
-          <p><b>Phone:</b> {address.phone || "-"}</p>
-          <p><b>Email:</b> {order.email || "-"}</p>
+          <p>
+            <b>Name:</b> {address.fullName || "-"}
+          </p>
+          <p>
+            <b>Phone:</b> {address.phone || "-"}
+          </p>
+          <p>
+            <b>Email:</b>{" "}
+            {order.customerEmail ||
+              order.userEmail ||
+              order.user?.email ||
+              order.address?.email ||
+              "-"}
+          </p>
         </div>
 
         {/* ADDRESS */}
         <div style={styles.card}>
           <h3 style={styles.subheading}>Delivery Address</h3>
           <p>
-            {address.street || "-"}<br />
+            {address.street || "-"}
+            <br />
             {address.city || "-"}, {address.state || "-"} –{" "}
-            {address.postalCode || "-"}<br />
+            {address.postalCode || "-"}
+            <br />
             {address.country || ""}
           </p>
         </div>
@@ -196,9 +204,7 @@ export default function OrderPage() {
             </div>
           ))}
 
-          <h2 style={styles.total}>
-            Total ₹{order.totalAmount}
-          </h2>
+          <h2 style={styles.total}>Total ₹{order.totalAmount}</h2>
         </div>
 
         {/* DELETE */}

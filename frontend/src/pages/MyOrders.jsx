@@ -28,6 +28,7 @@ export default function MyOrders({ type = "active" }) {
         return res.json();
       })
       .then((data) => {
+         console.log("MY ORDERS API RESPONSE:", data);
         if (!Array.isArray(data)) {
           setOrders([]);
           return;
