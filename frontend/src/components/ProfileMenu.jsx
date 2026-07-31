@@ -15,12 +15,24 @@ export default function ProfileMenu() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Luxury initial (safe fallback)
-  const initial = user?.name?.charAt(0)?.toUpperCase() || "K";
+  /* ---------- INITIALS (or generic icon fallback) ----------
+     If the user has a name, show up to 2 initials
+     (e.g. "Lakshay Malik" -> "LM"). If there's no
+     name on the user object, show a generic person
+     icon instead of guessing a letter.
+  ------------------------------------------------------------ */
+
+  const initials = user?.name
+    ? user.name
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join("")
+    : null;
 
   return (
     <div ref={ref} style={{ position: "relative" }}>
@@ -33,7 +45,23 @@ export default function ProfileMenu() {
         }}
         title="Account"
       >
-        {initial}
+        {initials ? (
+          initials
+        ) : (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        )}
       </div>
 
       {open && (
@@ -92,7 +120,6 @@ export default function ProfileMenu() {
           </button>
 
           <div style={styles.divider} />
-
 
           <button
             style={styles.item}
