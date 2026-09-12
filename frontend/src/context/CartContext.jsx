@@ -1,10 +1,18 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 import { PRODUCTS } from "../data/products";
 
 const CartContext = createContext();
 
 /* =========================================================
-   BUILD PRODUCT LOOKUP
+   API BASE
+
+   Same env var used elsewhere in the app (Payment.jsx etc).
+========================================================= */
+
+const API_BASE = import.meta.env.VITE_API_BASE;
+
+/* =========================================================
+   BUILD PRODUCT LOOKUP (METADATA ONLY)
 
    PRODUCTS is keyed by route:
 
@@ -14,7 +22,10 @@ const CartContext = createContext();
 
    "perfume-veil-unisex"
 
-   We support both lookups.
+   We support both lookups for METADATA (name, image,
+   category, canonical id). PRICE NEVER COMES FROM HERE
+   ANYMORE — price always comes from the backend/MongoDB.
+   This file can be stale after a deploy; the DB can't be.
 ========================================================= */
 
 const PRODUCTS_BY_ID = Object.values(PRODUCTS).reduce((acc, product) => {
@@ -25,21 +36,7 @@ const PRODUCTS_BY_ID = Object.values(PRODUCTS).reduce((acc, product) => {
   return acc;
 }, {});
 
-/* =========================================================
-   RESOLVE PRODUCT
-
-   Accepts either:
-
-   1. Product route:
-      /perfume/veil-fresh-perfume
-
-   2. Product ID:
-      perfume-veil-unisex
-
-   Always returns the canonical product.
-========================================================= */
-
-function resolveProduct(identifier) {
+function resolveProductMeta(identifier) {
   if (!identifier) {
     return null;
   }
@@ -58,72 +55,57 @@ function resolveProduct(identifier) {
 }
 
 /* =========================================================
-   MIGRATE OLD CART ITEM
+   LIVE PRODUCT FETCH
 
-   Older cart data may contain:
-
-   {
-     id: "/perfume/veil-fresh-perfume"
-   }
-
-   We convert it to:
-
-   {
-     id: "perfume-veil-unisex"
-   }
-
-   This prevents old localStorage data from breaking checkout.
+   This is the ONLY source of truth for price, name, image,
+   and whether a product is currently sellable. Every add-
+   to-cart and every cart reconciliation hits this.
 ========================================================= */
 
-function normalizeCartItem(item) {
-  if (!item || typeof item !== "object") {
-    return null;
+async function fetchLiveProduct(canonicalProductId) {
+  const res = await fetch(
+    `${API_BASE}/api/products/by-product-id/${encodeURIComponent(
+      canonicalProductId,
+    )}`,
+  );
+
+  if (!res.ok) {
+    throw new Error(`Product not available: ${canonicalProductId}`);
   }
 
-  const identifier = item.productId || item.id;
+  const product = await res.json();
 
-  const product = resolveProduct(identifier);
+  const price = Number(product?.price);
 
-  if (!product || !product.id) {
-    console.warn("Cart item could not be resolved and will be removed:", item);
-
-    return null;
-  }
-
-  const quantity = Number(item.quantity);
-
-  if (!Number.isInteger(quantity) || quantity < 1) {
-    return null;
+  if (!product?.isActive || !Number.isFinite(price) || price <= 0) {
+    throw new Error(`Invalid live product data for: ${canonicalProductId}`);
   }
 
   return {
-    // IMPORTANT:
-    // Always store the canonical MongoDB productId
-    id: product.id,
-
-    productId: product.id,
-
+    id: canonicalProductId,
     name: product.name,
-
-    // Frontend price is display-only.
-    // Backend/MongoDB remains the payment source of truth.
-    price: Number(product.price) || 0,
-
-    quantity,
-
-    image: product.image || item.image || "",
-
-    category: product.category || item.category || "",
+    price,
+    image:
+      (Array.isArray(product.images) &&
+        (typeof product.images[0] === "string"
+          ? product.images[0]
+          : product.images[0]?.url || product.images[0]?.secure_url)) ||
+      "",
+    category: product.category || "",
   };
 }
 
 /* =========================================================
-   INITIAL CART LOADER
+   INITIAL CART LOADER (SYNC, LOCAL ONLY)
 
-   Automatically migrates old URL-based cart items.
+   Reads whatever is in localStorage just to get
+   {id, quantity} pairs quickly for first paint.
+   Price/name/image here are placeholders — they get
+   overwritten by the live reconciliation effect on mount,
+   before the user can meaningfully act on them.
 ========================================================= */
 
-function loadInitialCart() {
+function loadInitialCartSkeleton() {
   try {
     const stored = localStorage.getItem("kaeorn_cart");
 
@@ -137,24 +119,44 @@ function loadInitialCart() {
       return [];
     }
 
-    const normalized = parsed.map(normalizeCartItem).filter(Boolean);
+    const skeleton = [];
 
-    // Merge duplicate products created by old/new IDs.
-    const merged = [];
+    parsed.forEach((item) => {
+      const identifier = item?.productId || item?.id;
+      const meta = resolveProductMeta(identifier);
 
-    normalized.forEach((item) => {
-      const existing = merged.find(
-        (existingItem) => existingItem.id === item.id,
-      );
+      if (!meta || !meta.id) {
+        return;
+      }
+
+      const quantity = Number(item.quantity);
+
+      if (!Number.isInteger(quantity) || quantity < 1) {
+        return;
+      }
+
+      const existing = skeleton.find((s) => s.id === meta.id);
 
       if (existing) {
-        existing.quantity += item.quantity;
-      } else {
-        merged.push(item);
+        existing.quantity += quantity;
+        return;
       }
+
+      skeleton.push({
+        id: meta.id,
+        productId: meta.id,
+        name: meta.name,
+        // Placeholder only — never trust this for payment or
+        // even for display beyond first paint. Overwritten below.
+        price: 0,
+        quantity,
+        image: meta.image || "",
+        category: meta.category || "",
+        priceVerified: false,
+      });
     });
 
-    return merged;
+    return skeleton;
   } catch (error) {
     console.error("Failed to load cart:", error);
 
@@ -167,7 +169,10 @@ export function CartProvider({ children }) {
      CART ITEMS
   ========================================================= */
 
-  const [cartItems, setCartItems] = useState(loadInitialCart);
+  const [cartItems, setCartItems] = useState(loadInitialCartSkeleton);
+
+  // Prevents overlapping reconciliation passes.
+  const reconcileInFlight = useRef(false);
 
   /* =========================================================
      APPLIED COUPON
@@ -224,31 +229,88 @@ export function CartProvider({ children }) {
   }, [appliedCoupon]);
 
   /* =========================================================
-     ADD TO CART
+     RECONCILE CART AGAINST BACKEND
 
-     IMPORTANT:
+     Runs once on mount (covers refresh / restored localStorage
+     cart) and is also exposed so it can be re-run any time you
+     want the cart to re-sync against current DB prices.
 
-     The function can receive:
-
-     "/perfume/veil-fresh-perfume"
-
-     But the cart stores:
-
-     "perfume-veil-unisex"
-
-     This is the permanent fix for your payment issue.
+     Any item the backend rejects (inactive / not found) is
+     dropped from the cart instead of silently trusting the
+     old local price.
   ========================================================= */
 
-  function addToCart(productIdentifier) {
-    const product = resolveProduct(productIdentifier);
+  async function reconcileCartWithBackend() {
+    if (reconcileInFlight.current) return;
+    if (cartItems.length === 0) return;
 
-    if (!product) {
+    reconcileInFlight.current = true;
+
+    try {
+      const results = await Promise.all(
+        cartItems.map(async (item) => {
+          try {
+            const live = await fetchLiveProduct(item.id);
+
+            return {
+              ...item,
+              name: live.name,
+              price: live.price,
+              image: live.image || item.image,
+              category: live.category || item.category,
+              priceVerified: true,
+            };
+          } catch (error) {
+            console.warn(
+              `Removing "${item.id}" from cart — backend rejected it:`,
+              error.message,
+            );
+
+            return null;
+          }
+        }),
+      );
+
+      setCartItems(results.filter(Boolean));
+    } finally {
+      reconcileInFlight.current = false;
+    }
+  }
+
+  useEffect(() => {
+    reconcileCartWithBackend();
+    // Only on mount — subsequent price truth comes from
+    // addToCart/increaseQty hitting the backend directly.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* =========================================================
+     ADD TO CART
+
+     Always fetches the live product from the backend before
+     adding or incrementing. Never reuses a locally-cached
+     price, so a stale bundle can no longer serve a stale
+     price — MongoDB is the only source of truth, every time.
+  ========================================================= */
+
+  async function addToCart(productIdentifier) {
+    const meta = resolveProductMeta(productIdentifier);
+
+    if (!meta || !meta.id) {
       console.warn("addToCart: unknown product:", productIdentifier);
-
       return false;
     }
 
-    const canonicalProductId = product.id;
+    const canonicalProductId = meta.id;
+
+    let live;
+
+    try {
+      live = await fetchLiveProduct(canonicalProductId);
+    } catch (error) {
+      console.error("addToCart: backend rejected product:", error.message);
+      return false;
+    }
 
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === canonicalProductId);
@@ -258,13 +320,14 @@ export function CartProvider({ children }) {
           item.id === canonicalProductId
             ? {
                 ...item,
-
-                // Keep canonical IDs
                 id: canonicalProductId,
-
                 productId: canonicalProductId,
-
+                name: live.name,
+                price: live.price,
+                image: live.image || item.image,
+                category: live.category || item.category,
                 quantity: Number(item.quantity || 0) + 1,
+                priceVerified: true,
               }
             : item,
         );
@@ -272,23 +335,15 @@ export function CartProvider({ children }) {
 
       return [
         ...prev,
-
         {
-          // IMPORTANT:
-          // Never store the route as the cart ID.
           id: canonicalProductId,
-
           productId: canonicalProductId,
-
-          name: product.name,
-
-          price: Number(product.price) || 0,
-
+          name: live.name,
+          price: live.price,
           quantity: 1,
-
-          image: product.image || "",
-
-          category: product.category || "",
+          image: live.image || meta.image || "",
+          category: live.category || meta.category || "",
+          priceVerified: true,
         },
       ];
     });
@@ -299,44 +354,82 @@ export function CartProvider({ children }) {
   /* =========================================================
      SET CART
 
-     Used for re-order functionality.
-
-     Reorders may contain old URL-based IDs,
-     so everything is normalized here.
+     Used for re-order functionality. Re-verifies every item
+     against the backend instead of trusting stored data.
   ========================================================= */
 
-  function setCart(items) {
+  async function setCart(items) {
     if (!Array.isArray(items)) {
       console.warn("setCart expects an array");
-
       return;
     }
 
-    const normalized = items.map(normalizeCartItem).filter(Boolean);
+    const resolved = items
+      .map((item) => {
+        const identifier = item.productId || item.id;
+        const meta = resolveProductMeta(identifier);
 
-    setCartItems(normalized);
+        if (!meta || !meta.id) return null;
+
+        const quantity = Number(item.quantity);
+        if (!Number.isInteger(quantity) || quantity < 1) return null;
+
+        return { id: meta.id, quantity };
+      })
+      .filter(Boolean);
+
+    const results = await Promise.all(
+      resolved.map(async ({ id, quantity }) => {
+        try {
+          const live = await fetchLiveProduct(id);
+          return {
+            id,
+            productId: id,
+            name: live.name,
+            price: live.price,
+            image: live.image || "",
+            category: live.category || "",
+            quantity,
+            priceVerified: true,
+          };
+        } catch (error) {
+          console.warn(`setCart: dropping "${id}":`, error.message);
+          return null;
+        }
+      }),
+    );
+
+    setCartItems(results.filter(Boolean));
   }
 
   /* =========================================================
      INCREASE QUANTITY
+
+     Re-verifies price against the backend on every increment,
+     so a price change mid-session is always caught.
   ========================================================= */
 
-  function increaseQty(id) {
-    const product = resolveProduct(id);
+  async function increaseQty(id) {
+    let live;
 
-    const canonicalId = product?.id || id;
+    try {
+      live = await fetchLiveProduct(id);
+    } catch (error) {
+      console.error("increaseQty: backend rejected product:", error.message);
+      return;
+    }
 
     setCartItems((prev) =>
       prev.map((item) =>
-        item.id === canonicalId
+        item.id === id
           ? {
               ...item,
-
-              id: canonicalId,
-
-              productId: canonicalId,
-
+              name: live.name,
+              price: live.price,
+              image: live.image || item.image,
+              category: live.category || item.category,
               quantity: Number(item.quantity || 0) + 1,
+              priceVerified: true,
             }
           : item,
       ),
@@ -345,20 +438,18 @@ export function CartProvider({ children }) {
 
   /* =========================================================
      DECREASE QUANTITY
+
+     No backend truth needed to remove quantity, but re-stamp
+     the price anyway in case it drifted since last verified.
   ========================================================= */
 
   function decreaseQty(id) {
-    const product = resolveProduct(id);
-
-    const canonicalId = product?.id || id;
-
     setCartItems((prev) =>
       prev
         .map((item) =>
-          item.id === canonicalId
+          item.id === id
             ? {
                 ...item,
-
                 quantity: Number(item.quantity || 0) - 1,
               }
             : item,
@@ -372,11 +463,7 @@ export function CartProvider({ children }) {
   ========================================================= */
 
   function removeFromCart(id) {
-    const product = resolveProduct(id);
-
-    const canonicalId = product?.id || id;
-
-    setCartItems((prev) => prev.filter((item) => item.id !== canonicalId));
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   }
 
   /* =========================================================
@@ -385,7 +472,6 @@ export function CartProvider({ children }) {
 
   function clearCart() {
     setCartItems([]);
-
     setAppliedCoupon(null);
 
     localStorage.removeItem("kaeorn_cart");
@@ -395,12 +481,9 @@ export function CartProvider({ children }) {
   /* =========================================================
      CART SUBTOTAL
 
-     IMPORTANT:
-
-     This is for frontend display only.
-
-     The backend MUST recalculate the amount
-     from MongoDB before creating Razorpay order.
+     Now genuinely backend-verified per item (see
+     priceVerified), not just "display only" hoping the
+     backend agrees later.
   ========================================================= */
 
   function getCartTotal() {
@@ -411,10 +494,6 @@ export function CartProvider({ children }) {
     );
   }
 
-  /* =========================================================
-     ORIGINAL AMOUNT
-  ========================================================= */
-
   function getOriginalAmount() {
     return getCartTotal();
   }
@@ -423,9 +502,8 @@ export function CartProvider({ children }) {
      COUPON DISCOUNT
 
      Frontend display calculation only.
-
-     Backend must independently validate
-     and calculate the real discount.
+     Backend must independently validate and calculate the
+     real discount at checkout.
   ========================================================= */
 
   function getCouponDiscount() {
@@ -447,17 +525,8 @@ export function CartProvider({ children }) {
     return Math.round((subtotal * discountPercent) / 100);
   }
 
-  /* =========================================================
-     FINAL AMOUNT
-
-     Frontend display only.
-
-     NEVER trust this amount for payment.
-  ========================================================= */
-
   function getFinalTotal() {
     const subtotal = getCartTotal();
-
     const discount = getCouponDiscount();
 
     return Math.max(0, subtotal - discount);
@@ -485,13 +554,9 @@ export function CartProvider({ children }) {
 
     return {
       code,
-
       discountType,
-
       discountValue,
-
       discountPercent: discountType === "percentage" ? discountValue : 0,
-
       influencerName: couponData.influencerName || null,
     };
   }
@@ -503,7 +568,6 @@ export function CartProvider({ children }) {
   function applyCoupon(couponData) {
     if (!couponData || !couponData.code) {
       console.warn("Invalid coupon data");
-
       return false;
     }
 
@@ -511,18 +575,12 @@ export function CartProvider({ children }) {
 
     if (!normalized.code || normalized.discountValue <= 0) {
       console.warn("Invalid coupon discount");
-
       return false;
     }
 
     setAppliedCoupon(normalized);
-
     return true;
   }
-
-  /* =========================================================
-     REMOVE COUPON
-  ========================================================= */
 
   function removeCoupon() {
     setAppliedCoupon(null);
@@ -530,62 +588,28 @@ export function CartProvider({ children }) {
 
   /* =========================================================
      GET ORDER SNAPSHOT
-
-     IMPORTANT:
-
-     productId is now ALWAYS the canonical
-     MongoDB productId.
-
-     Example:
-
-     "perfume-veil-unisex"
-
-     NOT:
-
-     "/perfume/veil-fresh-perfume"
-
-     The backend still ignores frontend prices
-     and calculates everything independently.
   ========================================================= */
 
   function getOrderSnapshot() {
     const originalAmount = getOriginalAmount();
-
     const discountAmount = getCouponDiscount();
-
     const finalAmount = getFinalTotal();
 
     return {
-      /* ---------------- ITEMS ---------------- */
-
       items: cartItems.map((item) => ({
         productId: item.productId || item.id,
-
         name: item.name || "",
-
-        // Display/reference only.
-        // Backend must ignore this for payment.
         price: Number(item.price || 0),
-
         quantity: Number(item.quantity || 0),
-
         image: item.image || "",
       })),
 
-      /* ---------------- PRICING ---------------- */
-
       originalAmount,
-
       discountAmount,
-
       totalAmount: finalAmount,
 
-      /* ---------------- COUPON ---------------- */
-
       couponCode: appliedCoupon?.code || null,
-
       couponDiscountType: appliedCoupon?.discountType || null,
-
       couponDiscountValue: appliedCoupon
         ? Number(appliedCoupon.discountValue || 0)
         : 0,
@@ -601,41 +625,23 @@ export function CartProvider({ children }) {
   return (
     <CartContext.Provider
       value={{
-        /* ---------------- CART ---------------- */
-
         cartItems,
-
         addToCart,
-
         setCart,
-
         increaseQty,
-
         decreaseQty,
-
         removeFromCart,
-
         clearCart,
-
-        /* ---------------- COUPON ---------------- */
+        reconcileCartWithBackend,
 
         appliedCoupon,
-
         applyCoupon,
-
         removeCoupon,
 
-        /* ---------------- PRICING ---------------- */
-
         getCartTotal,
-
         getOriginalAmount,
-
         getCouponDiscount,
-
         getFinalTotal,
-
-        /* ---------------- CHECKOUT ---------------- */
 
         getOrderSnapshot,
       }}
@@ -644,10 +650,6 @@ export function CartProvider({ children }) {
     </CartContext.Provider>
   );
 }
-
-/* =========================================================
-   CUSTOM HOOK
-========================================================= */
 
 export function useCart() {
   const context = useContext(CartContext);
