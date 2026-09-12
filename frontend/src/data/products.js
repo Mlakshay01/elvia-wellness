@@ -11,7 +11,7 @@ export const PRODUCTS = {
   "/perfume/veil-fresh-perfume": {
     id: "perfume-veil-unisex",
     name: "VEIL",
-    price: 10,
+    price: 1399,
     image:
       "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png",
     category: "UNISEX · EAU DE PARFUM",
