@@ -30,6 +30,7 @@ import PerfumeMorningVeil from "./pages/PerfumeMorningVeil";
 import PerfumeQuietWoods from "./pages/PerfumeQuietWoods";
 import PerfumeNox from "./pages/PerfumeNox";
 import PerfumeVelion from "./pages/PerfumeVelion";
+import PerfumeDiscoverySet from "./pages/PerfumeDiscoverySet";
 
 import About from "./components/legal/About";
 import Contact from "./components/legal/Contact";
@@ -168,6 +169,7 @@ function AppRoot() {
           <Route path="/perfume/soie-femme-floral-perfume" element={<PerfumeQuietWoods />} />
           <Route path="/perfume/nox" element={<PerfumeNox />} />
           <Route path="/perfume/velion" element={<PerfumeVelion />} />
+          <Route path="/perfume/discovery-set" element={<PerfumeDiscoverySet />} />
 
           {/* AMBASSADOR PROGRAM */}
           <Route path="/program/ambassador" element={<AmbassadorProgram />} />

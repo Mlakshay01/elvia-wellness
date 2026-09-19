@@ -1,55 +1,50 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
-import SizeSelector from "../components/SizeSelector";
-import { getSizeOptions } from "../data/products";
+import { PRODUCTS } from "../data/products";
 
-/* ── SIZES (30 ml / 100 ml) ── */
-const SIZE_OPTIONS = getSizeOptions("/perfume/soie-femme-floral-perfume");
+/* ── PRODUCT (price/id live in data/products.js) ── */
+const ROUTE = "/perfume/discovery-set";
+const SET = PRODUCTS[ROUTE];
 
-/* ── IMAGES ── */
-const images = [
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775490008/ChatGPT_Image_Apr_6_2026_09_02_53_PM_vcfbtm.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775489995/ChatGPT_Image_Apr_6_2026_09_04_33_PM_zdnnfz.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775490008/ChatGPT_Image_Apr_6_2026_09_04_41_PM_pahxmb.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775489989/ChatGPT_Image_Apr_6_2026_09_07_27_PM_qkmvdz.png",
+/* Cloudinary: web-sized, auto-format copy of an image */
+const web = (url) => url.replace("/upload/", "/upload/f_auto,q_auto,w_900/");
+
+/* ── WHAT'S INSIDE — one 30 ml bottle of each ── */
+const INSIDE = [
+  {
+    name: "THÉ NOIR",
+    route: "/perfume/noir-party-perfume",
+    gender: "MEN",
+    mood: "Fruity · Aromatic · Gourmand",
+    notes: "Apple, Lavender, Tonka Bean",
+  },
+  {
+    name: "VEIL",
+    route: "/perfume/veil-fresh-perfume",
+    gender: "UNISEX",
+    mood: "Citrus · Spicy · Woody",
+    notes: "Bergamot, Pink Pepper, Sandalwood",
+  },
+  {
+    name: "SOIE FEMME",
+    route: "/perfume/soie-femme-floral-perfume",
+    gender: "WOMEN",
+    mood: "Floral · Roasted · Gourmand",
+    notes: "Coffee, Jasmine, Vanilla",
+  },
 ];
+
+/* ── IMAGES — the three bottles ── */
+const images = INSIDE.map((item) => web(PRODUCTS[item.route].image));
 
 const bg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1770667104/763a2a0bb343a5b614a2f890d267a37c_sqezd5.jpg";
+  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1770669629/dc9fb4aaf164ae5f44160471f5eb9a7b_hmhsw6.jpg";
 
-const NOTES = [
-  {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776065610/81af0db4-d647-416d-9862-480f7f001535.png",
-    name: "Coffee",
-    desc: "Addictive depth",
-  },
-  {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776065678/0109617c-4707-40ae-b364-a05abb8a7f6b.png",
-    name: "Jasmine",
-    desc: "Floral elegance",
-  },
-  {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776065745/23e6e599-01f2-4d3b-89ad-37ba7375f429.png",
-    name: "Vanilla",
-    desc: "Soft sensuality",
-  },
-];
-
-const REVIEWS = [
-  { stars: 5, name: "Riya, Delhi", text: "Feels truly premium." },
-  { stars: 5, name: "Aanya, Mumbai", text: "Soft, elegant and addictive." },
-  {
-    stars: 4,
-    name: "Kavya, Bangalore",
-    text: "Perfect everyday luxury scent.",
-  },
-];
-
-/* ── ACCORDION — outside component to avoid recreation on every render ── */
+/* ── ACCORDION ── */
 function Accordion({ title, id, open, setOpen, children }) {
   const isOpen = open === id;
   return (
@@ -66,7 +61,7 @@ function Accordion({ title, id, open, setOpen, children }) {
   );
 }
 
-export default function PerfumeQuietWoods() {
+export default function PerfumeDiscoverySet() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addToCart } = useCart();
@@ -76,11 +71,7 @@ export default function PerfumeQuietWoods() {
   const [visible, setVisible] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
-  const [open, setOpen] = useState("description");
-  const [sizeId, setSizeId] = useState("100ml");
-  const selectedSize =
-    SIZE_OPTIONS.find((o) => o.id === sizeId) ||
-    SIZE_OPTIONS[SIZE_OPTIONS.length - 1];
+  const [open, setOpen] = useState("inside");
 
   const galleryRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -103,18 +94,15 @@ export default function PerfumeQuietWoods() {
     return () => obs.disconnect();
   }, []);
 
-  const price = selectedSize.price;
-  const originalPrice = price;
-  const discountPercent = Math.round(
-    ((originalPrice - price) / originalPrice) * 100,
-  );
+  const price = SET.price;
+  const priceLabel = `₹${price.toLocaleString("en-IN")}`;
 
   function handleOrderNow() {
     if (!user) {
       setAuthType("login");
       return;
     }
-    addToCart(selectedSize.route);
+    addToCart(ROUTE);
     navigate("/cart");
   }
 
@@ -123,43 +111,37 @@ export default function PerfumeQuietWoods() {
       setAuthType("login");
       return;
     }
-    addToCart(selectedSize.route);
+    addToCart(ROUTE);
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   }
 
   function scrollToDesc() {
     descRef.current?.scrollIntoView({ behavior: "smooth" });
-    setOpen("description");
+    setOpen("inside");
   }
 
   return (
     <>
       <Helmet>
-        <title>Soie Femme — Women's Eau de Parfum | KAEORN</title>
+        <title>Discovery Set — 3 × 30 ml Eau de Parfum | KAEORN</title>
         <meta
           name="description"
-          content="Soie Femme by Kaeorn — a luminous feminine Eau de Parfum with notes of Coffee, Jasmine, and Vanilla. Quiet luxury, made in India. ₹1,399."
+          content={`The KAEORN Discovery Set — three 30 ml Eau de Parfum bottles: THÉ NOIR, VEIL and SOIE FEMME. Find your signature scent or gift the complete collection. ${priceLabel} — Made in India.`}
         />
-        <link
-          rel="canonical"
-          href="https://kaeorn.com/perfume/soie-femme-floral-perfume"
-        />
+        <link rel="canonical" href="https://kaeorn.com/perfume/discovery-set" />
         <meta
           property="og:title"
-          content="Soie Femme — Women's Eau de Parfum | KAEORN"
+          content="Discovery Set — 3 × 30 ml Eau de Parfum | KAEORN"
         />
         <meta
           property="og:description"
-          content="A luminous feminine fragrance with Coffee, Jasmine & Vanilla. Soft, intimate, unforgettable. ₹1,399 — Made in India."
+          content={`Three 30 ml bottles — THÉ NOIR, VEIL & SOIE FEMME. ${priceLabel} — Made in India.`}
         />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775490008/ChatGPT_Image_Apr_6_2026_09_02_53_PM_vcfbtm.png"
-        />
+        <meta property="og:image" content={images[0]} />
         <meta
           property="og:url"
-          content="https://kaeorn.com/perfume/soie-femme-floral-perfume"
+          content="https://kaeorn.com/perfume/discovery-set"
         />
         <meta property="og:type" content="product" />
       </Helmet>
@@ -196,7 +178,7 @@ export default function PerfumeQuietWoods() {
               <div key={i} style={styles.imageSlide}>
                 <img
                   src={img}
-                  alt={`SOIE FEMME Eau de Parfum by KAEORN — view ${i + 1}`}
+                  alt={`KAEORN Discovery Set — ${INSIDE[i].name} 30 ml Eau de Parfum`}
                   style={styles.galleryImage}
                 />
               </div>
@@ -254,34 +236,24 @@ export default function PerfumeQuietWoods() {
         >
           <div style={styles.overlay} />
           <div style={styles.inner}>
-            <p style={styles.category}>WOMEN · EAU DE PARFUM</p>
-            <h1 style={styles.productTitle}>SOIE FEMME</h1>
-            <span style={styles.volume}>{selectedSize.label}</span>
+            <p style={styles.category}>COLLECTION · EAU DE PARFUM</p>
+            <h1 style={styles.productTitle}>DISCOVERY SET</h1>
+            <span style={styles.volume}>3 × 30 ml</span>
             <span style={styles.volume}>Longevity: 8-10hrs</span>
-            <span>25% Natural Oils Concentration</span>
+            <span>25–30% Natural Oils Concentration</span>
             <br />
             <button style={styles.readMore} onClick={scrollToDesc}>
-              Read more about this fragrance
+              See what's inside
             </button>
 
-            {/* <div style={styles.saleBadge}>RELEASE SALE</div> */}
-
-            <SizeSelector
-              options={SIZE_OPTIONS}
-              value={sizeId}
-              onChange={setSizeId}
-            />
-
             <div style={styles.priceWrap}>
-              <span style={styles.price}>₹{price}</span>
-              {/* <span style={styles.originalPrice}>₹{originalPrice}</span>
-              <span style={styles.discount}>{discountPercent}% OFF</span> */}
+              <span style={styles.price}>{priceLabel}</span>
             </div>
 
             <p style={styles.subtitle}>
-              Femininity without force. Soie Femme is a luminous, skin-close
-              scent — smooth and soft, with a warmth that lingers long after
-              you've left.
+              Three signatures, three moods. One 30 ml bottle each of THÉ NOIR,
+              VEIL and SOIE FEMME — spend time with every one, then keep the
+              scent that feels like you. Or give the whole collection as a gift.
             </p>
 
             <div style={styles.ctaRow}>
@@ -302,53 +274,45 @@ export default function PerfumeQuietWoods() {
             {/* ── ACCORDIONS ── */}
             <div ref={descRef} style={styles.accordionWrap}>
               <Accordion
-                title="DESCRIPTION"
-                id="description"
+                title="WHAT'S INSIDE"
+                id="inside"
                 open={open}
                 setOpen={setOpen}
               >
-                Soie Femme opens with a luminous, quietly radiant softness. It
-                doesn't project — it draws people in. Coffee adds an unexpected
-                depth, Jasmine brings a refined floral elegance, and Vanilla
-                settles everything into a warm, creamy finish that feels like a
-                second skin. This is a fragrance for women who carry themselves
-                with ease. Not loud. Not trying. Just present.
-              </Accordion>
-
-              <Accordion
-                title="HOW IT MAKES YOU FEEL"
-                id="feel"
-                open={open}
-                setOpen={setOpen}
-              >
-                Calm, feminine, and quietly powerful. Soie Femme doesn't demand
-                to be noticed — it earns it. The feeling is soft confidence:
-                like wearing something beautiful that no one else can quite
-                place. Comforting, grounding, and deeply personal.
-              </Accordion>
-
-              <Accordion title="NOTES" id="notes" open={open} setOpen={setOpen}>
-                <div style={styles.notesWrap}>
-                  {NOTES.map((n) => (
-                    <div key={n.name} style={styles.noteItem}>
-                      <img src={n.src} alt={n.name} style={styles.noteImage} />
-                      <div style={styles.noteTitle}>{n.name}</div>
-                      <div style={styles.noteDesc}>{n.desc}</div>
+                <div style={styles.insideList}>
+                  {INSIDE.map((item) => (
+                    <div key={item.name} style={styles.insideItem}>
+                      <div style={styles.insideHead}>
+                        <span style={styles.insideName}>{item.name}</span>
+                        <span style={styles.insideTag}>
+                          {item.gender} · 30 ml
+                        </span>
+                      </div>
+                      <p style={styles.insideMood}>{item.mood}</p>
+                      <p style={styles.insideNotes}>{item.notes}</p>
+                      <button
+                        style={styles.insideLink}
+                        onClick={() => navigate(item.route)}
+                      >
+                        View this fragrance →
+                      </button>
                     </div>
                   ))}
                 </div>
               </Accordion>
 
               <Accordion
-                title="PERFORMANCE"
-                id="performance"
+                title="DESCRIPTION"
+                id="description"
                 open={open}
                 setOpen={setOpen}
               >
-                Soie Femme is an Eau de Parfum built for intimate presence. On
-                skin, it lasts 8–10 hours with a gentle, evolving sillage. Close
-                enough to be noticed by those near you — never overpowering a
-                room.
+                The Discovery Set brings all three KAEORN Eau de Parfum
+                signatures together in 30 ml bottles — the woody, aromatic THÉ
+                NOIR, the clean, airy VEIL and the luminous, gourmand SOIE
+                FEMME. It's the easiest way to find the scent that suits your
+                skin, your mood and your day, before choosing a full 100 ml
+                bottle.
               </Accordion>
 
               <Accordion
@@ -357,30 +321,11 @@ export default function PerfumeQuietWoods() {
                 open={open}
                 setOpen={setOpen}
               >
-                Apply 2–4 sprays on clean, moisturized skin. Focus on pulse
-                points — sides of the neck, wrists, behind the ears, and
-                collarbone. Don't rub after spraying. Let it breathe and settle
-                naturally with your body heat.
-              </Accordion>
-
-              <Accordion
-                title="REVIEWS"
-                id="reviews"
-                open={open}
-                setOpen={setOpen}
-              >
-                <div style={styles.reviewsWrap}>
-                  {REVIEWS.map((r, i) => (
-                    <div key={i} style={styles.reviewItem}>
-                      <div style={styles.reviewStars}>
-                        {"★".repeat(r.stars)}
-                        {"☆".repeat(5 - r.stars)}
-                      </div>
-                      <p style={styles.reviewText}>"{r.text}"</p>
-                      <span style={styles.reviewName}>— {r.name}</span>
-                    </div>
-                  ))}
-                </div>
+                Apply to clean, moisturized skin — 2 to 4 sprays is enough.
+                Pulse points work best: sides of the neck, wrists, behind the
+                ears, collarbone. Don't rub after spraying. Let it settle and
+                develop with your body heat for the smoothest, longest-lasting
+                result.
               </Accordion>
 
               <Accordion
@@ -424,12 +369,27 @@ const styles = {
   },
 
   // ADD these four:
+  // UPDATE galleryWrap:
   galleryWrap: {
     flex: 1,
     minWidth: 320,
     position: "relative",
     borderRadius: 26,
     overflow: "hidden",
+    aspectRatio: "3 / 4", // ← add this
+  },
+
+  // ADD these two:
+  imageSlide: {
+    minWidth: "100%",
+    scrollSnapAlign: "center",
+  },
+  galleryImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    borderRadius: 26,
+    display: "block",
   },
   navBtn: {
     position: "absolute",
@@ -470,18 +430,6 @@ const styles = {
     position: "relative",
     overflow: "hidden",
   },
-  // ADD these two to your styles object:
-  imageSlide: {
-    minWidth: "100%",
-    scrollSnapAlign: "center",
-  },
-  galleryImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    borderRadius: 26,
-    display: "block",
-  },
   overlay: {
     position: "absolute",
     inset: 0,
@@ -508,16 +456,6 @@ const styles = {
     padding: 0,
     color: "#555",
   },
-  saleBadge: {
-    display: "inline-block",
-    padding: "6px 14px",
-    borderRadius: 999,
-    background: "#111",
-    color: "#fff",
-    fontSize: 11,
-    letterSpacing: 2,
-    marginBottom: 14,
-  },
   priceWrap: {
     display: "flex",
     gap: 12,
@@ -541,8 +479,8 @@ const styles = {
   addToCartBtn: {
     padding: "16px 34px",
     borderRadius: 50,
-    background: "transparent",
     border: "1px solid #111",
+    background: "transparent",
     cursor: "pointer",
     fontSize: 14,
   },
@@ -566,29 +504,19 @@ const styles = {
   notesWrap: {
     display: "flex",
     justifyContent: "space-between",
-    gap: 28,
-    marginTop: 8,
+    gap: 30,
+    marginTop: 10,
     flexWrap: "wrap",
   },
   noteItem: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    minWidth: 90,
     gap: 6,
+    minWidth: 90,
   },
-  noteImage: {
-    width: 42,
-    height: 42,
-    objectFit: "contain",
-    marginBottom: 6,
-  },
-  noteTitle: {
-    fontSize: 14,
-    letterSpacing: 1.2,
-    fontWeight: 500,
-    textAlign: "center",
-  },
+  noteImage: { width: 42, height: 42, objectFit: "contain", marginBottom: 6 },
+  noteTitle: { fontSize: 14, letterSpacing: 1.2, fontWeight: 500 },
   noteDesc: {
     fontSize: 12.5,
     color: "#777",
@@ -622,5 +550,40 @@ const styles = {
     fontSize: 12,
     color: "#999",
     letterSpacing: 1,
+  },
+  insideList: { display: "flex", flexDirection: "column", gap: 22 },
+  insideItem: {
+    borderLeft: "2px solid #eee",
+    paddingLeft: 14,
+  },
+  insideHead: {
+    display: "flex",
+    alignItems: "baseline",
+    gap: 12,
+    flexWrap: "wrap",
+    marginBottom: 4,
+  },
+  insideName: {
+    fontSize: 15,
+    letterSpacing: 1.6,
+    fontWeight: 500,
+    color: "#111",
+  },
+  insideTag: { fontSize: 11, letterSpacing: 2, color: "#9a9089" },
+  insideMood: { fontSize: 14, color: "#555", margin: "0 0 2px" },
+  insideNotes: {
+    fontSize: 13.5,
+    color: "#777",
+    fontStyle: "italic",
+    margin: "0 0 6px",
+  },
+  insideLink: {
+    border: "none",
+    background: "transparent",
+    padding: 0,
+    fontSize: 13,
+    color: "#555",
+    textDecoration: "underline",
+    cursor: "pointer",
   },
 };

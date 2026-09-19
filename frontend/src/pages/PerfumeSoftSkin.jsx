@@ -4,6 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
+import SizeSelector from "../components/SizeSelector";
+import { getSizeOptions } from "../data/products";
+
+/* ── SIZES (30 ml / 100 ml) ── */
+const SIZE_OPTIONS = getSizeOptions("/perfume/noir-party-perfume");
 
 /* ── IMAGES ── */
 const galleryImages = [
@@ -70,6 +75,10 @@ export default function PerfumeSoftSkin() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("description");
+  const [sizeId, setSizeId] = useState("100ml");
+  const selectedSize =
+    SIZE_OPTIONS.find((o) => o.id === sizeId) ||
+    SIZE_OPTIONS[SIZE_OPTIONS.length - 1];
 
   const galleryRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -83,8 +92,8 @@ export default function PerfumeSoftSkin() {
     });
   }
 
-  const originalPrice = 1399;
-  const price = 1399;
+  const price = selectedSize.price;
+  const originalPrice = price;
   const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
 
   useEffect(() => {
@@ -98,13 +107,13 @@ export default function PerfumeSoftSkin() {
 
   function handleOrderNow() {
     if (!user) return setAuthType("login");
-    addToCart("/perfume/noir-party-perfume");
+    addToCart(selectedSize.route);
     navigate("/cart");
   }
 
   function handleAddToCart() {
     if (!user) return setAuthType("login");
-    addToCart("/perfume/noir-party-perfume");
+    addToCart(selectedSize.route);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   }
@@ -238,7 +247,7 @@ export default function PerfumeSoftSkin() {
           <div style={styles.content}>
             <p style={styles.category}>MEN · EAU DE PARFUM</p>
             <h1 style={styles.title}>THÉ NOIR</h1>
-            <span style={styles.volume}>100 ml</span>
+            <span style={styles.volume}>{selectedSize.label}</span>
             <span style={styles.volume}>Longevity: 8-10hrs</span>
             <span>25% Natural Oils Concentration</span>
             <br />
@@ -248,6 +257,12 @@ export default function PerfumeSoftSkin() {
             </button>
 
             {/* <div style={styles.sale}>LAUNCH SALE</div> */}
+
+            <SizeSelector
+              options={SIZE_OPTIONS}
+              value={sizeId}
+              onChange={setSizeId}
+            />
 
             <div style={styles.priceRow}>
               <span style={styles.price}>₹{price}</span>
