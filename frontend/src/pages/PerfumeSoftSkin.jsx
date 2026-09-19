@@ -19,7 +19,7 @@ const galleryImages = [
 ];
 
 const backgroundImg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1770656016/be80b78fdc3c377d99bfa27e2cb6713f_oae83q.jpg";
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789842992/noir_bg_roozxy.jpg";
 
 const NOTES = [
   {
@@ -470,7 +470,7 @@ const styles = {
   overlay: {
     position: "absolute",
     inset: 0,
-    background: "rgba(255,255,255,0.82)",
+    background: "rgba(255,255,255,0.5)",
   },
   content: { position: "relative", padding: "42px" },
   category: { fontSize: 12, letterSpacing: 2.5, color: "#888" },
