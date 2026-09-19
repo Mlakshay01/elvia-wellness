@@ -28,7 +28,7 @@ export default function MyOrders({ type = "active" }) {
         return res.json();
       })
       .then((data) => {
-         console.log("MY ORDERS API RESPONSE:", data);
+        console.log("MY ORDERS API RESPONSE:", data);
         if (!Array.isArray(data)) {
           setOrders([]);
           return;
@@ -145,7 +145,7 @@ const styles = {
     borderRadius: 16,
     border: "1px solid #eee",
     marginBottom: 16,
-    cursor: "pointer",
+    cursor: "none",
     transition: "all 0.2s ease",
     backgroundColor: "#fff",
   },

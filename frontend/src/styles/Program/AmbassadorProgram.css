@@ -514,7 +514,7 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   padding: 0.9rem 2.25rem;
-  cursor: pointer;
+  cursor: none;
   transition: background 0.2s, color 0.2s;
   border-radius: 0;
   line-height: 1;
@@ -560,7 +560,7 @@
   font-family: 'DM Mono', monospace;
   font-size: 0.75rem;
   color: var(--muted);
-  cursor: pointer;
+  cursor: none;
   padding: 0.25rem;
   line-height: 1;
 }

@@ -34,15 +34,11 @@ export default function AddressBook() {
           key={i}
           style={{
             ...styles.card,
-            border: a.isDefault
-              ? "2px solid #111"
-              : "1px solid #EAEAEA",
+            border: a.isDefault ? "2px solid #111" : "1px solid #EAEAEA",
           }}
         >
           <div style={styles.cardTop}>
-            {a.isDefault && (
-              <span style={styles.defaultBadge}>DEFAULT</span>
-            )}
+            {a.isDefault && <span style={styles.defaultBadge}>DEFAULT</span>}
             <div style={styles.actions}>
               <span
                 style={styles.actionBtn}
@@ -130,12 +126,12 @@ const styles = {
   actionBtn: {
     fontSize: "12px",
     color: "#111",
-    cursor: "pointer",
+    cursor: "none",
   },
   deleteBtn: {
     fontSize: "12px",
     color: "#B00020",
-    cursor: "pointer",
+    cursor: "none",
   },
   name: {
     fontSize: "16px",
@@ -157,6 +153,6 @@ const styles = {
     color: "#fff",
     fontSize: "15px",
     fontWeight: 500,
-    cursor: "pointer",
+    cursor: "none",
   },
 };

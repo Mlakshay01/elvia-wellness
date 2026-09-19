@@ -89,7 +89,11 @@ export default function Checkout() {
           onChange={(e) => setForm({ ...form, pincode: e.target.value })}
         />
 
-        <button name="continue-to-payment" onClick={handleContinue} style={styles.button}>
+        <button
+          name="continue-to-payment"
+          onClick={handleContinue}
+          style={styles.button}
+        >
           Continue to Secure Payment
         </button>
       </div>
@@ -120,7 +124,7 @@ const styles = {
     border: "none",
     background: "#111",
     color: "#fff",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: "15px",
   },
 };

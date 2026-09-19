@@ -401,7 +401,7 @@ const styles = {
     borderRadius: "50%",
     background: "rgba(255,255,255,0.85)",
     border: "0.5px solid rgba(0,0,0,0.1)",
-    cursor: "pointer",
+    cursor: "none",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -418,7 +418,7 @@ const styles = {
   dot: {
     height: 6,
     borderRadius: 3,
-    cursor: "pointer",
+    cursor: "none",
     transition: "all 0.3s ease",
   },
   detailsColumn: {
@@ -450,7 +450,7 @@ const styles = {
     border: "none",
     background: "transparent",
     fontSize: 13,
-    cursor: "pointer",
+    cursor: "none",
     textDecoration: "underline",
     marginBottom: 12,
     padding: 0,
@@ -473,7 +473,7 @@ const styles = {
     background: "#111",
     color: "#fff",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   addToCartBtn: {
@@ -481,7 +481,7 @@ const styles = {
     borderRadius: 50,
     border: "1px solid #111",
     background: "transparent",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   addedBtn: { background: "#111", color: "#fff" },
@@ -490,7 +490,7 @@ const styles = {
   accordionHeader: {
     display: "flex",
     justifyContent: "space-between",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 13,
     letterSpacing: 2,
     fontWeight: 500,
@@ -584,6 +584,6 @@ const styles = {
     fontSize: 13,
     color: "#555",
     textDecoration: "underline",
-    cursor: "pointer",
+    cursor: "none",
   },
 };

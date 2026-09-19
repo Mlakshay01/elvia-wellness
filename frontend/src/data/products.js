@@ -14,7 +14,7 @@ export const PRODUCTS = {
     name: "THÉ NOIR",
     price: 1399,
     image:
-      "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775275614/ChatGPT_Image_Apr_4_2026_09_35_50_AM_pkb6za.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/Untitled_2_tv5rbj.png",
     category: "MEN · EAU DE PARFUM",
     size: "100 ml",
   },
@@ -24,7 +24,7 @@ export const PRODUCTS = {
     name: "THÉ NOIR (30 ml)",
     price: PRICE_30ML,
     image:
-      "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775275614/ChatGPT_Image_Apr_4_2026_09_35_50_AM_pkb6za.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/Untitled_2_tv5rbj.png",
     category: "MEN · EAU DE PARFUM",
     size: "30 ml",
   },
@@ -34,7 +34,7 @@ export const PRODUCTS = {
     name: "VEIL",
     price: 1399,
     image:
-      "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png",
     category: "UNISEX · EAU DE PARFUM",
     size: "100 ml",
   },
@@ -44,7 +44,7 @@ export const PRODUCTS = {
     name: "VEIL (30 ml)",
     price: PRICE_30ML,
     image:
-      "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png",
     category: "UNISEX · EAU DE PARFUM",
     size: "30 ml",
   },
@@ -54,7 +54,7 @@ export const PRODUCTS = {
     name: "SOIE FEMME",
     price: 1399,
     image:
-      "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775490015/ChatGPT_Image_Apr_6_2026_09_09_54_PM_olzzof.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png",
     category: "WOMEN · EAU DE PARFUM",
     size: "100 ml",
   },
@@ -64,7 +64,7 @@ export const PRODUCTS = {
     name: "SOIE FEMME (30 ml)",
     price: PRICE_30ML,
     image:
-      "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775490015/ChatGPT_Image_Apr_6_2026_09_09_54_PM_olzzof.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png",
     category: "WOMEN · EAU DE PARFUM",
     size: "30 ml",
   },

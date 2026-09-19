@@ -255,7 +255,7 @@
   text-decoration: none;
   letter-spacing: 0.01em;
   border: none;
-  cursor: pointer;
+  cursor: none;
   transition: background-color 0.25s ease, transform 0.2s ease,
     box-shadow 0.25s ease;
   box-shadow: 0 4px 14px rgba(198, 161, 91, 0.28);

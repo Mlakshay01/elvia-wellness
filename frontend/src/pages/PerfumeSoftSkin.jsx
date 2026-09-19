@@ -12,10 +12,10 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/noir-party-perfume");
 
 /* ── IMAGES ── */
 const galleryImages = [
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775277347/ChatGPT_Image_Apr_4_2026_10_05_23_AM_heqntp.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775277087/ChatGPT_Image_Apr_4_2026_10_00_20_AM_di0hwz.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775276759/ChatGPT_Image_Apr_4_2026_09_46_24_AM_sps175.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775279065/ChatGPT_Image_Apr_4_2026_10_33_48_AM_rgmzrl.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834772/copy_of_untitled_2_tv5rbj.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834177/83cc75e6-d111-423b-9e60-ba509e9a2edb_yrklsy.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839262/IMG_20260919_230228_tn6icp.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839251/IMG_20260919_230114_bcq8xv.png",
 ];
 
 const backgroundImg =
@@ -431,7 +431,7 @@ const styles = {
     borderRadius: "50%",
     background: "rgba(255,255,255,0.85)",
     border: "0.5px solid rgba(0,0,0,0.1)",
-    cursor: "pointer",
+    cursor: "none",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -448,7 +448,7 @@ const styles = {
   dot: {
     height: 6,
     borderRadius: 3,
-    cursor: "pointer",
+    cursor: "none",
     transition: "all 0.3s ease",
   },
   imageSlide: { minWidth: "100%", scrollSnapAlign: "center" },
@@ -487,7 +487,7 @@ const styles = {
     border: "none",
     background: "transparent",
     fontSize: 13,
-    cursor: "pointer",
+    cursor: "none",
     textDecoration: "underline",
     marginBottom: 12,
     padding: 0,
@@ -520,7 +520,7 @@ const styles = {
     background: "#111",
     color: "#fff",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   cart: {
@@ -528,7 +528,7 @@ const styles = {
     borderRadius: 50,
     border: "1px solid #111",
     background: "transparent",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   added: { background: "#111", color: "#fff" },
@@ -537,7 +537,7 @@ const styles = {
   accHead: {
     display: "flex",
     justifyContent: "space-between",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 13,
     letterSpacing: 2,
     fontWeight: 500,

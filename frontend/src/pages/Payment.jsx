@@ -721,7 +721,7 @@ const styles = {
     fontSize: "12px",
     color: INK,
     textDecoration: "underline",
-    cursor: "pointer",
+    cursor: "none",
   },
 
   addressName: {
@@ -836,7 +836,7 @@ const styles = {
     border: "none",
     background: INK,
     color: "#fff",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: "15px",
     letterSpacing: "0.02em",
     marginTop: "8px",

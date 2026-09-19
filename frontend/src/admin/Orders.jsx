@@ -17,14 +17,11 @@ export default function Orders() {
           return;
         }
 
-        const res = await fetch(
-          `${import.meta.env.VITE_API_BASE}/api/orders`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await fetch(`${import.meta.env.VITE_API_BASE}/api/orders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!res.ok) {
           const err = await res.json();
@@ -52,9 +49,7 @@ export default function Orders() {
     <div style={styles.page}>
       <h1 style={styles.heading}>Orders</h1>
 
-      {orders.length === 0 && (
-        <p style={styles.empty}>No orders found</p>
-      )}
+      {orders.length === 0 && <p style={styles.empty}>No orders found</p>}
 
       {orders.map((order) => (
         <div
@@ -108,7 +103,7 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    cursor: "pointer",
+    cursor: "none",
     transition: "all 0.2s ease",
   },
 

@@ -20,7 +20,7 @@ export default function AdminLogin() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
-        }
+        },
       );
 
       const data = await res.json(); // ✅ FIXED
@@ -123,7 +123,7 @@ const styles = {
     border: "none",
     background: "#111",
     color: "#fff",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: "15px",
     marginTop: "10px",
   },

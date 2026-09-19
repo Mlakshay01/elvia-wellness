@@ -40,6 +40,6 @@ const styles = {
     border: "none",
     background: "#111",
     color: "#fff",
-    cursor: "pointer",
+    cursor: "none",
   },
 };

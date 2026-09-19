@@ -262,7 +262,7 @@ const styles = {
     border: "1px solid #fff",
     background: "transparent",
     color: "#fff",
-    cursor: "pointer",
+    cursor: "none",
   },
   statusActive: {
     background: "#fff",
@@ -286,6 +286,6 @@ const styles = {
     border: "none",
     padding: "14px 24px",
     borderRadius: "12px",
-    cursor: "pointer",
+    cursor: "none",
   },
 };

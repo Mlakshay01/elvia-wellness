@@ -28,7 +28,7 @@ footer {
   display: block; font-size: .85rem;
   color: rgba(247,244,240,.65); text-decoration: none;
   margin-bottom: .6rem; transition: color .2s;
-  cursor: pointer;
+  cursor: none;
 }
 .footer-col .link:hover, .footer-col a:hover { color: var(--paper); }
 .footer-bottom {
@@ -37,7 +37,7 @@ footer {
 .footer-copy { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .1em; color: rgba(247,244,240,.54); }
 .footer-social { display: flex; gap: 1.5rem; }
 .footer-social .link, .footer-social a { font-family: 'DM Mono', monospace; font-size: .6rem; letter-spacing: .1em; color: rgba(247, 244, 240, 0.54); text-decoration: none; transition: color .2s; }
-.footer-social .link:hover, .footer-social a:hover { color: var(--paper); cursor: "pointer";}
+.footer-social .link:hover, .footer-social a:hover { color: var(--paper); cursor: "none";}
 
 
 @media(max-width:500px){

@@ -31,8 +31,8 @@ export default function OrderSuccess() {
       <p style={styles.text}>
         Thank you for choosing KAEORN.
         <br />
-        Your order has been placed successfully and is now being prepared
-        with care.
+        Your order has been placed successfully and is now being prepared with
+        care.
       </p>
 
       {/* INFO CARD */}
@@ -49,10 +49,7 @@ export default function OrderSuccess() {
       </div>
 
       {/* ACTION */}
-      <button
-        style={styles.button}
-        onClick={() => navigate("/")}
-      >
+      <button style={styles.button} onClick={() => navigate("/")}>
         Continue Shopping
       </button>
     </main>
@@ -130,7 +127,7 @@ const styles = {
     background: "#111",
     color: "#fff",
     fontSize: "15px",
-    cursor: "pointer",
+    cursor: "none",
     letterSpacing: "0.4px",
   },
 };

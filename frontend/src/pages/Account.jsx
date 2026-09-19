@@ -85,14 +85,14 @@ const styles = {
     border: "1px solid #111",
     padding: "14px 18px",
     borderRadius: 30,
-    cursor: "pointer",
+    cursor: "none",
     textAlign: "left",
   },
   logoutBtn: {
     background: "none",
     border: "none",
     color: "#b00020",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
 };

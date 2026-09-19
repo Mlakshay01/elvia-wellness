@@ -12,7 +12,10 @@ export default function Blogs() {
   useEffect(() => {
     fetch(`${API}/api/blogs`)
       .then((r) => r.json())
-      .then((data) => { setBlogs(data); setLoading(false); })
+      .then((data) => {
+        setBlogs(data);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, []);
 
@@ -26,7 +29,10 @@ export default function Blogs() {
         />
         <link rel="canonical" href="https://kaeorn.com/blogs" />
         <meta property="og:title" content="Journal | KAEORN" />
-        <meta property="og:description" content="Stories and insights from the world of Kaeorn." />
+        <meta
+          property="og:description"
+          content="Stories and insights from the world of Kaeorn."
+        />
         <meta property="og:url" content="https://kaeorn.com/blogs" />
         <meta property="og:type" content="website" />
       </Helmet>
@@ -45,7 +51,7 @@ export default function Blogs() {
         )}
 
         {/* ── EMPTY STATE ── */}
-        {!loading && blogs.length === 0 &&(
+        {!loading && blogs.length === 0 && (
           <div style={s.emptyWrap}>
             <p style={s.emptyText}>The journal is quiet for now.</p>
             <p style={s.emptySubtext}>New stories are on their way.</p>
@@ -60,21 +66,23 @@ export default function Blogs() {
                 key={blog._id}
                 style={s.card}
                 onClick={() => navigate(`/blogs/${blog.slug}`)}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-4px)")}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "translateY(-4px)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "translateY(0)")
+                }
               >
                 {blog.coverImage && (
-                  <img
-                    src={blog.coverImage}
-                    alt={blog.title}
-                    style={s.img}
-                  />
+                  <img src={blog.coverImage} alt={blog.title} style={s.img} />
                 )}
                 <div style={s.cardBody}>
                   {blog.tags?.length > 0 && (
                     <div style={s.tags}>
                       {blog.tags.map((t) => (
-                        <span key={t} style={s.tag}>{t}</span>
+                        <span key={t} style={s.tag}>
+                          {t}
+                        </span>
                       ))}
                     </div>
                   )}
@@ -160,7 +168,7 @@ const s = {
     borderRadius: 16,
     border: "1px solid #eee",
     overflow: "hidden",
-    cursor: "pointer",
+    cursor: "none",
     transition: "transform .25s ease, box-shadow .25s ease",
   },
   img: { width: "100%", height: 220, objectFit: "cover", display: "block" },

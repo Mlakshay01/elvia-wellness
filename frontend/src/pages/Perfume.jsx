@@ -229,7 +229,7 @@
 //   }),
 
 //   card: {
-//     cursor: "pointer",
+//     cursor: "none",
 //     textAlign: "center",
 //   },
 

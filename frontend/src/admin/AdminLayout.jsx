@@ -22,7 +22,9 @@ export default function AdminLayout({ children }) {
 
       <main style={styles.main}>
         <div className="admin-mobile-header" style={styles.mobileHeader}>
-          <button style={styles.menuBtn} onClick={() => setSidebarOpen(true)}>☰</button>
+          <button style={styles.menuBtn} onClick={() => setSidebarOpen(true)}>
+            ☰
+          </button>
           <span style={styles.mobileBrand}>KAEORN</span>
         </div>
         {children}
@@ -46,7 +48,9 @@ const styles = {
   },
   sidebarWrap: {
     position: "fixed",
-    top: 0, left: 0, bottom: 0,
+    top: 0,
+    left: 0,
+    bottom: 0,
     zIndex: 100,
     transition: "transform 0.25s ease",
   },
@@ -66,7 +70,7 @@ const styles = {
     fontSize: 20,
     background: "none",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
   },
   mobileBrand: {
     letterSpacing: "3px",

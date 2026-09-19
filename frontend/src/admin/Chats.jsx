@@ -30,9 +30,7 @@ export default function Chats() {
       <h2>Support Chats</h2>
 
       {chats.length === 0 && (
-        <p style={{ color: "#777", marginTop: 20 }}>
-          No support chats yet.
-        </p>
+        <p style={{ color: "#777", marginTop: 20 }}>No support chats yet.</p>
       )}
 
       {chats.map((chat) => (
@@ -57,7 +55,7 @@ const styles = {
     border: "1px solid #eee",
     borderRadius: 14,
     marginBottom: 12,
-    cursor: "pointer",
+    cursor: "none",
     transition: "background 0.2s ease",
   },
 };

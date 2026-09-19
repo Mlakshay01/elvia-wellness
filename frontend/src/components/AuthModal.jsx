@@ -151,7 +151,7 @@ const styles = {
     fontSize: 22,
     border: "none",
     background: "none",
-    cursor: "pointer",
+    cursor: "none",
   },
   title: { fontSize: 22, marginBottom: 10 },
   subtitle: { fontSize: 14, color: "#666", marginBottom: 24 },
@@ -177,7 +177,7 @@ const styles = {
     background: "none",
     border: "none",
     fontWeight: 500,
-    cursor: "pointer",
+    cursor: "none",
   },
   error: { color: "#c62828", fontSize: 13 },
 };

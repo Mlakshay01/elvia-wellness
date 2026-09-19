@@ -52,7 +52,12 @@ export default function Sidebar() {
           </button>
 
           {/* Blogs */}
-          <button style={styles.navBtn} onClick={() => navigate("/admin/blogs")}>Blogs</button>
+          <button
+            style={styles.navBtn}
+            onClick={() => navigate("/admin/blogs")}
+          >
+            Blogs
+          </button>
         </nav>
       </div>
 
@@ -100,7 +105,7 @@ const styles = {
     background: "none",
     border: "none",
     textAlign: "left",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: "14px",
     padding: "8px 0",
     color: "#111",
@@ -110,7 +115,7 @@ const styles = {
     border: "none",
     background: "none",
     color: "#999",
-    cursor: "pointer",
+    cursor: "none",
     marginTop: 40,
   },
 };
