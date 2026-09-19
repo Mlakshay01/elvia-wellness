@@ -14,7 +14,7 @@ export const PRODUCTS = {
     name: "THÉ NOIR",
     price: 1399,
     image:
-      "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775275614/ChatGPT_Image_Apr_4_2026_09_35_50_AM_pkb6za.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/Untitled_2_tv5rbj.png",
     category: "MEN · EAU DE PARFUM",
     size: "100 ml",
   },
