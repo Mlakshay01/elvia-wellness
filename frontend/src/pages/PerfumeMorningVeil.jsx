@@ -19,7 +19,7 @@ const images = [
 ];
 
 const bg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1770669629/dc9fb4aaf164ae5f44160471f5eb9a7b_hmhsw6.jpg";
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789841856/veil_bg_yrghvu.jpg";
 
 const NOTES = [
   {
@@ -498,7 +498,7 @@ const styles = {
   overlay: {
     position: "absolute",
     inset: 0,
-    background: "rgba(255,255,255,0.93)",
+    background: "rgba(255,255,255,0.5)",
   },
   inner: { position: "relative", padding: "40px" },
   category: { fontSize: 12, letterSpacing: 2.5, color: "#888" },
