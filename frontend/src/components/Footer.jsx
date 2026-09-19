@@ -82,12 +82,12 @@ export default function Footer() {
               >
                 Velion
               </span>
-              <span
+              {/* <span
                 className="link"
                 onClick={() => navigate("/perfume/discovery-set")}
               >
                 Discovery Set
-              </span>
+              </span> */}
             </div>
             <div className="footer-col reveal">
               <h4>Brand</h4>
