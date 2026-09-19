@@ -168,7 +168,7 @@ const styles = {
     border: "none",
     background: "#111",
     color: "#fff",
-    cursor: "pointer",
+    cursor: "none",
   },
   secondaryBtn: {
     flex: 1,
@@ -176,7 +176,7 @@ const styles = {
     borderRadius: 40,
     border: "1px solid #111",
     background: "transparent",
-    cursor: "pointer",
+    cursor: "none",
   },
   trustText: {
     marginTop: 32,

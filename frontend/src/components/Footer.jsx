@@ -45,7 +45,7 @@ export default function Footer() {
 
   return (
     <>
-      {/*!-- FOOTER --*/}
+      {/* FOOTER */}
       <footer>
         <div className="footer-inner">
           <div className="footer-top">
@@ -109,7 +109,7 @@ export default function Footer() {
           </div>
           <div className="footer-bottom reveal">
             <span className="footer-copy">
-              © 2024 KAEORN. All rights reserved.
+              © 2026 KAEORN. All rights reserved.
             </span>
             <div className="footer-social">
               <span className="link" onClick={() => navigate("/privacy")}>
@@ -128,9 +128,9 @@ export default function Footer() {
                 Shipping
               </span>
 
-              <a href="https://kaeorn.com" target="_blank">
+              <span className="link" onClick={() => navigate("https://kaeorn.com")}>     
                 kaeorn.com
-              </a>
+              </span>
             </div>
           </div>
         </div>

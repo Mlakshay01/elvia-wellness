@@ -58,4 +58,4 @@
   cursor: none; transition: background .2s;
 }
 .coming-submit:hover { background: #2a2725; }
-@media (max-width: 768px) { .coming-submit { cursor: pointer; } }
+@media (max-width: 768px) { .coming-submit { cursor: none; } }

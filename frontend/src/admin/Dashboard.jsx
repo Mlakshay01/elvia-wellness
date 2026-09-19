@@ -30,14 +30,11 @@ export default function Dashboard() {
         return;
       }
 
-      const res = await fetch(
-        `${import.meta.env.VITE_API_BASE}/api/orders`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch(`${import.meta.env.VITE_API_BASE}/api/orders`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!res.ok) {
         const err = await res.json();
@@ -57,10 +54,7 @@ export default function Dashboard() {
 
         if (order.status === "Pending") pending++;
         if (order.status === "Delivered") delivered++;
-        if (
-          order.status === "Shipped" ||
-          order.status === "Out for Delivery"
-        ) {
+        if (order.status === "Shipped" || order.status === "Out for Delivery") {
           inTransit++;
         }
       });
@@ -84,10 +78,7 @@ export default function Dashboard() {
   // ✅ FIXED: single source of truth
   function getCustomerEmail(order) {
     return (
-      order.customerEmail ||
-      order.address?.email ||
-      order.user?.email ||
-      "N/A"
+      order.customerEmail || order.address?.email || order.user?.email || "N/A"
     );
   }
 
@@ -147,9 +138,7 @@ export default function Dashboard() {
                   <td>{getCustomerEmail(order)}</td>
                   <td>₹{order.totalAmount}</td>
                   <td>{order.status}</td>
-                  <td>
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </td>
+                  <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
             </tbody>
@@ -232,7 +221,7 @@ const styles = {
     background: "#111",
     color: "#fff",
     fontSize: 14,
-    cursor: "pointer",
+    cursor: "none",
   },
 
   sectionTitle: {

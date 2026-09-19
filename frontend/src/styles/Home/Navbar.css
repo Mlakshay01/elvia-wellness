@@ -23,11 +23,11 @@ nav.scrolled {
   font-size: 1.3rem; font-weight: 400;
   letter-spacing: .4em;
   text-decoration: none; color: var(--ink);
-  cursor: pointer;
+  cursor: none;
 }
 .nav-back {
   background: none; border: none;
-  cursor: pointer; color: var(--ink);
+  cursor: none; color: var(--ink);
   display: flex; align-items: center; padding: 0;
 }
 
@@ -41,6 +41,7 @@ nav.scrolled {
   font-size: .65rem; letter-spacing: .15em;
   color: var(--muted); text-decoration: none;
   text-transform: uppercase; transition: color .2s;
+  cursor: none;
 }
 .nav-center a:hover { color: var(--ink); }
 
@@ -58,6 +59,7 @@ nav.scrolled {
   text-transform: uppercase;
   color: var(--muted); text-decoration: none;
   transition: color .2s;
+  cursor: none;
 }
 .nav-link:hover { color: var(--ink); }
 
@@ -67,7 +69,7 @@ nav.scrolled {
   text-transform: uppercase;
   background: none; color: var(--ink);
   border: 1px solid var(--border);
-  padding: .45rem .9rem; cursor: pointer;
+  padding: .45rem .9rem; cursor: none;
   transition: border-color .2s, background .2s, color .2s;
 }
 .nav-signin:hover {
@@ -107,7 +109,7 @@ nav.scrolled {
   gap: 5px; 
   background: none; 
   border: none;
-  cursor: pointer; 
+  cursor: none; 
   padding: 4px;
   z-index: 601;
 }

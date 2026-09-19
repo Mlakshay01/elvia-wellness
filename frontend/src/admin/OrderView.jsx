@@ -313,7 +313,7 @@ const styles = {
   back: {
     background: "none",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: "14px",
     marginBottom: "20px",
     color: "#555",

@@ -12,10 +12,10 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/veil-fresh-perfume");
 
 /* ── IMAGES ── */
 const images = [
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383691/Apr_5_2026_03_37_30_PM_e7nqb0.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383626/ChatGPT_Image_Apr_4_2026_11_07_27_AM_j4ve7n.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383877/ChatGPT_Image_Apr_5_2026_03_40_29_PM_h29chh.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/f2560d35-eddb-4828-922f-6aae483047c8_hr1fvr.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839249/IMG_20260919_230205_avek4m.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839252/IMG_20260919_230057_phzkt1.png",
 ];
 
 const bg =
@@ -466,7 +466,7 @@ const styles = {
     borderRadius: "50%",
     background: "rgba(255,255,255,0.85)",
     border: "0.5px solid rgba(0,0,0,0.1)",
-    cursor: "pointer",
+    cursor: "none",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -483,7 +483,7 @@ const styles = {
   dot: {
     height: 6,
     borderRadius: 3,
-    cursor: "pointer",
+    cursor: "none",
     transition: "all 0.3s ease",
   },
   detailsColumn: {
@@ -515,7 +515,7 @@ const styles = {
     border: "none",
     background: "transparent",
     fontSize: 13,
-    cursor: "pointer",
+    cursor: "none",
     textDecoration: "underline",
     marginBottom: 12,
     padding: 0,
@@ -538,7 +538,7 @@ const styles = {
     background: "#111",
     color: "#fff",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   addToCartBtn: {
@@ -546,7 +546,7 @@ const styles = {
     borderRadius: 50,
     border: "1px solid #111",
     background: "transparent",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   addedBtn: { background: "#111", color: "#fff" },
@@ -555,7 +555,7 @@ const styles = {
   accordionHeader: {
     display: "flex",
     justifyContent: "space-between",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 13,
     letterSpacing: 2,
     fontWeight: 500,

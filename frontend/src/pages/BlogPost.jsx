@@ -17,8 +17,14 @@ export default function BlogPost() {
         if (!r.ok) throw new Error("Not found");
         return r.json();
       })
-      .then((data) => { setBlog(data); setLoading(false); })
-      .catch(() => { setError(true); setLoading(false); });
+      .then((data) => {
+        setBlog(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, [slug]);
 
   /* ── LOADING ── */
@@ -88,23 +94,24 @@ export default function BlogPost() {
         </button>
 
         {blog.coverImage && (
-          <img
-            src={blog.coverImage}
-            alt={blog.title}
-            style={s.cover}
-          />
+          <img src={blog.coverImage} alt={blog.title} style={s.cover} />
         )}
 
         <div style={s.meta}>
           {blog.tags?.map((t) => (
-            <span key={t} style={s.tag}>{t}</span>
+            <span key={t} style={s.tag}>
+              {t}
+            </span>
           ))}
         </div>
 
         <h1 style={s.title}>{blog.title}</h1>
         <p style={s.date}>{formattedDate}</p>
 
-        <div style={s.content} dangerouslySetInnerHTML={{ __html: blog.content }} />
+        <div
+          style={s.content}
+          dangerouslySetInnerHTML={{ __html: blog.content }}
+        />
 
         {/* ── FOOTER NAV ── */}
         <div style={s.postFooter}>
@@ -142,7 +149,7 @@ const s = {
     border: "1px solid #ddd",
     borderRadius: 50,
     padding: "10px 24px",
-    cursor: "pointer",
+    cursor: "none",
     fontFamily: "'DM Mono', monospace",
     fontSize: 12,
     letterSpacing: "0.1em",
@@ -159,7 +166,7 @@ const s = {
   back: {
     background: "none",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
     color: "#888",
     fontSize: 13,
     marginBottom: 40,

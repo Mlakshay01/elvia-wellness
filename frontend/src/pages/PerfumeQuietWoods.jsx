@@ -12,10 +12,11 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/soie-femme-floral-perfume");
 
 /* ── IMAGES ── */
 const images = [
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775490008/ChatGPT_Image_Apr_6_2026_09_02_53_PM_vcfbtm.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775489995/ChatGPT_Image_Apr_6_2026_09_04_33_PM_zdnnfz.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775490008/ChatGPT_Image_Apr_6_2026_09_04_41_PM_pahxmb.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775489989/ChatGPT_Image_Apr_6_2026_09_07_27_PM_qkmvdz.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834177/1e43d3c0-73c1-4212-b1ef-e14bdf3cbdf0_nqswic.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834178/Untitled_boztm8.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839251/IMG_20260919_230137_nurfig.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839250/IMG_20260919_230026_b3lyoz.png",
 ];
 
 const bg =
@@ -441,7 +442,7 @@ const styles = {
     borderRadius: "50%",
     background: "rgba(255,255,255,0.85)",
     border: "0.5px solid rgba(0,0,0,0.1)",
-    cursor: "pointer",
+    cursor: "none",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -458,7 +459,7 @@ const styles = {
   dot: {
     height: 6,
     borderRadius: 3,
-    cursor: "pointer",
+    cursor: "none",
     transition: "all 0.3s ease",
   },
   detailsColumn: {
@@ -502,7 +503,7 @@ const styles = {
     border: "none",
     background: "transparent",
     fontSize: 13,
-    cursor: "pointer",
+    cursor: "none",
     textDecoration: "underline",
     marginBottom: 12,
     padding: 0,
@@ -535,7 +536,7 @@ const styles = {
     background: "#111",
     color: "#fff",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   addToCartBtn: {
@@ -543,7 +544,7 @@ const styles = {
     borderRadius: 50,
     background: "transparent",
     border: "1px solid #111",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
   },
   addedBtn: { background: "#111", color: "#fff" },
@@ -552,7 +553,7 @@ const styles = {
   accordionHeader: {
     display: "flex",
     justifyContent: "space-between",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 13,
     letterSpacing: 2,
     fontWeight: 500,

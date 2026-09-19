@@ -65,7 +65,7 @@ const styles = {
     border: "1px solid #111",
     background: "transparent",
     color: "#111",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
     fontFamily: "inherit",
     transition: "background 0.2s ease, color 0.2s ease",

@@ -22,7 +22,7 @@ export default function Support() {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("kaeorn_token")}`,
             },
-          }
+          },
         );
 
         if (!res.ok) return;
@@ -67,7 +67,7 @@ export default function Support() {
             Authorization: `Bearer ${localStorage.getItem("kaeorn_token")}`,
           },
           body: formData,
-        }
+        },
       );
 
       const chat = await res.json();
@@ -98,10 +98,8 @@ export default function Support() {
         <span
           style={{
             ...styles.statusBadge,
-            background:
-              status === "resolved" ? "#eef7f1" : "#fff7ea",
-            color:
-              status === "resolved" ? "#1f7a4d" : "#9a6b1a",
+            background: status === "resolved" ? "#eef7f1" : "#fff7ea",
+            color: status === "resolved" ? "#1f7a4d" : "#9a6b1a",
           }}
         >
           {status === "resolved"
@@ -118,12 +116,8 @@ export default function Support() {
               key={i}
               style={{
                 ...styles.msg,
-                alignSelf:
-                  m.sender === "user" ? "flex-end" : "flex-start",
-                background:
-                  m.sender === "user"
-                    ? "#111"
-                    : "rgba(0,0,0,0.04)",
+                alignSelf: m.sender === "user" ? "flex-end" : "flex-start",
+                background: m.sender === "user" ? "#111" : "rgba(0,0,0,0.04)",
                 color: m.sender === "user" ? "#fff" : "#111",
               }}
             >
@@ -167,9 +161,7 @@ export default function Support() {
             onChange={(e) => setText(e.target.value)}
             disabled={disabled}
             placeholder={
-              status === "resolved"
-                ? "Chat closed"
-                : "Type your message..."
+              status === "resolved" ? "Chat closed" : "Type your message..."
             }
             style={styles.input}
           />
@@ -234,10 +226,10 @@ const styles = {
     width: 22,
     height: 22,
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
   },
   inputRow: { display: "flex", gap: 10, alignItems: "center" },
-  attachBtn: { fontSize: 20, cursor: "pointer" },
+  attachBtn: { fontSize: 20, cursor: "none" },
   input: {
     flex: 1,
     padding: 12,
@@ -250,6 +242,6 @@ const styles = {
     background: "#111",
     color: "#fff",
     border: "none",
-    cursor: "pointer",
+    cursor: "none",
   },
 };

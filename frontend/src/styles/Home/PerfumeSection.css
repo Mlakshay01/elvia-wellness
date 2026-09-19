@@ -53,8 +53,8 @@
   position: relative; overflow: hidden;
   cursor: none;
 }
-@media (max-width: 768px) { .prod-card { cursor: pointer; } }
-.prod-card-link { text-decoration: none; color: inherit; display: block; }
+@media (max-width: 768px) { .prod-card { cursor: none; } }
+.prod-card-link { text-decoration: none; color: inherit; display: block; cursor: none;}
 .prod-visual {
   aspect-ratio: 3/4;
   position: relative; overflow: hidden;
@@ -148,7 +148,7 @@
   white-space: nowrap;
 }
 .prod-add:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
-@media (max-width: 768px) { .prod-buy, .prod-add { cursor: pointer; } }
+@media (max-width: 768px) { .prod-buy, .prod-add { cursor: none; } }
 
 /* Mobile horizontal scroll on small screens */
 @media (max-width: 900px) {

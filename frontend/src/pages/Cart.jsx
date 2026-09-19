@@ -494,7 +494,7 @@ const styles = {
     background: "#111",
     color: "#fff",
     fontSize: "15px",
-    cursor: "pointer",
+    cursor: "none",
   },
 
   itemsWrap: {
@@ -554,7 +554,7 @@ const styles = {
     borderRadius: "50%",
     border: "1px solid #ccc",
     background: "white",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: "18px",
     lineHeight: "0",
   },
@@ -570,7 +570,7 @@ const styles = {
     background: "none",
     color: "#999",
     fontSize: "13px",
-    cursor: "pointer",
+    cursor: "none",
     padding: 0,
   },
 
@@ -604,7 +604,7 @@ const styles = {
     border: "none",
     background: "#111",
     color: "white",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: "14px",
   },
 
@@ -656,7 +656,7 @@ const styles = {
     background: "#111",
     color: "white",
     fontSize: "16px",
-    cursor: "pointer",
+    cursor: "none",
   },
 
   checkoutNote: {

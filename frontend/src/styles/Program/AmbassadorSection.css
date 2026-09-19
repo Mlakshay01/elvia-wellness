@@ -86,7 +86,7 @@
   background: var(--ink);
   color: #F2EDE6;
   border: none;
-  cursor: pointer;
+  cursor: none;
   font-family: "DM Mono", monospace;
   font-size: 0.68rem;
   text-transform: uppercase;

@@ -402,7 +402,7 @@ const cardStyles = {
     width: "100%",
     paddingBottom: "133.33%",
     overflow: "hidden",
-    cursor: "pointer",
+    cursor: "none",
     backgroundColor: "#f5f0eb",
   },
   img: {
@@ -600,7 +600,7 @@ const cardStyles = {
     fontSize: "9px",
     letterSpacing: "0.18em",
     textTransform: "uppercase",
-    cursor: "pointer",
+    cursor: "none",
     transition: "border-color 0.2s",
   },
   btnFill: {
@@ -611,7 +611,7 @@ const cardStyles = {
     fontSize: "9px",
     letterSpacing: "0.18em",
     textTransform: "uppercase",
-    cursor: "pointer",
+    cursor: "none",
     transition: "background 0.2s",
   },
 };

@@ -158,7 +158,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    cursor: "pointer",
+    cursor: "none",
     fontSize: 14,
     fontWeight: 500,
     border: "1px solid #e6e6e6",
@@ -191,7 +191,7 @@ const styles = {
     border: "none",
     textAlign: "left",
     fontSize: 13,
-    cursor: "pointer",
+    cursor: "none",
     color: "#111",
   },
 

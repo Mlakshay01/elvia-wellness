@@ -15,11 +15,11 @@ import AmbassadorSection from "../components/AmbassadorSection";
 
 /* ── PRODUCT IMAGES ── */
 const softSkinImg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775275614/ChatGPT_Image_Apr_4_2026_09_35_50_AM_pkb6za.png";
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834772/copy_of_untitled_2_tv5rbj.png";
 const morningVeilImg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png";
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png";
 const quietWoodsImg =
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/v1775490015/ChatGPT_Image_Apr_6_2026_09_09_54_PM_olzzof.png";
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png";
 
 /* ── MARQUEE ITEMS ── */
 const MARQUEE_ITEMS = [
@@ -466,7 +466,7 @@ export default function Home() {
                 <div className="stat-l">Fragrances Crafted</div>
               </div>
               <div ref={addReveal} className="stat reveal reveal-delay-1">
-                <div className="stat-n">50</div>
+                <div className="stat-n">53</div>
                 <div className="stat-l">Happy Wearers</div>
               </div>
               <div ref={addReveal} className="stat reveal reveal-delay-2">
@@ -587,7 +587,7 @@ const styles = {
   },
   perfumeCard: {
     background: "var(--paper)",
-    cursor: "pointer",
+    cursor: "none",
     position: "relative",
     overflow: "hidden",
   },
@@ -687,7 +687,7 @@ const styles = {
     fontSize: ".7rem",
     letterSpacing: ".15em",
     textTransform: "uppercase",
-    cursor: "pointer",
+    cursor: "none",
     transition: "background .2s",
   },
 };

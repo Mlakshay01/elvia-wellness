@@ -40,7 +40,7 @@ export default function ProductSpray() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => entry.isIntersecting && setVisible(true),
-      { threshold: 0.25 }
+      { threshold: 0.25 },
     );
 
     if (productRef.current) observer.observe(productRef.current);
@@ -95,11 +95,7 @@ export default function ProductSpray() {
       >
         {/* LEFT COLUMN */}
         <div style={styles.imageColumn}>
-          <img
-            src={activeImage}
-            alt={product.name}
-            style={styles.mainImage}
-          />
+          <img src={activeImage} alt={product.name} style={styles.mainImage} />
 
           <div style={styles.thumbnailRow}>
             {images.map((img, i) => (
@@ -118,13 +114,11 @@ export default function ProductSpray() {
 
           {/* LEFT INFO */}
           <div style={styles.leftNote}>
-            <h4 style={styles.leftNoteTitle}>
-              Designed for Reapplication
-            </h4>
+            <h4 style={styles.leftNoteTitle}>Designed for Reapplication</h4>
             <p style={styles.leftNoteText}>
               Protection fades with time, sweat, and movement. This ultra-fine
-              mist allows effortless reapplication — even over makeup —
-              without disrupting your routine.
+              mist allows effortless reapplication — even over makeup — without
+              disrupting your routine.
             </p>
           </div>
         </div>
@@ -182,8 +176,8 @@ export default function ProductSpray() {
           <div style={styles.quickUse}>
             <h4 style={styles.quickUseTitle}>How to Use</h4>
             <p>
-              Hold the spray 10–15 cm away and mist evenly over face and neck
-              as the final step of your routine.
+              Hold the spray 10–15 cm away and mist evenly over face and neck as
+              the final step of your routine.
             </p>
             <p>
               Reapply every 2–3 hours, especially after sweating or outdoor
@@ -207,8 +201,8 @@ export default function ProductSpray() {
           {/* RECOMMENDED BASE */}
           <div style={styles.recommendBox}>
             <p style={styles.recommendText}>
-              Designed for reapplication, this mist works best when layered
-              over a strong base.
+              Designed for reapplication, this mist works best when layered over
+              a strong base.
               <br />
               <strong>
                 Start your day with Haetsal Veil™ Cream for even, long-lasting
@@ -254,7 +248,7 @@ const styles = {
     width: 74,
     height: 74,
     borderRadius: 14,
-    cursor: "pointer",
+    cursor: "none",
     objectFit: "cover",
   },
 
@@ -294,7 +288,7 @@ const styles = {
     color: "#fff",
     border: "none",
     fontSize: 15,
-    cursor: "pointer",
+    cursor: "none",
   },
 
   addToCartBtn: {
@@ -304,7 +298,7 @@ const styles = {
     color: "#111",
     border: "1px solid #111",
     fontSize: 15,
-    cursor: "pointer",
+    cursor: "none",
     transition: "all 0.25s ease",
   },
 
@@ -390,6 +384,6 @@ const styles = {
     color: "#fff",
     border: "none",
     fontSize: 14,
-    cursor: "pointer",
+    cursor: "none",
   },
 };
