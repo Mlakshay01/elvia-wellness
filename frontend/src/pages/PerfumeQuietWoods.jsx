@@ -34,7 +34,7 @@ const NOTES = [
     desc: "Floral elegance",
   },
   {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776065745/23e6e599-01f2-4d3b-89ad-37ba7375f429.png",
+    src: "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789844724/vanilla-removebg-preview_cft4te.png",
     name: "Vanilla",
     desc: "Soft sensuality",
   },
