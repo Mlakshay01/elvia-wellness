@@ -435,27 +435,27 @@ const styles = {
 
   // ADD these four:
   // UPDATE galleryWrap:
-  galleryWrap: {
-    flex: 1,
-    minWidth: 320,
-    position: "relative",
-    borderRadius: 26,
-    overflow: "hidden",
-    aspectRatio: "3 / 4", // ← add this
-  },
+ galleryWrap: {
+  flex: 1,
+  minWidth: 320,
+  position: "relative",
+  borderRadius: 26,
+  overflow: "hidden",
+  aspectRatio: "3 / 4",
+},
 
-  // ADD these two:
-  imageSlide: {
-    minWidth: "100%",
-    scrollSnapAlign: "center",
-  },
-  galleryImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    borderRadius: 26,
-    display: "block",
-  },
+imageSlide: {
+  minWidth: "100%",
+  scrollSnapAlign: "center",
+},
+
+galleryImage: {
+  width: "100%",
+  height: "85%",
+  objectFit: "cover",
+  borderRadius: 26,
+  display: "block",
+},
   navBtn: {
     position: "absolute",
     left: 16,
