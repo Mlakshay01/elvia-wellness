@@ -259,7 +259,7 @@ export default function PerfumeQuietWoods() {
             <h1 style={styles.productTitle}>SOIE FEMME</h1>
             <span style={styles.volume}>{selectedSize.label}</span>
             <span style={styles.volume}>Longevity: 8-10hrs</span>
-            <span>30% Natural Oils Concentration</span>
+            <span>25% Natural Oils Concentration</span>
             <br />
             <button style={styles.readMore} onClick={scrollToDesc}>
               Read more about this fragrance
