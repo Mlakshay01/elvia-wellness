@@ -4,6 +4,11 @@ import { Helmet } from "react-helmet-async";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
+import SizeSelector from "../components/SizeSelector";
+import { getSizeOptions } from "../data/products";
+
+/* ── SIZES (30 ml / 100 ml) ── */
+const SIZE_OPTIONS = getSizeOptions("/perfume/soie-femme-floral-perfume");
 
 /* ── IMAGES ── */
 const images = [
@@ -72,6 +77,10 @@ export default function PerfumeQuietWoods() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("description");
+  const [sizeId, setSizeId] = useState("100ml");
+  const selectedSize =
+    SIZE_OPTIONS.find((o) => o.id === sizeId) ||
+    SIZE_OPTIONS[SIZE_OPTIONS.length - 1];
 
   const galleryRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -94,8 +103,8 @@ export default function PerfumeQuietWoods() {
     return () => obs.disconnect();
   }, []);
 
-  const originalPrice = 1399;
-  const price = 1399;
+  const price = selectedSize.price;
+  const originalPrice = price;
   const discountPercent = Math.round(
     ((originalPrice - price) / originalPrice) * 100,
   );
@@ -105,7 +114,7 @@ export default function PerfumeQuietWoods() {
       setAuthType("login");
       return;
     }
-    addToCart("/perfume/soie-femme-floral-perfume");
+    addToCart(selectedSize.route);
     navigate("/cart");
   }
 
@@ -114,7 +123,7 @@ export default function PerfumeQuietWoods() {
       setAuthType("login");
       return;
     }
-    addToCart("/perfume/soie-femme-floral-perfume");
+    addToCart(selectedSize.route);
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   }
@@ -247,7 +256,7 @@ export default function PerfumeQuietWoods() {
           <div style={styles.inner}>
             <p style={styles.category}>WOMEN · EAU DE PARFUM</p>
             <h1 style={styles.productTitle}>SOIE FEMME</h1>
-            <span style={styles.volume}>100 ml</span>
+            <span style={styles.volume}>{selectedSize.label}</span>
             <span style={styles.volume}>Longevity: 8-10hrs</span>
             <span>30% Natural Oils Concentration</span>
             <br />
@@ -256,6 +265,12 @@ export default function PerfumeQuietWoods() {
             </button>
 
             {/* <div style={styles.saleBadge}>RELEASE SALE</div> */}
+
+            <SizeSelector
+              options={SIZE_OPTIONS}
+              value={sizeId}
+              onChange={setSizeId}
+            />
 
             <div style={styles.priceWrap}>
               <span style={styles.price}>₹{price}</span>

@@ -240,7 +240,9 @@ export default function Cart() {
               <img src={item.image} alt={item.name} style={styles.image} />
 
               <div style={styles.details}>
-                <p style={styles.category}>EAU DE PARFUM</p>
+                <p style={styles.category}>
+                  EAU DE PARFUM{item.size ? ` · ${item.size}` : ""}
+                </p>
 
                 <h2 style={styles.title}>{item.name}</h2>
 

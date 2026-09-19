@@ -483,7 +483,9 @@ export default function Payment() {
               <div style={styles.itemInfo}>
                 <p style={styles.itemName}>{item.name}</p>
 
-                <p style={styles.itemQty}>Qty {item.quantity}</p>
+                <p style={styles.itemQty}>
+                  {item.size ? `${item.size} · ` : ""}Qty {item.quantity}
+                </p>
               </div>
 
               <p style={styles.itemPrice}>

@@ -60,7 +60,7 @@ export default function Address() {
               Authorization: `Bearer ${token}`,
             },
             signal: controller.signal,
-          }
+          },
         );
 
         clearTimeout(timeout);
@@ -78,26 +78,37 @@ export default function Address() {
         ====================================== */
 
         if (response.status === 401) {
-          console.error(
-            "Authentication failed while loading addresses:",
-            data
-          );
+          console.error("Authentication failed while loading addresses:", data);
 
           /*
-            Remove only the invalid token.
+            Clear the ENTIRE session, not just the token.
 
-            The user can still continue checkout
-            manually instead of being permanently
-            blocked.
+            Removing only "kaeorn_token" leaves "kaeorn_user"
+            behind. ProtectedRoute only checks "kaeorn_user",
+            so the UI keeps showing the person as logged in,
+            they sail through the rest of checkout, and only
+            hit a confusing "Please login first." alert once
+            they reach the Payment page (which checks the
+            token directly).
+
+            Clearing both here and sending them to log back
+            in is more honest than a silent "manual" fallback
+            that quietly breaks two steps later.
           */
 
           localStorage.removeItem("kaeorn_token");
+          localStorage.removeItem("kaeorn_user");
 
           if (!cancelled) {
             setAddresses([]);
             setSelected(null);
-            setManual(true);
+            setManual(false);
+            setLoading(false);
           }
+
+          alert("Your session has expired. Please login again.");
+
+          navigate("/", { replace: true });
 
           return;
         }
@@ -107,10 +118,7 @@ export default function Address() {
         ====================================== */
 
         if (!response.ok) {
-          throw new Error(
-            data?.message ||
-              "Unable to load saved addresses"
-          );
+          throw new Error(data?.message || "Unable to load saved addresses");
         }
 
         /* ======================================
@@ -120,16 +128,14 @@ export default function Address() {
         const addressList = Array.isArray(data)
           ? data
           : Array.isArray(data?.addresses)
-          ? data.addresses
-          : [];
+            ? data.addresses
+            : [];
 
         if (cancelled) return;
 
         setAddresses(addressList);
 
-        const defaultAddress = addressList.find(
-          (address) => address.isDefault
-        );
+        const defaultAddress = addressList.find((address) => address.isDefault);
 
         if (defaultAddress) {
           setSelected(defaultAddress);
@@ -145,10 +151,7 @@ export default function Address() {
           return;
         }
 
-        console.error(
-          "Failed to load saved addresses:",
-          error
-        );
+        console.error("Failed to load saved addresses:", error);
 
         if (!cancelled) {
           setAddresses([]);
@@ -215,10 +218,7 @@ export default function Address() {
       pincode: selected.postalCode || "",
     };
 
-    localStorage.setItem(
-      "deliveryAddress",
-      JSON.stringify(deliveryAddress)
-    );
+    localStorage.setItem("deliveryAddress", JSON.stringify(deliveryAddress));
 
     setTimeout(() => {
       navigate("/checkout/payment");
@@ -237,13 +237,11 @@ export default function Address() {
     }
 
     if (!/^\d{10}$/.test(form.phone.trim())) {
-      nextErrors.phone =
-        "Enter a valid 10-digit number";
+      nextErrors.phone = "Enter a valid 10-digit number";
     }
 
     if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) {
-      nextErrors.email =
-        "Enter a valid email";
+      nextErrors.email = "Enter a valid email";
     }
 
     if (!form.address.trim()) {
@@ -259,8 +257,7 @@ export default function Address() {
     }
 
     if (!/^\d{6}$/.test(form.pincode.trim())) {
-      nextErrors.pincode =
-        "Enter a valid 6-digit pincode";
+      nextErrors.pincode = "Enter a valid 6-digit pincode";
     }
 
     setErrors(nextErrors);
@@ -291,7 +288,7 @@ export default function Address() {
         city: form.city.trim(),
         state: form.state.trim(),
         pincode: form.pincode.trim(),
-      })
+      }),
     );
 
     setTimeout(() => {
@@ -325,112 +322,75 @@ export default function Address() {
         </div>
       ) : (
         <>
-          <h1 style={styles.heading}>
-            Delivery Address
-          </h1>
+          <h1 style={styles.heading}>Delivery Address</h1>
 
           <p style={styles.subtext}>
-            Tell us where to deliver your order.
-            We'll only use these details for
-            shipping and order updates.
+            Tell us where to deliver your order. We'll only use these details
+            for shipping and order updates.
           </p>
 
           <div style={styles.trust}>
-            <span style={styles.trustPill}>
-              🔒 &nbsp;Secure Checkout
-            </span>
+            <span style={styles.trustPill}>🔒 &nbsp;Secure Checkout</span>
 
-            <span style={styles.trustPill}>
-              📦 &nbsp;Discreet Packaging
-            </span>
+            <span style={styles.trustPill}>📦 &nbsp;Discreet Packaging</span>
 
-            <span style={styles.trustPill}>
-              ↩ &nbsp;Easy Returns
-            </span>
+            <span style={styles.trustPill}>↩ &nbsp;Easy Returns</span>
           </div>
 
           {/* SAVED ADDRESSES */}
 
           {!manual && addresses.length > 0 && (
             <>
-              <h3 style={styles.section}>
-                Saved Addresses
-              </h3>
+              <h3 style={styles.section}>Saved Addresses</h3>
 
               <div style={styles.addressList}>
                 {addresses.map((address, index) => {
-                  const isSelected =
-                    selected === address;
+                  const isSelected = selected === address;
 
                   return (
                     <div
-                      key={
-                        address._id ||
-                        address.id ||
-                        index
-                      }
-                      onClick={() =>
-                        setSelected(address)
-                      }
+                      key={address._id || address.id || index}
+                      onClick={() => setSelected(address)}
                       style={{
                         ...styles.addressCard,
-                        ...(isSelected
-                          ? styles.addressCardSelected
-                          : {}),
+                        ...(isSelected ? styles.addressCardSelected : {}),
                       }}
                     >
                       <div style={styles.addressRadio}>
                         <span
                           style={{
                             ...styles.addressRadioDot,
-                            opacity: isSelected
-                              ? 1
-                              : 0,
+                            opacity: isSelected ? 1 : 0,
                           }}
                         />
                       </div>
 
                       <div style={styles.addressBody}>
-                        <p style={styles.addressName}>
-                          {address.fullName}
-                        </p>
+                        <p style={styles.addressName}>{address.fullName}</p>
+
+                        <p style={styles.addressLine}>{address.street}</p>
 
                         <p style={styles.addressLine}>
-                          {address.street}
-                        </p>
-
-                        <p style={styles.addressLine}>
-                          {address.city},{" "}
-                          {address.state} &ndash;{" "}
+                          {address.city}, {address.state} &ndash;{" "}
                           {address.postalCode}
                         </p>
 
-                        <p style={styles.addressPhone}>
-                          {address.phone}
-                        </p>
+                        <p style={styles.addressPhone}>{address.phone}</p>
                       </div>
 
                       {address.isDefault && (
-                        <span style={styles.defaultTag}>
-                          Default
-                        </span>
+                        <span style={styles.defaultTag}>Default</span>
                       )}
                     </div>
                   );
                 })}
               </div>
 
-              <button
-                style={styles.button}
-                onClick={continueWithSaved}
-              >
+              <button style={styles.button} onClick={continueWithSaved}>
                 Continue to Payment
               </button>
 
-              <p
-                style={styles.link}
-                onClick={() => setManual(true)}
-              >
+              <p style={styles.link} onClick={() => setManual(true)}>
                 + Use a different address
               </p>
             </>
@@ -439,11 +399,7 @@ export default function Address() {
           {/* MANUAL FORM */}
 
           {manual && (
-            <form
-              style={styles.formCard}
-              onSubmit={continueManual}
-              noValidate
-            >
+            <form style={styles.formCard} onSubmit={continueManual} noValidate>
               <Field
                 label="Full Name"
                 name="name"
@@ -507,24 +463,15 @@ export default function Address() {
               </div>
 
               <p style={styles.helperText}>
-                We'll use this address only for
-                order delivery and updates.
+                We'll use this address only for order delivery and updates.
               </p>
 
-              <button
-                type="submit"
-                style={styles.button}
-              >
+              <button type="submit" style={styles.button}>
                 Continue to Payment
               </button>
 
               {addresses.length > 0 && (
-                <p
-                  style={styles.link}
-                  onClick={() =>
-                    setManual(false)
-                  }
-                >
+                <p style={styles.link} onClick={() => setManual(false)}>
                   ← Back to saved addresses
                 </p>
               )}
@@ -552,19 +499,12 @@ function Steps({ current }) {
         const done = step < current;
 
         return (
-          <div
-            key={label}
-            style={styles.stepItem}
-          >
+          <div key={label} style={styles.stepItem}>
             <div
               style={{
                 ...styles.stepDot,
-                ...(active
-                  ? styles.stepDotActive
-                  : {}),
-                ...(done
-                  ? styles.stepDotDone
-                  : {}),
+                ...(active ? styles.stepDotActive : {}),
+                ...(done ? styles.stepDotDone : {}),
               }}
             >
               {done ? "✓" : step}
@@ -573,17 +513,13 @@ function Steps({ current }) {
             <span
               style={{
                 ...styles.stepLabel,
-                ...(active
-                  ? styles.stepLabelActive
-                  : {}),
+                ...(active ? styles.stepLabelActive : {}),
               }}
             >
               {label}
             </span>
 
-            {step !== items.length && (
-              <span style={styles.stepRule} />
-            )}
+            {step !== items.length && <span style={styles.stepRule} />}
           </div>
         );
       })}
@@ -595,55 +531,26 @@ function Steps({ current }) {
    FORM FIELD
 ====================================== */
 
-function Field({
-  label,
-  name,
-  value,
-  onChange,
-  error,
-  type = "text",
-  as,
-}) {
-  const Tag =
-    as === "textarea"
-      ? "textarea"
-      : "input";
+function Field({ label, name, value, onChange, error, type = "text", as }) {
+  const Tag = as === "textarea" ? "textarea" : "input";
 
   return (
     <label style={styles.field}>
-      <span style={styles.fieldLabel}>
-        {label}
-      </span>
+      <span style={styles.fieldLabel}>{label}</span>
 
       <Tag
         name={name}
-        type={
-          as === "textarea"
-            ? undefined
-            : type
-        }
+        type={as === "textarea" ? undefined : type}
         value={value}
         onChange={onChange}
-        rows={
-          as === "textarea"
-            ? 3
-            : undefined
-        }
+        rows={as === "textarea" ? 3 : undefined}
         style={{
-          ...(as === "textarea"
-            ? styles.textarea
-            : styles.input),
-          ...(error
-            ? styles.inputError
-            : {}),
+          ...(as === "textarea" ? styles.textarea : styles.input),
+          ...(error ? styles.inputError : {}),
         }}
       />
 
-      {error && (
-        <span style={styles.errorText}>
-          {error}
-        </span>
-      )}
+      {error && <span style={styles.errorText}>{error}</span>}
     </label>
   );
 }
@@ -777,8 +684,7 @@ const styles = {
     padding: "18px 20px",
     cursor: "pointer",
     background: "#fff",
-    transition:
-      "border-color 0.15s ease, box-shadow 0.15s ease",
+    transition: "border-color 0.15s ease, box-shadow 0.15s ease",
   },
 
   addressCardSelected: {

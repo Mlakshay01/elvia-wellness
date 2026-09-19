@@ -4,61 +4,47 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
-import SizeSelector from "../components/SizeSelector";
-import { getSizeOptions } from "../data/products";
+import { PRODUCTS } from "../data/products";
 
-/* ── SIZES (30 ml / 100 ml) ── */
-const SIZE_OPTIONS = getSizeOptions("/perfume/veil-fresh-perfume");
+/* ── PRODUCT (price/id live in data/products.js) ── */
+const ROUTE = "/perfume/discovery-set";
+const SET = PRODUCTS[ROUTE];
 
-/* ── IMAGES ── */
-const images = [
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383691/Apr_5_2026_03_37_30_PM_e7nqb0.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383626/ChatGPT_Image_Apr_4_2026_11_07_27_AM_j4ve7n.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png",
-  "https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775383877/ChatGPT_Image_Apr_5_2026_03_40_29_PM_h29chh.png",
+/* Cloudinary: web-sized, auto-format copy of an image */
+const web = (url) => url.replace("/upload/", "/upload/f_auto,q_auto,w_900/");
+
+/* ── WHAT'S INSIDE — one 30 ml bottle of each ── */
+const INSIDE = [
+  {
+    name: "THÉ NOIR",
+    route: "/perfume/noir-party-perfume",
+    gender: "MEN",
+    mood: "Fruity · Aromatic · Gourmand",
+    notes: "Apple, Lavender, Tonka Bean",
+  },
+  {
+    name: "VEIL",
+    route: "/perfume/veil-fresh-perfume",
+    gender: "UNISEX",
+    mood: "Citrus · Spicy · Woody",
+    notes: "Bergamot, Pink Pepper, Sandalwood",
+  },
+  {
+    name: "SOIE FEMME",
+    route: "/perfume/soie-femme-floral-perfume",
+    gender: "WOMEN",
+    mood: "Floral · Roasted · Gourmand",
+    notes: "Coffee, Jasmine, Vanilla",
+  },
 ];
+
+/* ── IMAGES — the three bottles ── */
+const images = INSIDE.map((item) => web(PRODUCTS[item.route].image));
 
 const bg =
   "https://res.cloudinary.com/dvmntn6vf/image/upload/v1770669629/dc9fb4aaf164ae5f44160471f5eb9a7b_hmhsw6.jpg";
 
-const NOTES = [
-  {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776062935/5f639544-7bea-4d4f-8886-9844f88585a2.png",
-    name: "Bergamot",
-    desc: "Fresh & luminous",
-  },
-  {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776062958/248c4f5d-8577-44a8-8a0c-12220e091383.png",
-    name: "Pink Pepper",
-    desc: "Warm spicy edge",
-  },
-  {
-    src: "https://res.cloudinary.com/dvmntn6vf/image/upload/v1776063027/e846d0e7-23c7-4be9-a243-c4fa498cb07b.png",
-    name: "Sandalwood",
-    desc: "Smooth skin finish",
-  },
-];
-
-const REVIEWS = [
-  {
-    stars: 5,
-    name: "Riya, Delhi",
-    text: "Feels like a niche European perfume.",
-  },
-  { stars: 5, name: "Aarav, Mumbai", text: "Very calming and classy." },
-  {
-    stars: 4,
-    name: "Meera, Bangalore",
-    text: "Perfect everyday luxury scent.",
-  },
-  {
-    stars: 5,
-    name: "Nikhil, Pune",
-    text: "Subtle, clean and quietly addictive.",
-  },
-];
-
-/* ── ACCORDION — moved outside to avoid recreation on every render ── */
+/* ── ACCORDION ── */
 function Accordion({ title, id, open, setOpen, children }) {
   const isOpen = open === id;
   return (
@@ -75,7 +61,7 @@ function Accordion({ title, id, open, setOpen, children }) {
   );
 }
 
-export default function PerfumeMorningVeil() {
+export default function PerfumeDiscoverySet() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { addToCart } = useCart();
@@ -85,11 +71,7 @@ export default function PerfumeMorningVeil() {
   const [visible, setVisible] = useState(false);
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
-  const [open, setOpen] = useState("description");
-  const [sizeId, setSizeId] = useState("100ml");
-  const selectedSize =
-    SIZE_OPTIONS.find((o) => o.id === sizeId) ||
-    SIZE_OPTIONS[SIZE_OPTIONS.length - 1];
+  const [open, setOpen] = useState("inside");
 
   const galleryRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -112,18 +94,15 @@ export default function PerfumeMorningVeil() {
     return () => obs.disconnect();
   }, []);
 
-  const price = selectedSize.price;
-  const originalPrice = price;
-  const discountPercent = Math.round(
-    ((originalPrice - price) / originalPrice) * 100,
-  );
+  const price = SET.price;
+  const priceLabel = `₹${price.toLocaleString("en-IN")}`;
 
   function handleOrderNow() {
     if (!user) {
       setAuthType("login");
       return;
     }
-    addToCart(selectedSize.route);
+    addToCart(ROUTE);
     navigate("/cart");
   }
 
@@ -132,43 +111,37 @@ export default function PerfumeMorningVeil() {
       setAuthType("login");
       return;
     }
-    addToCart(selectedSize.route);
+    addToCart(ROUTE);
     setAdded(true);
     setTimeout(() => setAdded(false), 2200);
   }
 
   function scrollToDesc() {
     descRef.current?.scrollIntoView({ behavior: "smooth" });
-    setOpen("description");
+    setOpen("inside");
   }
 
   return (
     <>
       <Helmet>
-        <title>Veil — Unisex Eau de Parfum | KAEORN</title>
+        <title>Discovery Set — 3 × 30 ml Eau de Parfum | KAEORN</title>
         <meta
           name="description"
-          content="Veil by Kaeorn — a clean, airy unisex Eau de Parfum with notes of Bergamot, Pink Pepper, and Sandalwood. Quiet luxury, made in India."
+          content={`The KAEORN Discovery Set — three 30 ml Eau de Parfum bottles: THÉ NOIR, VEIL and SOIE FEMME. Find your signature scent or gift the complete collection. ${priceLabel} — Made in India.`}
         />
-        <link
-          rel="canonical"
-          href="https://kaeorn.com/perfume/veil-fresh-perfume"
-        />
+        <link rel="canonical" href="https://kaeorn.com/perfume/discovery-set" />
         <meta
           property="og:title"
-          content="Veil — Unisex Eau de Parfum | KAEORN"
+          content="Discovery Set — 3 × 30 ml Eau de Parfum | KAEORN"
         />
         <meta
           property="og:description"
-          content="A clean, airy unisex Eau de Parfum. Notes of Bergamot, Pink Pepper & Sandalwood. ₹1,399 — Made in India."
+          content={`Three 30 ml bottles — THÉ NOIR, VEIL & SOIE FEMME. ${priceLabel} — Made in India.`}
         />
-        <meta
-          property="og:image"
-          content="https://res.cloudinary.com/dvmntn6vf/image/upload/f_auto,q_auto,w_900/v1775280305/ChatGPT_Image_Apr_4_2026_10_54_03_AM_fjvuq2.png"
-        />
+        <meta property="og:image" content={images[0]} />
         <meta
           property="og:url"
-          content="https://kaeorn.com/perfume/veil-fresh-perfume"
+          content="https://kaeorn.com/perfume/discovery-set"
         />
         <meta property="og:type" content="product" />
       </Helmet>
@@ -205,7 +178,7 @@ export default function PerfumeMorningVeil() {
               <div key={i} style={styles.imageSlide}>
                 <img
                   src={img}
-                  alt={`VEIL Eau de Parfum by KAEORN— view ${i + 1}`}
+                  alt={`KAEORN Discovery Set — ${INSIDE[i].name} 30 ml Eau de Parfum`}
                   style={styles.galleryImage}
                 />
               </div>
@@ -263,32 +236,24 @@ export default function PerfumeMorningVeil() {
         >
           <div style={styles.overlay} />
           <div style={styles.inner}>
-            <p style={styles.category}>UNISEX · EAU DE PARFUM</p>
-            <h1 style={styles.productTitle}>VEIL</h1>
-            <span style={styles.volume}>{selectedSize.label}</span>
+            <p style={styles.category}>COLLECTION · EAU DE PARFUM</p>
+            <h1 style={styles.productTitle}>DISCOVERY SET</h1>
+            <span style={styles.volume}>3 × 30 ml</span>
             <span style={styles.volume}>Longevity: 8-10hrs</span>
-            <span>25% Natural Oils Concentration</span>
+            <span>25–30% Natural Oils Concentration</span>
             <br />
             <button style={styles.readMore} onClick={scrollToDesc}>
-              Read more about this fragrance
+              See what's inside
             </button>
 
-            <SizeSelector
-              options={SIZE_OPTIONS}
-              value={sizeId}
-              onChange={setSizeId}
-            />
-
             <div style={styles.priceWrap}>
-              <span style={styles.price}>₹{price}</span>
-              {/* <span style={styles.originalPrice}>₹{originalPrice}</span> */}
-              {/* <span style={styles.discount}>{discountPercent}% OFF</span> */}
+              <span style={styles.price}>{priceLabel}</span>
             </div>
 
             <p style={styles.subtitle}>
-              Not worn to be announced — worn to be remembered. Veil dissolves
-              into skin, staying close and quiet all day. Clean, creamy, and
-              effortlessly composed.
+              Three signatures, three moods. One 30 ml bottle each of THÉ NOIR,
+              VEIL and SOIE FEMME — spend time with every one, then keep the
+              scent that feels like you. Or give the whole collection as a gift.
             </p>
 
             <div style={styles.ctaRow}>
@@ -309,55 +274,45 @@ export default function PerfumeMorningVeil() {
             {/* ── ACCORDIONS ── */}
             <div ref={descRef} style={styles.accordionWrap}>
               <Accordion
-                title="DESCRIPTION"
-                id="description"
+                title="WHAT'S INSIDE"
+                id="inside"
                 open={open}
                 setOpen={setOpen}
               >
-                Veil opens with a clean, creamy softness that feels instantly
-                refined. Rather than projecting outward, it stays close to the
-                skin — creating an intimate warmth that's neither sweet nor
-                sharp, just balanced. As it settles, it becomes something
-                personal. A scent that adapts to your skin chemistry, your mood,
-                and your day. Made for moments that don't need drama to feel
-                special.
-              </Accordion>
-
-              <Accordion
-                title="HOW IT MAKES YOU FEEL"
-                id="feel"
-                open={open}
-                setOpen={setOpen}
-              >
-                Calm. Composed. Quietly confident. Veil doesn't demand attention
-                — it earns it. The feeling is somewhere between clean skin, soft
-                linen, and the kind of stillness you carry when you're
-                comfortable with yourself. Comforting without being heavy.
-                Elegant without trying.
-              </Accordion>
-
-              <Accordion title="NOTES" id="notes" open={open} setOpen={setOpen}>
-                <div style={styles.notesWrap}>
-                  {NOTES.map((n) => (
-                    <div key={n.name} style={styles.noteItem}>
-                      <img src={n.src} alt={n.name} style={styles.noteImage} />
-                      <div style={styles.noteTitle}>{n.name}</div>
-                      <div style={styles.noteDesc}>{n.desc}</div>
+                <div style={styles.insideList}>
+                  {INSIDE.map((item) => (
+                    <div key={item.name} style={styles.insideItem}>
+                      <div style={styles.insideHead}>
+                        <span style={styles.insideName}>{item.name}</span>
+                        <span style={styles.insideTag}>
+                          {item.gender} · 30 ml
+                        </span>
+                      </div>
+                      <p style={styles.insideMood}>{item.mood}</p>
+                      <p style={styles.insideNotes}>{item.notes}</p>
+                      <button
+                        style={styles.insideLink}
+                        onClick={() => navigate(item.route)}
+                      >
+                        View this fragrance →
+                      </button>
                     </div>
                   ))}
                 </div>
               </Accordion>
 
               <Accordion
-                title="PERFORMANCE"
-                id="performance"
+                title="DESCRIPTION"
+                id="description"
                 open={open}
                 setOpen={setOpen}
               >
-                Veil is an Eau de Parfum built for quiet presence, not
-                projection. On skin, it lasts 8–10 hours with a soft sillage —
-                noticeable only when someone is close. The kind of scent that
-                makes people lean in, not step back.
+                The Discovery Set brings all three KAEORN Eau de Parfum
+                signatures together in 30 ml bottles — the woody, aromatic THÉ
+                NOIR, the clean, airy VEIL and the luminous, gourmand SOIE
+                FEMME. It's the easiest way to find the scent that suits your
+                skin, your mood and your day, before choosing a full 100 ml
+                bottle.
               </Accordion>
 
               <Accordion
@@ -371,26 +326,6 @@ export default function PerfumeMorningVeil() {
                 ears, collarbone. Don't rub after spraying. Let it settle and
                 develop with your body heat for the smoothest, longest-lasting
                 result.
-              </Accordion>
-
-              <Accordion
-                title="REVIEWS"
-                id="reviews"
-                open={open}
-                setOpen={setOpen}
-              >
-                <div style={styles.reviewsWrap}>
-                  {REVIEWS.map((r, i) => (
-                    <div key={i} style={styles.reviewItem}>
-                      <div style={styles.reviewStars}>
-                        {"★".repeat(r.stars)}
-                        {"☆".repeat(5 - r.stars)}
-                      </div>
-                      <p style={styles.reviewText}>"{r.text}"</p>
-                      <span style={styles.reviewName}>— {r.name}</span>
-                    </div>
-                  ))}
-                </div>
               </Accordion>
 
               <Accordion
@@ -615,5 +550,40 @@ const styles = {
     fontSize: 12,
     color: "#999",
     letterSpacing: 1,
+  },
+  insideList: { display: "flex", flexDirection: "column", gap: 22 },
+  insideItem: {
+    borderLeft: "2px solid #eee",
+    paddingLeft: 14,
+  },
+  insideHead: {
+    display: "flex",
+    alignItems: "baseline",
+    gap: 12,
+    flexWrap: "wrap",
+    marginBottom: 4,
+  },
+  insideName: {
+    fontSize: 15,
+    letterSpacing: 1.6,
+    fontWeight: 500,
+    color: "#111",
+  },
+  insideTag: { fontSize: 11, letterSpacing: 2, color: "#9a9089" },
+  insideMood: { fontSize: 14, color: "#555", margin: "0 0 2px" },
+  insideNotes: {
+    fontSize: 13.5,
+    color: "#777",
+    fontStyle: "italic",
+    margin: "0 0 6px",
+  },
+  insideLink: {
+    border: "none",
+    background: "transparent",
+    padding: 0,
+    fontSize: 13,
+    color: "#555",
+    textDecoration: "underline",
+    cursor: "pointer",
   },
 };

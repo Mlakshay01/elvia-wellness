@@ -114,6 +114,9 @@ function normalizeCartItem(item) {
     image: product.image || item.image || "",
 
     category: product.category || item.category || "",
+
+    // e.g. "30 ml" / "100 ml" (display only)
+    size: product.size || "",
   };
 }
 
@@ -289,6 +292,8 @@ export function CartProvider({ children }) {
           image: product.image || "",
 
           category: product.category || "",
+
+          size: product.size || "",
         },
       ];
     });
