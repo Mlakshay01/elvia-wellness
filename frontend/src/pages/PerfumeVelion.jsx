@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { ld, productJsonLd, breadcrumbJsonLd } from "../seo/schema";
+import ProductReviews from "../components/ProductReviews";
+import useProductReviews from "../hooks/useProductReviews";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -34,29 +37,6 @@ const NOTES = [
   },
 ];
 
-const REVIEWS = [
-  {
-    stars: 5,
-    name: "Priya, Delhi",
-    text: "Like wearing liquid crystal — warm and impossibly clean.",
-  },
-  {
-    stars: 5,
-    name: "Aisha, Mumbai",
-    text: "Reminds me of BR540 but more intimate, skin-close.",
-  },
-  {
-    stars: 5,
-    name: "Kavya, Bangalore",
-    text: "The saffron note is stunning. Lasts all day on my wrists.",
-  },
-  {
-    stars: 4,
-    name: "Rohan, Pune",
-    text: "Unisex done right. Floral but never sweet or heavy.",
-  },
-];
-
 /* ── ACCORDION ── */
 function Accordion({ title, id, open, setOpen, children }) {
   const isOpen = open === id;
@@ -84,6 +64,7 @@ export default function PerfumeVelion() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("description");
+  const reviewsData = useProductReviews("velion");
 
   const galleryRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -134,7 +115,7 @@ export default function PerfumeVelion() {
         <title>VELION — Unisex Solid Perfume Balm | KAEORN</title>
         <meta
           name="description"
-          content="VELION is a radiant solid perfume — a crystalline fusion of exotic saffron and radiant cedar grounded by golden amber. A skin-close luxury. 10g balm, ₹599. Made in India."
+          content={`VELION is a radiant solid perfume — a crystalline fusion of exotic saffron and radiant cedar grounded by golden amber. A skin-close luxury. 10g balm, ₹${price}. Made in India.`}
         />
         <link rel="canonical" href="https://kaeorn.com/perfume/velion" />
         <meta
@@ -143,11 +124,22 @@ export default function PerfumeVelion() {
         />
         <meta
           property="og:description"
-          content="Fresh · Floral · Luminous. Notes of Cedar, Amberwood & Saffron. ₹599 — Made in India."
+          content={`Fresh · Floral · Luminous. Notes of Cedar, Amberwood & Saffron. ₹${price} — Made in India.`}
         />
         <meta property="og:image" content={images[0]} />
         <meta property="og:url" content="https://kaeorn.com/perfume/velion" />
         <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {ld(productJsonLd("/perfume/velion", { description: "VELION by KAEORN — a radiant unisex solid perfume balm: saffron, cedar and golden amber. 10 g.", category: "Unisex · Perfume Balm", availability: "OutOfStock", images: images.slice(0, 3), rating: reviewsData.summary, reviews: reviewsData.reviews }))}
+        </script>
+        <script type="application/ld+json">
+          {ld(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "VELION", path: "/perfume/velion" },
+            ]),
+          )}
+        </script>
       </Helmet>
 
       {authType && (
@@ -363,25 +355,6 @@ export default function PerfumeVelion() {
                 refresh the radiance.
               </Accordion>
 
-              <Accordion
-                title="REVIEWS"
-                id="reviews"
-                open={open}
-                setOpen={setOpen}
-              >
-                <div style={styles.reviewsWrap}>
-                  {REVIEWS.map((r, i) => (
-                    <div key={i} style={styles.reviewItem}>
-                      <div style={styles.reviewStars}>
-                        {"★".repeat(r.stars)}
-                        {"☆".repeat(5 - r.stars)}
-                      </div>
-                      <p style={styles.reviewText}>"{r.text}"</p>
-                      <span style={styles.reviewName}>— {r.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </Accordion>
 
               <Accordion
                 title="KAEORN PHILOSOPHY"
@@ -398,6 +371,12 @@ export default function PerfumeVelion() {
           </div>
         </div>
       </section>
+
+      <ProductReviews
+        productId="velion"
+        productName="VELION"
+        data={reviewsData}
+      />
     </>
   );
 }
@@ -624,26 +603,6 @@ const styles = {
     color: "#777",
     fontStyle: "italic",
     textAlign: "center",
-  },
-  reviewsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-    marginTop: 4,
-  },
-  reviewItem: { borderLeft: "2px solid #eee", paddingLeft: 14 },
-  reviewStars: {
-    color: "#c9a96e",
-    fontSize: 13,
-    letterSpacing: 2,
-    marginBottom: 4,
-  },
-  reviewText: {
-    fontSize: 14.5,
-    color: "#444",
-    lineHeight: 1.7,
-    margin: "0 0 4px",
-    fontStyle: "italic",
   },
   reviewName: { fontSize: 12, color: "#999", letterSpacing: 1 },
 };

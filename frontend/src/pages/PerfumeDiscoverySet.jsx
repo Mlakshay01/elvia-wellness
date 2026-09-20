@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { ld, productJsonLd, breadcrumbJsonLd } from "../seo/schema";
+import ProductReviews from "../components/ProductReviews";
+import useProductReviews from "../hooks/useProductReviews";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -72,6 +75,7 @@ export default function PerfumeDiscoverySet() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("inside");
+  const reviewsData = useProductReviews("discovery-set");
 
   const galleryRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -144,6 +148,17 @@ export default function PerfumeDiscoverySet() {
           content="https://kaeorn.com/perfume/discovery-set"
         />
         <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {ld(productJsonLd("/perfume/discovery-set", { description: "The KAEORN Discovery Set — three 30 ml Eau de Parfum bottles: THÉ NOIR, VEIL and SOIE FEMME.", category: "Collection · Eau de Parfum", availability: "InStock", images: images.slice(0, 3), rating: reviewsData.summary, reviews: reviewsData.reviews }))}
+        </script>
+        <script type="application/ld+json">
+          {ld(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "DISCOVERY SET", path: "/perfume/discovery-set" },
+            ]),
+          )}
+        </script>
       </Helmet>
 
       {authType && (
@@ -343,6 +358,12 @@ export default function PerfumeDiscoverySet() {
           </div>
         </div>
       </section>
+
+      <ProductReviews
+        productId="discovery-set"
+        productName="the Discovery Set"
+        data={reviewsData}
+      />
     </>
   );
 }
@@ -522,34 +543,6 @@ const styles = {
     color: "#777",
     fontStyle: "italic",
     textAlign: "center",
-  },
-  reviewsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-    marginTop: 4,
-  },
-  reviewItem: {
-    borderLeft: "2px solid #eee",
-    paddingLeft: 14,
-  },
-  reviewStars: {
-    color: "#c9a96e",
-    fontSize: 13,
-    letterSpacing: 2,
-    marginBottom: 4,
-  },
-  reviewText: {
-    fontSize: 14.5,
-    color: "#444",
-    lineHeight: 1.7,
-    margin: "0 0 4px",
-    fontStyle: "italic",
-  },
-  reviewName: {
-    fontSize: 12,
-    color: "#999",
-    letterSpacing: 1,
   },
   insideList: { display: "flex", flexDirection: "column", gap: 22 },
   insideItem: {

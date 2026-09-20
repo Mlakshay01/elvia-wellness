@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { ld, productJsonLd, breadcrumbJsonLd } from "../seo/schema";
+import ProductReviews from "../components/ProductReviews";
+import useProductReviews from "../hooks/useProductReviews";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
@@ -40,16 +43,6 @@ const NOTES = [
   },
 ];
 
-const REVIEWS = [
-  { stars: 5, name: "Riya, Delhi", text: "Feels truly premium." },
-  { stars: 5, name: "Aanya, Mumbai", text: "Soft, elegant and addictive." },
-  {
-    stars: 4,
-    name: "Kavya, Bangalore",
-    text: "Perfect everyday luxury scent.",
-  },
-];
-
 /* ── ACCORDION — outside component to avoid recreation on every render ── */
 function Accordion({ title, id, open, setOpen, children }) {
   const isOpen = open === id;
@@ -78,6 +71,7 @@ export default function PerfumeQuietWoods() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("description");
+  const reviewsData = useProductReviews("perfume-soie-femme");
   const [sizeId, setSizeId] = useState("100ml");
   const selectedSize =
     SIZE_OPTIONS.find((o) => o.id === sizeId) ||
@@ -163,6 +157,17 @@ export default function PerfumeQuietWoods() {
           content="https://kaeorn.com/perfume/soie-femme-floral-perfume"
         />
         <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {ld(productJsonLd("/perfume/soie-femme-floral-perfume", { description: "SOIE FEMME by KAEORN — a luminous feminine Eau de Parfum with notes of Coffee, Jasmine and Vanilla. Made in India.", category: "Women · Eau de Parfum", availability: "InStock", images: images.slice(0, 3), rating: reviewsData.summary, reviews: reviewsData.reviews }))}
+        </script>
+        <script type="application/ld+json">
+          {ld(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "SOIE FEMME", path: "/perfume/soie-femme-floral-perfume" },
+            ]),
+          )}
+        </script>
       </Helmet>
 
       {authType && (
@@ -364,25 +369,6 @@ export default function PerfumeQuietWoods() {
                 naturally with your body heat.
               </Accordion>
 
-              <Accordion
-                title="REVIEWS"
-                id="reviews"
-                open={open}
-                setOpen={setOpen}
-              >
-                <div style={styles.reviewsWrap}>
-                  {REVIEWS.map((r, i) => (
-                    <div key={i} style={styles.reviewItem}>
-                      <div style={styles.reviewStars}>
-                        {"★".repeat(r.stars)}
-                        {"☆".repeat(5 - r.stars)}
-                      </div>
-                      <p style={styles.reviewText}>"{r.text}"</p>
-                      <span style={styles.reviewName}>— {r.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </Accordion>
 
               <Accordion
                 title="KAEORN PHILOSOPHY"
@@ -399,6 +385,12 @@ export default function PerfumeQuietWoods() {
           </div>
         </div>
       </section>
+
+      <ProductReviews
+        productId="perfume-soie-femme"
+        productName="SOIE FEMME"
+        data={reviewsData}
+      />
     </>
   );
 }
@@ -595,33 +587,5 @@ const styles = {
     color: "#777",
     fontStyle: "italic",
     textAlign: "center",
-  },
-  reviewsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-    marginTop: 4,
-  },
-  reviewItem: {
-    borderLeft: "2px solid #eee",
-    paddingLeft: 14,
-  },
-  reviewStars: {
-    color: "#c9a96e",
-    fontSize: 13,
-    letterSpacing: 2,
-    marginBottom: 4,
-  },
-  reviewText: {
-    fontSize: 14.5,
-    color: "#444",
-    lineHeight: 1.7,
-    margin: "0 0 4px",
-    fontStyle: "italic",
-  },
-  reviewName: {
-    fontSize: 12,
-    color: "#999",
-    letterSpacing: 1,
   },
 };

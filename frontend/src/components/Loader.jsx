@@ -5,6 +5,9 @@ export default function Loader() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    // Skip the splash for crawlers and audits so screenshots/rendering see the real page.
+    if (/bot|crawl|spider|slurp|lighthouse|pagespeed|headless/i.test(navigator.userAgent)) return;
+
     const internalNav = sessionStorage.getItem("internalNav");
 
     if (internalNav) {

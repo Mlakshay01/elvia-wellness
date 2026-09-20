@@ -11,6 +11,7 @@
 */
 
 import { useState, useRef, useEffect } from "react";
+import CrawlLink from "./CrawlLink";
 
 /* ── Replace these with real Cloudinary URLs when ready ── */
 const NOX_IMG =
@@ -156,7 +157,9 @@ function ArrivalCard({
         {/* eyebrow */}
         <p style={cardStyles.eyebrow}>Solid Balm · New Arrival</p>
 
-        <h2 style={cardStyles.name}>{product.name}</h2>
+        <h2 style={cardStyles.name}>
+          <CrawlLink to={product.route}>{product.name}</CrawlLink>
+        </h2>
 
         <p style={{ ...cardStyles.character, color: product.accent }}>
           {product.character}

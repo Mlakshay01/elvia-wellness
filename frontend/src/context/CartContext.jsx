@@ -127,6 +127,9 @@ function normalizeCartItem(item) {
 ========================================================= */
 
 function loadInitialCart() {
+  // Build-time prerender runs in Node (no localStorage) — start with an empty cart.
+  if (typeof window === "undefined") return [];
+
   try {
     const stored = localStorage.getItem("kaeorn_cart");
 
@@ -177,6 +180,8 @@ export function CartProvider({ children }) {
   ========================================================= */
 
   const [appliedCoupon, setAppliedCoupon] = useState(() => {
+    if (typeof window === "undefined") return null;
+
     try {
       const stored = localStorage.getItem("appliedCoupon");
 

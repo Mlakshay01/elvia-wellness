@@ -1,84 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- HOME -->
   <url>
     <loc>https://kaeorn.com/</loc>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- PERFUMES -->
   <url>
     <loc>https://kaeorn.com/perfume/noir-party-perfume</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/perfume/soie-femme-floral-perfume</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/perfume/veil-fresh-perfume</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/perfume/discovery-set</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
-  <!-- BLOG MAIN PAGE -->
+  <url>
+    <loc>https://kaeorn.com/perfume/nox</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kaeorn.com/perfume/velion</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
   <url>
     <loc>https://kaeorn.com/blogs</loc>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- BLOG POSTS -->
-  <url>
-    <loc>https://kaeorn.com/blogs/why-kaeorn-perfumes-are-unique</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
   <url>
-    <loc>https://kaeorn.com/blogs/how-to-choose-perfume-kaeorn-guide</loc>
-    <priority>0.8</priority>
+    <loc>https://kaeorn.com/program/ambassador</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
-
-  <url>
-    <loc>https://kaeorn.com/blogs/kaeorn-perfumes-luxury-fragrance-india</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- PAGES -->
   <url>
     <loc>https://kaeorn.com/about</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/contact</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/privacy</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/terms</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/refund</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://kaeorn.com/shipping</loc>
+    <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
+  <url>
+    <loc>https://kaeorn.com/blogs/why-kaeorn-perfumes-are-unique</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kaeorn.com/blogs/how-to-choose-perfume-kaeorn-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kaeorn.com/blogs/kaeorn-perfumes-luxury-fragrance-india</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

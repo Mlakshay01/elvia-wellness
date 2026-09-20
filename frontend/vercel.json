@@ -1,8 +1,200 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/perfume/soft-skin",
+      "destination": "/perfume/noir-party-perfume",
+      "permanent": true
+    },
+    {
+      "source": "/perfume/morning-veil",
+      "destination": "/perfume/veil-fresh-perfume",
+      "permanent": true
+    },
+    {
+      "source": "/perfume/quiet-woods",
+      "destination": "/perfume/soie-femme-floral-perfume",
+      "permanent": true
+    },
+    {
+      "source": "/perfume",
+      "destination": "/#collection",
+      "permanent": true
+    },
+    {
+      "source": "/product",
+      "destination": "/#collection",
+      "permanent": true
+    },
+    {
+      "source": "/product/spray",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/blogs/:slug",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/cart",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/account",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/addresses",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/my-orders",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/previous-orders",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/support",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/success",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/order-success",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/order/:id",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/verify/:token",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/checkout/:path*",
+      "destination": "/app-shell.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/app-shell.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/cart",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/account",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/addresses",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/my-orders",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/previous-orders",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/support",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/success",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/order-success",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/order/:id",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/verify/:token",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/checkout/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/admin/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }

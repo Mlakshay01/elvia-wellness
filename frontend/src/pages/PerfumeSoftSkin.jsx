@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { ld, productJsonLd, breadcrumbJsonLd } from "../seo/schema";
+import ProductReviews from "../components/ProductReviews";
+import useProductReviews from "../hooks/useProductReviews";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
@@ -39,16 +42,6 @@ const NOTES = [
   },
 ];
 
-const REVIEWS = [
-  { stars: 5, name: "Arjun, Delhi", text: "Feels expensive and composed." },
-  { stars: 5, name: "Karan, Mumbai", text: "People asked what I was wearing." },
-  {
-    stars: 4,
-    name: "Raghav, Bangalore",
-    text: "Perfect for office and evenings.",
-  },
-];
-
 /* ── ACCORDION — unified API: id / open / setOpen ── */
 function Accordion({ title, id, open, setOpen, children }) {
   const isOpen = open === id;
@@ -75,6 +68,7 @@ export default function PerfumeSoftSkin() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("description");
+  const reviewsData = useProductReviews("the-noir-men");
   const [sizeId, setSizeId] = useState("100ml");
   const selectedSize =
     SIZE_OPTIONS.find((o) => o.id === sizeId) ||
@@ -152,6 +146,17 @@ export default function PerfumeSoftSkin() {
           content="https://kaeorn.com/perfume/noir-party-perfume"
         />
         <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {ld(productJsonLd("/perfume/noir-party-perfume", { description: "THÉ NOIR by KAEORN — a woody, aromatic men's Eau de Parfum with notes of Apple, Lavender and Tonka Bean. Made in India.", category: "Men · Eau de Parfum", availability: "InStock", images: galleryImages.slice(0, 3), rating: reviewsData.summary, reviews: reviewsData.reviews }))}
+        </script>
+        <script type="application/ld+json">
+          {ld(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "THÉ NOIR", path: "/perfume/noir-party-perfume" },
+            ]),
+          )}
+        </script>
       </Helmet>
 
       {authType && (
@@ -354,25 +359,6 @@ export default function PerfumeSoftSkin() {
                 longest-lasting result.
               </Accordion>
 
-              <Accordion
-                title="REVIEWS"
-                id="reviews"
-                open={open}
-                setOpen={setOpen}
-              >
-                <div style={styles.reviewsWrap}>
-                  {REVIEWS.map((r, i) => (
-                    <div key={i} style={styles.reviewItem}>
-                      <div style={styles.reviewStars}>
-                        {"★".repeat(r.stars)}
-                        {"☆".repeat(5 - r.stars)}
-                      </div>
-                      <p style={styles.reviewText}>"{r.text}"</p>
-                      <span style={styles.reviewName}>— {r.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </Accordion>
 
               <Accordion
                 title="KAEORN PHILOSOPHY"
@@ -389,6 +375,12 @@ export default function PerfumeSoftSkin() {
           </div>
         </div>
       </section>
+
+      <ProductReviews
+        productId="the-noir-men"
+        productName="THÉ NOIR"
+        data={reviewsData}
+      />
     </>
   );
 }
@@ -574,26 +566,6 @@ const styles = {
     color: "#777",
     fontStyle: "italic",
     textAlign: "center",
-  },
-  reviewsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-    marginTop: 4,
-  },
-  reviewItem: { borderLeft: "2px solid #eee", paddingLeft: 14 },
-  reviewStars: {
-    color: "#c9a96e",
-    fontSize: 13,
-    letterSpacing: 2,
-    marginBottom: 4,
-  },
-  reviewText: {
-    fontSize: 14.5,
-    color: "#444",
-    lineHeight: 1.7,
-    margin: "0 0 4px",
-    fontStyle: "italic",
   },
   reviewName: { fontSize: 12, color: "#999", letterSpacing: 1 },
 };

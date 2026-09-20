@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import "../styles/Footer/Footer.css";
 
 export default function Footer() {
-  const navigate = useNavigate();
-
   /* ── SCROLL REVEAL ── */
   const observerRef = useRef(null);
 
@@ -55,54 +53,27 @@ export default function Footer() {
             </div>
             <div className="footer-col reveal">
               <h4>Collection</h4>
-              <span
-                className="link"
-                onClick={() => navigate("/perfume/noir-party-perfume")}
-              >
-                Thé Noir Men
-              </span>
-              <span
-                className="link"
-                onClick={() => navigate("/perfume/soie-femme-floral-perfume")}
-              >
-                Soié Femme
-              </span>
-              <span
-                className="link"
-                onClick={() => navigate("/perfume/veil-fresh-perfume")}
-              >
-                Veil
-              </span>
-              <span className="link" onClick={() => navigate("/perfume/nox")}>
-                Nox
-              </span>
-              <span
-                className="link"
-                onClick={() => navigate("/perfume/velion")}
-              >
-                Velion
-              </span>
-              {/* <span
-                className="link"
-                onClick={() => navigate("/perfume/discovery-set")}
-              >
-                Discovery Set
-              </span> */}
+              <Link className="link" to="/perfume/noir-party-perfume">Thé Noir Men</Link>
+              <Link className="link" to="/perfume/soie-femme-floral-perfume">Soié Femme</Link>
+              <Link className="link" to="/perfume/veil-fresh-perfume">Veil</Link>
+              <Link className="link" to="/perfume/nox">Nox</Link>
+              <Link className="link" to="/perfume/velion">Velion</Link>
+              {/* <Link className="link" to="/perfume/discovery-set">Discovery Set</Link> */}
             </div>
             <div className="footer-col reveal">
               <h4>Brand</h4>
-              <a href="#about">Our Story</a>
-              <a href="#coming">Coming Soon</a>
-              <a href="https://kaeorn.com/blogs" target="_blank">
-                Blogs
-              </a>
+              <Link to="/about">About</Link>
+              <a href="/#about">Our Story</a>
+              <a href="/#coming">Coming Soon</a>
+              <Link to="/blogs">Journal</Link>
+              <Link to="/program/ambassador">Ambassador Program</Link>
             </div>
             <div className="footer-col reveal">
               <h4>Connect</h4>
-              <a href="https://www.instagram.com/kaeorn.co" target="_blank">
+              <a href="https://www.instagram.com/kaeorn.co" target="_blank" rel="noopener noreferrer">
                 Instagram
               </a>
-              <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank">
+              <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noopener noreferrer">
                 YouTube
               </a>
             </div>
@@ -112,25 +83,13 @@ export default function Footer() {
               © 2026 KAEORN. All rights reserved.
             </span>
             <div className="footer-social">
-              <span className="link" onClick={() => navigate("/privacy")}>
-                Privacy
-              </span>
-              <span className="link" onClick={() => navigate("/terms")}>
-                Terms
-              </span>
-              <span className="link" onClick={() => navigate("/contact")}>
-                Contact
-              </span>
-              <span className="link" onClick={() => navigate("/refund")}>
-                Refund
-              </span>
-              <span className="link" onClick={() => navigate("/shipping")}>
-                Shipping
-              </span>
+              <Link className="link" to="/privacy">Privacy</Link>
+              <Link className="link" to="/terms">Terms</Link>
+              <Link className="link" to="/contact">Contact</Link>
+              <Link className="link" to="/refund">Refund</Link>
+              <Link className="link" to="/shipping">Shipping</Link>
 
-              <span className="link" onClick={() => navigate("https://kaeorn.com")}>     
-                kaeorn.com
-              </span>
+              <Link className="link" to="/">kaeorn.com</Link>
             </div>
           </div>
         </div>

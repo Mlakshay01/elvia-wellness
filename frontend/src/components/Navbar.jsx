@@ -21,7 +21,9 @@ export default function Navbar() {
   const { user } = useAuth();
 
   const [showAuth, setShowAuth] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 768 : false,
+  );
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -87,7 +89,16 @@ export default function Navbar() {
               <ArrowLeft size={16} />
             </button>
           )}
-          <a className="nav-logo" onClick={() => navigate("/")}>KAEORN</a>
+          <a
+            className="nav-logo"
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/");
+            }}
+          >
+            KAEORN
+          </a>
         </div>
 
         {/* ── CENTER ── */}

@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import CrawlLink from "../components/CrawlLink";
 
 const API = import.meta.env.VITE_API_BASE;
 
 export default function Blogs() {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // Build-time prerender (scripts/prerender.mjs) hands the list in via globalThis so the
+  // server-rendered HTML already contains every post title + link. Undefined in the browser.
+  const prerendered = globalThis.__PRERENDER_DATA__?.blogs;
+  const [blogs, setBlogs] = useState(prerendered ?? []);
+  const [loading, setLoading] = useState(!prerendered);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,7 +90,9 @@ export default function Blogs() {
                       ))}
                     </div>
                   )}
-                  <h2 style={s.cardTitle}>{blog.title}</h2>
+                  <h2 style={s.cardTitle}>
+                    <CrawlLink to={`/blogs/${blog.slug}`}>{blog.title}</CrawlLink>
+                  </h2>
                   {blog.excerpt && <p style={s.excerpt}>{blog.excerpt}</p>}
                   <div style={s.cardFooter}>
                     <p style={s.date}>

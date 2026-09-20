@@ -12,6 +12,8 @@ import AuthModal from "../components/AuthModal";
 import { useCallback } from "react";
 import NewArrivals from "../components/NewArrivals";
 import AmbassadorSection from "../components/AmbassadorSection";
+import CrawlLink from "../components/CrawlLink";
+import { ld, ORGANIZATION_JSONLD, WEBSITE_JSONLD } from "../seo/schema";
 
 /* ── PRODUCT IMAGES ── */
 const softSkinImg =
@@ -40,21 +42,6 @@ const MARQUEE_ITEMS = [
   "BECAUSE CARE DESERVES LUXURY",
   "·",
 ];
-
-/* ── SCHEMA ── */
-const ORGANIZATION_SCHEMA = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Kaeorn",
-  url: "https://kaeorn.com",
-  description:
-    "Kaeorn is a luxury perfume brand offering premium Eau de Parfum for men, women, and unisex wear. Made in India.",
-  foundingLocation: {
-    "@type": "Country",
-    name: "India",
-  },
-  sameAs: ["https://instagram.com/kaeorn.co", "https://facebook.com/kaeorn"],
-};
 
 /* ----- WAITLIST------*/
 const NOTIFY_WAITLIST_URL =
@@ -112,7 +99,9 @@ function PerfumeCard({
       </div>
       <div style={styles.cardInfo}>
         <span style={styles.gender}>{gender} · EAU DE PARFUM</span>
-        <h4 style={styles.name}>{name}</h4>
+        <h4 style={styles.name}>
+          <CrawlLink to={to}>{name}</CrawlLink>
+        </h4>
         <p style={styles.mood}>{mood}</p>
         <span style={styles.volume}>100 ml</span>
         <span style={styles.volume}>Longevity: 8-10hrs</span>
@@ -153,7 +142,8 @@ function PerfumeCard({
 export default function Home() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [visible, setVisible] = useState(false);
+  // On the server (build-time prerender) render visible so crawlers/no-JS readers see the content.
+  const [visible, setVisible] = useState(typeof window === "undefined");
   const { addToCart } = useCart();
   const [showAuth, setShowAuth] = useState(false);
 
@@ -264,9 +254,8 @@ export default function Home() {
         />
         <meta property="og:site_name" content="Kaeorn" />
 
-        <script type="application/ld+json">
-          {JSON.stringify(ORGANIZATION_SCHEMA)}
-        </script>
+        <script type="application/ld+json">{ld(ORGANIZATION_JSONLD)}</script>
+        <script type="application/ld+json">{ld(WEBSITE_JSONLD)}</script>
       </Helmet>
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}

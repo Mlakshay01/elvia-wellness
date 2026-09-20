@@ -1,9 +1,18 @@
 User-agent: *
 Allow: /
 
+# Private / transactional pages
 Disallow: /admin
-Disallow: /checkout
 Disallow: /cart
+Disallow: /checkout
 Disallow: /account
+Disallow: /addresses
+Disallow: /my-orders
+Disallow: /previous-orders
+Disallow: /order/
+Disallow: /order-success
+Disallow: /support
+Disallow: /success
+Disallow: /verify/
 
 Sitemap: https://kaeorn.com/sitemap.xml

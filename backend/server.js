@@ -14,10 +14,14 @@ const adminEmailRoutes = require("./routes/adminEmailRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const adminAnalyticsRoutes = require("./routes/adminAnalyticsRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 
 
 /* ---------------- APP ---------------- */
 const app = express();
+
+// Behind Render's proxy: use the real client IP (needed for per-IP rate limiting on reviews)
+app.set("trust proxy", 1);
 
 
 /* ---------------- CORS ---------------- */
@@ -67,6 +71,7 @@ app.use("/api/admin", adminEmailRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/admin", adminAnalyticsRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 /* ---------------- DATABASE ---------------- */
 mongoose

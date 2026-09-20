@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { ld, articleJsonLd } from "../seo/schema";
 
 const API = import.meta.env.VITE_API_BASE;
 
 export default function BlogPost() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [blog, setBlog] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // Build-time prerender supplies the post via globalThis (undefined in the browser).
+  const prerendered = globalThis.__PRERENDER_DATA__?.blogBySlug?.[slug] ?? null;
+  const [blog, setBlog] = useState(prerendered);
+  const [loading, setLoading] = useState(!prerendered);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -42,6 +45,7 @@ export default function BlogPost() {
       <>
         <Helmet>
           <title>Not Found | KAEORN Journal</title>
+          <meta name="robots" content="noindex" />
         </Helmet>
         <div style={s.stateWrap}>
           <p style={s.emptyText}>This story couldn't be found.</p>
@@ -64,7 +68,7 @@ export default function BlogPost() {
   return (
     <>
       <Helmet>
-        <title>{blog.title} | KAEORN Journal</title>
+        <title>{`${blog.title} | KAEORN Journal`}</title>
         <meta
           name="description"
           content={blog.excerpt || `${blog.title} — from the Kaeorn Journal.`}
@@ -86,6 +90,18 @@ export default function BlogPost() {
             content={new Date(blog.createdAt).toISOString()}
           />
         )}
+        <script type="application/ld+json">
+          {ld(
+            articleJsonLd({
+              slug,
+              title: blog.title,
+              description: blog.excerpt || `${blog.title} — from the Kaeorn Journal.`,
+              image: blog.coverImage,
+              createdAt: blog.createdAt,
+              updatedAt: blog.updatedAt,
+            }),
+          )}
+        </script>
       </Helmet>
 
       <div style={s.page}>

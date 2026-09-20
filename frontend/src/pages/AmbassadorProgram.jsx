@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import "../styles/Program/AmbassadorProgram.css";
 
 const TIERS = [
@@ -115,6 +116,22 @@ export default function AmbassadorProgram() {
   const [showModal, setShowModal] = useState(false);
 
   return (
+    <>
+    <Helmet>
+      <title>Ambassador Program — Earn Commission with KAEORN</title>
+      <meta
+        name="description"
+        content="Join the KAEORN Ambassador Program: a personal creator code for your audience, a creator dashboard, and 10–20% commission on every sale. Apply today."
+      />
+      <link rel="canonical" href="https://kaeorn.com/program/ambassador" />
+      <meta property="og:title" content="KAEORN Ambassador Program" />
+      <meta
+        property="og:description"
+        content="A personal creator code, a creator dashboard and 10–20% commission on every sale."
+      />
+      <meta property="og:url" content="https://kaeorn.com/program/ambassador" />
+      <meta property="og:type" content="website" />
+    </Helmet>
     <div className="ap-page">
       {showModal && <ApplyModal onClose={() => setShowModal(false)} />}
 
@@ -318,5 +335,6 @@ export default function AmbassadorProgram() {
         </div>
       </section>
     </div>
+    </>
   );
 }

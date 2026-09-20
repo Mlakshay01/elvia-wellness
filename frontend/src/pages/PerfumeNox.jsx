@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { ld, productJsonLd, breadcrumbJsonLd } from "../seo/schema";
+import ProductReviews from "../components/ProductReviews";
+import useProductReviews from "../hooks/useProductReviews";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -34,25 +37,6 @@ const NOTES = [
   },
 ];
 
-const REVIEWS = [
-  {
-    stars: 5,
-    name: "Riya, Delhi",
-    text: "Feels like a niche European perfume.",
-  },
-  { stars: 5, name: "Aarav, Mumbai", text: "Very calming and classy." },
-  {
-    stars: 4,
-    name: "Meera, Bangalore",
-    text: "Perfect everyday luxury scent.",
-  },
-  {
-    stars: 5,
-    name: "Nikhil, Pune",
-    text: "Subtle, clean and quietly addictive.",
-  },
-];
-
 /* ── ACCORDION ── */
 function Accordion({ title, id, open, setOpen, children }) {
   const isOpen = open === id;
@@ -80,6 +64,7 @@ export default function PerfumeNox() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("description");
+  const reviewsData = useProductReviews("nox");
 
   const galleryRef = useRef(null);
   const [currentImage, setCurrentImage] = useState(0);
@@ -130,7 +115,7 @@ export default function PerfumeNox() {
         <title>NOX — Unisex Solid Perfume Balm | KAEORN</title>
         <meta
           name="description"
-          content="NOX is a warm, smoky solid perfume built around rare oud wood. Smooth, deep and intimate — designed to stay close yet noticeable. 10g balm, ₹599."
+          content={`NOX is a warm, smoky solid perfume built around rare oud wood. Smooth, deep and intimate — designed to stay close yet noticeable. 10g balm, ₹${price}.`}
         />
         <link rel="canonical" href="https://kaeorn.com/perfume/nox" />
         <meta
@@ -139,11 +124,22 @@ export default function PerfumeNox() {
         />
         <meta
           property="og:description"
-          content="A warm, smoky solid perfume. Notes of Rare Oud Wood, Sandalwood & Chinese Pepper. ₹599 — Made in India."
+          content={`A warm, smoky solid perfume. Notes of Rare Oud Wood, Sandalwood & Chinese Pepper. ₹${price} — Made in India.`}
         />
         <meta property="og:image" content={images[0]} />
         <meta property="og:url" content="https://kaeorn.com/perfume/nox" />
         <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {ld(productJsonLd("/perfume/nox", { description: "NOX by KAEORN — a warm, smoky unisex solid perfume balm built around rare oud wood. 10 g.", category: "Unisex · Perfume Balm", availability: "OutOfStock", images: images.slice(0, 3), rating: reviewsData.summary, reviews: reviewsData.reviews }))}
+        </script>
+        <script type="application/ld+json">
+          {ld(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "NOX", path: "/perfume/nox" },
+            ]),
+          )}
+        </script>
       </Helmet>
 
       {authType && (
@@ -357,25 +353,6 @@ export default function PerfumeNox() {
                 lightly whenever you want to refresh the scent.
               </Accordion>
 
-              <Accordion
-                title="REVIEWS"
-                id="reviews"
-                open={open}
-                setOpen={setOpen}
-              >
-                <div style={styles.reviewsWrap}>
-                  {REVIEWS.map((r, i) => (
-                    <div key={i} style={styles.reviewItem}>
-                      <div style={styles.reviewStars}>
-                        {"★".repeat(r.stars)}
-                        {"☆".repeat(5 - r.stars)}
-                      </div>
-                      <p style={styles.reviewText}>"{r.text}"</p>
-                      <span style={styles.reviewName}>— {r.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </Accordion>
 
               <Accordion
                 title="KAEORN PHILOSOPHY"
@@ -392,6 +369,12 @@ export default function PerfumeNox() {
           </div>
         </div>
       </section>
+
+      <ProductReviews
+        productId="nox"
+        productName="NOX"
+        data={reviewsData}
+      />
     </>
   );
 }
@@ -612,33 +595,5 @@ const styles = {
     color: "#777",
     fontStyle: "italic",
     textAlign: "center",
-  },
-  reviewsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-    marginTop: 4,
-  },
-  reviewItem: {
-    borderLeft: "2px solid #eee",
-    paddingLeft: 14,
-  },
-  reviewStars: {
-    color: "#c9a96e",
-    fontSize: 13,
-    letterSpacing: 2,
-    marginBottom: 4,
-  },
-  reviewText: {
-    fontSize: 14.5,
-    color: "#444",
-    lineHeight: 1.7,
-    margin: "0 0 4px",
-    fontStyle: "italic",
-  },
-  reviewName: {
-    fontSize: 12,
-    color: "#999",
-    letterSpacing: 1,
   },
 };

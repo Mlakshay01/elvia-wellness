@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
+import { ld, productJsonLd, breadcrumbJsonLd } from "../seo/schema";
+import ProductReviews from "../components/ProductReviews";
+import useProductReviews from "../hooks/useProductReviews";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -39,25 +42,6 @@ const NOTES = [
   },
 ];
 
-const REVIEWS = [
-  {
-    stars: 5,
-    name: "Riya, Delhi",
-    text: "Feels like a niche European perfume.",
-  },
-  { stars: 5, name: "Aarav, Mumbai", text: "Very calming and classy." },
-  {
-    stars: 4,
-    name: "Meera, Bangalore",
-    text: "Perfect everyday luxury scent.",
-  },
-  {
-    stars: 5,
-    name: "Nikhil, Pune",
-    text: "Subtle, clean and quietly addictive.",
-  },
-];
-
 /* ── ACCORDION — moved outside to avoid recreation on every render ── */
 function Accordion({ title, id, open, setOpen, children }) {
   const isOpen = open === id;
@@ -86,6 +70,7 @@ export default function PerfumeMorningVeil() {
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
   const [open, setOpen] = useState("description");
+  const reviewsData = useProductReviews("perfume-veil-unisex");
   const [sizeId, setSizeId] = useState("100ml");
   const selectedSize =
     SIZE_OPTIONS.find((o) => o.id === sizeId) ||
@@ -171,6 +156,17 @@ export default function PerfumeMorningVeil() {
           content="https://kaeorn.com/perfume/veil-fresh-perfume"
         />
         <meta property="og:type" content="product" />
+        <script type="application/ld+json">
+          {ld(productJsonLd("/perfume/veil-fresh-perfume", { description: "VEIL by KAEORN — a clean, airy unisex Eau de Parfum with notes of Bergamot, Pink Pepper and Sandalwood. Made in India.", category: "Unisex · Eau de Parfum", availability: "InStock", images: images.slice(0, 3), rating: reviewsData.summary, reviews: reviewsData.reviews }))}
+        </script>
+        <script type="application/ld+json">
+          {ld(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "VEIL", path: "/perfume/veil-fresh-perfume" },
+            ]),
+          )}
+        </script>
       </Helmet>
 
       {authType && (
@@ -373,25 +369,6 @@ export default function PerfumeMorningVeil() {
                 result.
               </Accordion>
 
-              <Accordion
-                title="REVIEWS"
-                id="reviews"
-                open={open}
-                setOpen={setOpen}
-              >
-                <div style={styles.reviewsWrap}>
-                  {REVIEWS.map((r, i) => (
-                    <div key={i} style={styles.reviewItem}>
-                      <div style={styles.reviewStars}>
-                        {"★".repeat(r.stars)}
-                        {"☆".repeat(5 - r.stars)}
-                      </div>
-                      <p style={styles.reviewText}>"{r.text}"</p>
-                      <span style={styles.reviewName}>— {r.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </Accordion>
 
               <Accordion
                 title="KAEORN PHILOSOPHY"
@@ -408,6 +385,12 @@ export default function PerfumeMorningVeil() {
           </div>
         </div>
       </section>
+
+      <ProductReviews
+        productId="perfume-veil-unisex"
+        productName="VEIL"
+        data={reviewsData}
+      />
     </>
   );
 }
@@ -587,33 +570,5 @@ galleryImage: {
     color: "#777",
     fontStyle: "italic",
     textAlign: "center",
-  },
-  reviewsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 20,
-    marginTop: 4,
-  },
-  reviewItem: {
-    borderLeft: "2px solid #eee",
-    paddingLeft: 14,
-  },
-  reviewStars: {
-    color: "#c9a96e",
-    fontSize: 13,
-    letterSpacing: 2,
-    marginBottom: 4,
-  },
-  reviewText: {
-    fontSize: 14.5,
-    color: "#444",
-    lineHeight: 1.7,
-    margin: "0 0 4px",
-    fontStyle: "italic",
-  },
-  reviewName: {
-    fontSize: 12,
-    color: "#999",
-    letterSpacing: 1,
   },
 };
