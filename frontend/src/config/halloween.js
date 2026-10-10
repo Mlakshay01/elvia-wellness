@@ -83,7 +83,7 @@ export const HALLOWEEN_PRODUCTS = {
   nocturne: {
     key: "nocturne",
     id: "perfume-nocturne", // MongoDB productId
-    route: "/perfume/nocturne-dark-berry-perfume",
+    route: "/perfume/nocturne",
     name: "NOCTURNE",
     tagline: "Born after dark",
     category: "EAU DE PARFUM",
@@ -126,7 +126,7 @@ export const HALLOWEEN_PRODUCTS = {
   azur: {
     key: "azur",
     id: "perfume-azur", // MongoDB productId
-    route: "/perfume/azur-blue-oud-perfume",
+    route: "/perfume/azur",
     name: "AZUR",
     tagline: "Blue beyond midnight",
     category: "EAU DE PARFUM",
