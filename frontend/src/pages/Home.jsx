@@ -45,7 +45,7 @@ const MARQUEE_ITEMS = [
   "·",
   "MADE IN INDIA",
   "·",
-  "BECAUSE CARE DESERVES LUXURY",
+  "THE ART OF BEING REMEMBERED",
   "·",
 ];
 

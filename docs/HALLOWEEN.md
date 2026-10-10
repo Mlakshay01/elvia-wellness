@@ -8,7 +8,7 @@
 2. **Run the seed** (the server charges the DB price, so the products can't be bought until you do): `cd backend && node seedHalloweenPerfumes.js`. Safe to re-run.
 3. **Scent notes.** The three notes per product (`notes` in the config) are **mood words, not ingredient claims** (NOCTURNE: Dark berry / Deep red / After dark; AZUR: Cool blue / Oud / Midnight). Replace with the real notes.
 4. **Photos:** see `PHOTO_SHOTLIST.md`. **Audio:** listen to the files and see `AUDIO_CREDITS.md`.
-5. Confirm names/taglines and the slugs `/perfume/nocturne-dark-berry-perfume`, `/perfume/azur-blue-oud-perfume`. If you change a slug or id, change it in config **and** the seed (and `public/sitemap.xml`).
+5. Confirm names/taglines and the slugs `/perfume/nocturne`, `/perfume/azur`. If you change a slug or id, change it in config **and** the seed (and `public/sitemap.xml`).
 
 ## Ending Halloween
 - After `endDate` (default **2 Nov 2026, 00:00 IST**) the theme, intro, audio, banner/nav link, countdown and mute toggle switch off by themselves for anyone running the site in a browser (even a tab left open).

@@ -60,7 +60,7 @@ export default function HalloweenProduct({ productKey }) {
 
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
-  const [sizeId, setSizeId] = useState("100ml");
+  const [sizeId, setSizeId] = useState("30ml");
   const SIZE_OPTIONS = getSizeOptions(p.route);
   const selected = SIZE_OPTIONS.find((o) => o.id === sizeId) || SIZE_OPTIONS[SIZE_OPTIONS.length - 1];
   const price = selected?.price ?? p.price;
@@ -247,10 +247,10 @@ export default function HalloweenProduct({ productKey }) {
       <section className="hw-buy hw-io" id="buy">
         <div className="hw-buy-art">
           <span className="hw-buy-glow" aria-hidden="true" />
-          <img src={p.images.front} width="400" height="700" loading="lazy" decoding="async" alt={`${p.name} 100 ml bottle`} />
+          <img src={p.images.front} width="400" height="700" loading="lazy" decoding="async" alt={`${p.name} 30 ml bottle`} />
         </div>
         <div className="hw-buy-body">
-          <p className="hw-eyebrow">{p.category} · {selected?.label || p.size}</p>
+          <p className="hw-eyebrow">{p.category} · {"30 ml"}</p>
           <h2 className="hw-h2">{p.name}</h2>
           <p className="hw-p-tagline">{p.tagline}</p>
           <p className="hw-buy-story">{p.story}</p>
@@ -262,7 +262,7 @@ export default function HalloweenProduct({ productKey }) {
           ) : (
             <div className="hw-size">
               <span className="hw-size-label">Size</span>
-              <span className="hw-size-pill">{selected?.label || p.size}</span>
+              <span className="hw-size-pill">{"30 ml"}</span>
             </div>
           )}
 

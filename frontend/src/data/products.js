@@ -8,7 +8,7 @@ import { HALLOWEEN_PRODUCT_LIST } from "../config/halloween";
    after changing this, update the same number in
    backend/seed30mlProducts.js and re-run that script.
 ========================================================= */
-export const PRICE_30ML = 599;
+export const PRICE_30ML = 799;
 
 export const PRODUCTS = {
   "/perfume/noir-party-perfume": {

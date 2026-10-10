@@ -32,7 +32,7 @@ const PRODUCTS = [
   {
     productId: "perfume-nocturne",
     name: "NOCTURNE",
-    slug: "nocturne-dark-berry-perfume",
+    slug: "nocturne",
     // Placeholder art. Replace with the real transparent-PNG Cloudinary URL when the photos arrive.
     images: ["https://kaeorn.com/halloween/nocturne-front.png"],
   },

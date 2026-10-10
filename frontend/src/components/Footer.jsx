@@ -56,6 +56,8 @@ export default function Footer() {
               <Link className="link" to="/perfume/noir-party-perfume">Thé Noir Men</Link>
               <Link className="link" to="/perfume/soie-femme-floral-perfume">Soié Femme</Link>
               <Link className="link" to="/perfume/veil-fresh-perfume">Veil</Link>
+              <Link className="link" to="/perfume/nocturne">Nocturne</Link>
+              <Link className="link" to="/perfume/azur">Azur</Link>
               <Link className="link" to="/perfume/nox">Nox</Link>
               <Link className="link" to="/perfume/velion">Velion</Link>
               {/* <Link className="link" to="/perfume/discovery-set">Discovery Set</Link> */}
