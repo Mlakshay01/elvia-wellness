@@ -51,6 +51,8 @@ export const HALLOWEEN_COPY = {
   collectionTitleEm: "One long night.",
   collectionIntro:
     "A limited seasonal pair. Quiet, dark and made to linger well past midnight.",
+  offerLabel: "Limited launch offer",
+  offerSeasonal: "Halloween special",
 };
 
 /* ── Audio files (put the real files in /public/audio — see docs/AUDIO_CREDITS.md) ── */
@@ -76,8 +78,27 @@ export const HALLOWEEN_AUDIO = {
    point at generated SVG placeholders in /public/halloween.
 ========================================================================== */
 
-/** TODO(owner): confirm. Placeholder = same as the existing 100 ml perfumes. */
-export const HALLOWEEN_PRICE_100ML = 799;
+/* ── PRICING — LIMITED LAUNCH OFFER ───────────────────────────────────────
+   MRP is shown struck through; PRICE is what the customer actually pays.
+   The server charges the price stored in MongoDB, so PRICE here MUST equal
+   PRICE in backend/seedHalloweenPerfumes.js (re-run that script after a change).
+   To end the offer: set PRICE = MRP in both places (no strike-through is shown
+   when they match) and re-run the seed.
+------------------------------------------------------------------------- */
+export const HALLOWEEN_MRP = 1100;
+export const HALLOWEEN_PRICE = 799;
+
+/** Whole-number % off, e.g. 27. Returns 0 when there is no offer. */
+export function discountPercent(mrp = HALLOWEEN_MRP, price = HALLOWEEN_PRICE) {
+  return mrp > price ? Math.round((1 - price / mrp) * 100) : 0;
+}
+
+/** "Limited launch offer · Halloween special" while the theme is on; just "Limited launch offer" after. */
+export function offerLabel(themed) {
+  return themed
+    ? `${HALLOWEEN_COPY.offerLabel} · ${HALLOWEEN_COPY.offerSeasonal}`
+    : HALLOWEEN_COPY.offerLabel;
+}
 
 export const HALLOWEEN_PRODUCTS = {
   nocturne: {
@@ -88,11 +109,12 @@ export const HALLOWEEN_PRODUCTS = {
     tagline: "Born after dark",
     category: "EAU DE PARFUM",
     size: "30 ml",
-    price: 799, // TODO(owner): confirm price
+    mrp: HALLOWEEN_MRP,
+    price: HALLOWEEN_PRICE,
     mood: "Dark berry · Deep red",
     other: "azur",
     seoDescription:
-      "NOCTURNE by KAEORN — a dark berry, deep red Eau de Parfum from the Halloween Edition. Born after dark. 100 ml, made in India.",
+      "NOCTURNE by KAEORN — a dark berry, deep red Eau de Parfum from the Halloween Edition. Born after dark. Made in India.",
     story:
       "Born after dark. NOCTURNE is the deep red of the last candle in the room — dark berry, close to the skin, unhurried.",
     feel: "Slow, warm and a little dangerous. The scent of the hour when the house goes quiet.",
@@ -131,11 +153,12 @@ export const HALLOWEEN_PRODUCTS = {
     tagline: "Blue beyond midnight",
     category: "EAU DE PARFUM",
     size: "30 ml",
-    price: 799, // TODO(owner): confirm price
+    mrp: HALLOWEEN_MRP,
+    price: HALLOWEEN_PRICE,
     mood: "Oud · Cool blue",
     other: "nocturne",
     seoDescription:
-      "AZUR by KAEORN — a cool blue oud Eau de Parfum from the Halloween Edition. Blue beyond midnight. 100 ml, made in India.",
+      "AZUR by KAEORN — a cool blue oud Eau de Parfum from the Halloween Edition. Blue beyond midnight. Made in India.",
     story:
       "Blue beyond midnight. AZUR is oud seen through frost — cool, clear and strangely calm after the dark has settled.",
     feel: "Still, cold and luminous. Moonlight on glass.",

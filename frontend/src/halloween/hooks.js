@@ -16,7 +16,10 @@ export function useBodyClass(...classes) {
 
 /** prefers-reduced-motion (false on the server so crawlers get the full markup). */
 export function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
+  // false on the server; on the client read the real value immediately (no createRoot hydration)
+  const [reduced, setReduced] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => setReduced(mq.matches);

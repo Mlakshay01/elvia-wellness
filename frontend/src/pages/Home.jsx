@@ -76,6 +76,7 @@ function PerfumeCard({
   addReveal,
   showClaims = true,
   imgStyle,
+  size = "100 ml",
 }) {
   const [added, setAdded] = useState(false);
   const cardRef = useRef(null);
@@ -119,7 +120,7 @@ function PerfumeCard({
           <CrawlLink to={to}>{name}</CrawlLink>
         </h4>
         <p style={styles.mood}>{mood}</p>
-        <span style={styles.volume}>100 ml</span>
+        <span style={styles.volume}>{size}</span>
         {showClaims && <span style={styles.volume}>Longevity: 8-10hrs</span>}
         {showClaims && <span>{concentration} Natural Oils</span>}
         <div style={styles.priceRow}>
@@ -296,6 +297,7 @@ export default function Home() {
             <video
               key={heroVideoSrc}
               className="hero-video"
+              data-boot-wait=""
               src={heroVideoSrc}
               autoPlay
               muted
@@ -460,6 +462,8 @@ export default function Home() {
                       name: p.name,
                       mood: p.tagline,
                       price: `₹${p.price}`,
+                      mrp: p.mrp > p.price ? `₹${p.mrp}` : undefined,
+                      size: p.size,
                       showClaims: false,
                       imgStyle: { objectFit: "contain", background: `linear-gradient(180deg, ${p.theme.bgFrom}, ${p.theme.bgTo})` },
                     })),
