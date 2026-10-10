@@ -3,6 +3,7 @@ import CrawlLink from "../components/CrawlLink";
 import { HALLOWEEN_COPY, HALLOWEEN_PRODUCT_LIST } from "../config/halloween";
 import { playBell } from "./audioEngine";
 import { useCountdown } from "./hooks";
+import PriceBlock, { OfferTag } from "./PriceBlock";
 
 const pad = (n) => String(n).padStart(2, "0");
 
@@ -53,6 +54,7 @@ function Card({ p, navigate, addToCart, user, setShowAuth, addReveal, index }) {
       onClick={() => navigate(p.route)}
     >
       <div className="hw-card-art">
+        <span className="hw-card-ribbon">Launch offer</span>
         <span className="hw-card-glow" aria-hidden="true" />
         <img src={p.images.front} width="400" height="700" loading="lazy" decoding="async" alt={`${p.name} Eau de Parfum by KAEORN`} />
       </div>
@@ -61,7 +63,8 @@ function Card({ p, navigate, addToCart, user, setShowAuth, addReveal, index }) {
         <h3 className="hw-card-name"><CrawlLink to={p.route}>{p.name}</CrawlLink></h3>
         <p className="hw-card-tag">{p.tagline}</p>
         <p className="hw-card-mood">{p.mood}</p>
-        <div className="hw-card-price">₹{p.price}</div>
+        <OfferTag className="hw-offer-tag--card" />
+        <PriceBlock price={p.price} mrp={p.mrp} size="md" />
         <div className="hw-card-actions">
           <button type="button" className="hw-btn hw-btn--ghost" onClick={(e) => { e.stopPropagation(); navigate(p.route); }}>
             Explore

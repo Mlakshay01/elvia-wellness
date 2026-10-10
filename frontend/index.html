@@ -12,6 +12,36 @@
     -->
     <title>KAEORN | Quiet Luxury Fragrances</title>
 
+    <!--
+      BOOT COVER — paints BEFORE any JavaScript so visitors never see the unfinished page
+      flash and then get covered by the loader. The inline script below runs synchronously in
+      <head> (before first paint) and marks <html class="boot">; the React loader (src/components
+      Loader.jsx) removes it the moment it takes over, once the page is really ready.
+      Skipped (cover stays hidden, real content is visible) for: crawlers/audits, private app
+      routes, and visitors without JavaScript. Rules mirror src/boot/bootGate.js.
+      Failsafe: if the app never boots, the cover removes itself after 20 s.
+    -->
+    <style>
+      #boot-cover { display: none; position: fixed; inset: 0; z-index: 2147483000; background: #050405; align-items: center; justify-content: center; }
+      html.boot #boot-cover { display: flex; }
+      html.boot body { overflow: hidden; }
+      #boot-cover i { display: block; position: relative; width: 120px; height: 1px; overflow: hidden; background: rgba(239, 230, 220, 0.12); }
+      #boot-cover i::after { content: ""; position: absolute; inset: 0; background: #b3122e; transform: translateX(-100%); animation: boot-sweep 1.3s ease-in-out infinite; }
+      @keyframes boot-sweep { to { transform: translateX(100%); } }
+      @media (prefers-reduced-motion: reduce) { #boot-cover i::after { animation: none; transform: none; opacity: 0.6; } }
+    </style>
+    <script>
+      (function () {
+        try {
+          if (/bot|crawl|spider|slurp|lighthouse|pagespeed|headless/i.test(navigator.userAgent)) return;
+          if (/^\/(admin|cart|checkout|account|addresses|my-orders|previous-orders|order|order-success|success|support|verify)(\/|$)/.test(location.pathname)) return;
+          var d = document.documentElement;
+          d.classList.add("boot");
+          setTimeout(function () { d.classList.remove("boot"); }, 20000);
+        } catch (e) {}
+      })();
+    </script>
+
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,6 +58,7 @@
   </head>
 
   <body>
+    <div id="boot-cover" aria-hidden="true"><i></i></div>
     <div id="root">
     </div>
 

@@ -12,6 +12,7 @@ import { getSizeOptions } from "../data/products";
 import { HALLOWEEN_PRODUCTS } from "../config/halloween";
 import ParticleCanvas from "./ParticleCanvas";
 import { playBell } from "./audioEngine";
+import PriceBlock, { OfferTag } from "./PriceBlock";
 import { useBodyClass, useHalloweenActive, useParallax, useReducedMotion } from "./hooks";
 
 /* ===========================================================================
@@ -64,6 +65,8 @@ export default function HalloweenProduct({ productKey }) {
   const SIZE_OPTIONS = getSizeOptions(p.route);
   const selected = SIZE_OPTIONS.find((o) => o.id === sizeId) || SIZE_OPTIONS[SIZE_OPTIONS.length - 1];
   const price = selected?.price ?? p.price;
+  const mrp = p.mrp; // struck-through MRP (display only)
+  const sizeLabel = p.size; // real bottle size from config (getSizeOptions only knows "100 ml")
 
   /* ── scroll-reveal for everything below the fold (armed client-side only) ── */
   useIsoLayoutEffect(() => {
@@ -127,7 +130,7 @@ export default function HalloweenProduct({ productKey }) {
   const title = themed
     ? `${p.name} — ${p.tagline} | Halloween Edition Eau de Parfum | KAEORN`
     : `${p.name} — Eau de Parfum | KAEORN`;
-  const description = `${p.seoDescription} ₹${price}.`;
+  const description = `${p.seoDescription} ${sizeLabel} bottle. Limited launch offer: ₹${price}${mrp > price ? ` (MRP ₹${mrp})` : ""}.`;
   const jsonImages = [p.images.front, p.images.threeQuarter, p.images.lifestyle].map(abs);
   const theme = p.theme;
   const cssVars = {
@@ -143,13 +146,13 @@ export default function HalloweenProduct({ productKey }) {
         <meta name="description" content={description} />
         <link rel="canonical" href={`${SITE_URL}${p.route}`} />
         <meta property="og:title" content={title} />
-        <meta property="og:description" content={`${p.tagline}. ${p.mood}. ₹${price} — Made in India.`} />
+        <meta property="og:description" content={`${p.tagline}. ${p.mood}. ${sizeLabel} · ₹${price}${mrp > price ? ` (MRP ₹${mrp})` : ""} — Made in India.`} />
         <meta property="og:image" content={abs(p.images.front)} />
         <meta property="og:url" content={`${SITE_URL}${p.route}`} />
         <meta property="og:type" content="product" />
         <script type="application/ld+json">
           {ld(productJsonLd(p.route, {
-            description: `${p.name} by KAEORN — ${p.tagline}. ${p.mood} Eau de Parfum, ${p.size}. Made in India.`,
+            description: `${p.name} by KAEORN — ${p.tagline}. ${p.mood} Eau de Parfum, ${sizeLabel}. Made in India.`,
             category: "Eau de Parfum",
             availability: "InStock",
             images: jsonImages,
@@ -181,6 +184,7 @@ export default function HalloweenProduct({ productKey }) {
             <span className="hw-p-float">
               <img
                 className="hw-p-bottle"
+                data-boot-wait=""
                 src={p.images.front}
                 width="400"
                 height="700"
@@ -198,8 +202,9 @@ export default function HalloweenProduct({ productKey }) {
           <p className="hw-eyebrow">{eyebrow}</p>
           <h1 className="hw-p-title">{p.name}</h1>
           <p className="hw-p-tagline">{p.tagline}</p>
+          <OfferTag className="hw-offer-tag--hero" />
           <button type="button" className="hw-btn" onClick={goBuy}>
-            Shop · ₹{price}
+            Shop · ₹{price}{mrp > price && <del className="hw-btn-mrp">₹{mrp}</del>}
           </button>
         </div>
       </section>
@@ -247,10 +252,10 @@ export default function HalloweenProduct({ productKey }) {
       <section className="hw-buy hw-io" id="buy">
         <div className="hw-buy-art">
           <span className="hw-buy-glow" aria-hidden="true" />
-          <img src={p.images.front} width="400" height="700" loading="lazy" decoding="async" alt={`${p.name} 30 ml bottle`} />
+          <img src={p.images.front} width="400" height="700" loading="lazy" decoding="async" alt={`${p.name} ${sizeLabel} bottle`} />
         </div>
         <div className="hw-buy-body">
-          <p className="hw-eyebrow">{p.category} · {"30 ml"}</p>
+          <p className="hw-eyebrow">{p.category} · {sizeLabel}</p>
           <h2 className="hw-h2">{p.name}</h2>
           <p className="hw-p-tagline">{p.tagline}</p>
           <p className="hw-buy-story">{p.story}</p>
@@ -262,11 +267,12 @@ export default function HalloweenProduct({ productKey }) {
           ) : (
             <div className="hw-size">
               <span className="hw-size-label">Size</span>
-              <span className="hw-size-pill">{"30 ml"}</span>
+              <span className="hw-size-pill">{sizeLabel}</span>
             </div>
           )}
 
-          <div className="hw-buy-price">₹{price}</div>
+          <OfferTag className="hw-offer-tag--buy" />
+          <PriceBlock price={price} mrp={mrp} size="lg" />
 
           <div className="hw-buy-cta">
             <button type="button" className="hw-btn" onClick={handleOrderNow}>Order Now</button>

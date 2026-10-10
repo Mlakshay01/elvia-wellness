@@ -113,6 +113,7 @@ export const PRODUCTS = {
         id: p.id,
         name: p.name,
         price: p.price,
+        mrp: p.mrp, // display only (struck-through MRP); the charged price is p.price
         image: p.images.front,
         category: `HALLOWEEN EDITION · ${p.category}`,
         size: p.size,

@@ -1,5 +1,5 @@
 /* =========================================================
-   SEED HALLOWEEN EDITION — NOCTURNE & AZUR (100 ml)
+   SEED HALLOWEEN EDITION — NOCTURNE & AZUR (30 ml)
 
    Adds (or updates) the two Halloween perfumes in MongoDB.
    The server always charges the price stored here, so the
@@ -10,23 +10,25 @@
      node seedHalloweenPerfumes.js
 
    Safe to re-run: it upserts by productId, so re-running after
-   changing PRICE_100ML simply updates the price.
+   changing PRICE simply updates the price.
 
    KEEP IN SYNC with frontend/src/config/halloween.js:
      - productId  <->  HALLOWEEN_PRODUCTS.*.id
      - slug       <->  last segment of HALLOWEEN_PRODUCTS.*.route
-     - PRICE_100ML <-> HALLOWEEN_PRICE_100ML
+     - PRICE <-> HALLOWEEN_PRICE  (the SALE price actually charged)
 
-   TODO(owner): ₹1399 is a PLACEHOLDER (same as the existing
-   100 ml perfumes). Confirm the real price, change it here AND in
-   the frontend config, then re-run this script.
+   LIMITED LAUNCH OFFER: MRP ₹1100 is shown struck-through on the
+   storefront (HALLOWEEN_MRP in the frontend config, display only —
+   nothing here uses it). The customer PAYS the price below, ₹799.
+   To end the offer, set the price to the MRP here AND in the frontend
+   config (HALLOWEEN_PRICE = HALLOWEEN_MRP), then re-run this script.
 ========================================================= */
 
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Product = require("./models/Product");
 
-const PRICE_100ML = 1399; // TODO(owner): confirm
+const PRICE = 799; // sale price actually charged (MRP ₹1100 is display-only, in the frontend config)
 
 const PRODUCTS = [
   {
@@ -39,7 +41,7 @@ const PRODUCTS = [
   {
     productId: "perfume-azur",
     name: "AZUR",
-    slug: "azur-blue-oud-perfume",
+    slug: "azur",
     images: ["https://kaeorn.com/halloween/azur-front.png"],
   },
 ];
@@ -62,7 +64,7 @@ async function seed() {
         $set: {
           ...product,
           category: "perfume",
-          price: PRICE_100ML,
+          price: PRICE,
           isActive: true,
         },
       },

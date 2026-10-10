@@ -150,11 +150,12 @@ body.hw-cursor .cursor { mix-blend-mode: normal; }
   overflow: hidden;
   background: #030204;
   cursor: none;
-  animation: hw-dissolve calc(var(--hw-t) * 0.2) ease calc(var(--hw-t) * 0.8) forwards;
 }
-.hw-intro--leave { animation: hw-leave 0.3s ease forwards; }
+/* The dissolve is triggered by the loader once the page behind it is READY (not by a timer). */
+.hw-intro--out { animation: hw-dissolve calc(var(--hw-t) * 0.2) ease forwards; pointer-events: none; }
+.hw-intro--quick.hw-intro--out { animation-duration: 0.35s; }
+.hw-intro--fast.hw-intro--out { animation-duration: 0.3s; }
 @keyframes hw-dissolve { to { opacity: 0; transform: scale(1.04); } }
-@keyframes hw-leave { to { opacity: 0; } }
 
 .hw-intro-fog {
   position: absolute;
@@ -243,6 +244,25 @@ body.hw-cursor .cursor { mix-blend-mode: normal; }
   animation: hw-word calc(var(--hw-t) * 0.34) ease calc(var(--hw-t) * 0.4) forwards;
 }
 @keyframes hw-word { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+/* Waiting for the page (video / photos still loading): the wordmark breathes and a thin line sweeps */
+.hw-intro--hold .hw-intro-word { animation: hw-word-hold 1.8s ease-in-out infinite alternate; }
+@keyframes hw-word-hold { from { opacity: 1; } to { opacity: 0.55; } }
+.hw-intro-line {
+  position: absolute; left: 50%; top: calc(50% + clamp(2.4rem, 6vw, 4.2rem)); width: 120px; height: 1px;
+  transform: translateX(-50%); overflow: hidden; background: rgba(239, 230, 220, 0.12);
+  opacity: 0; transition: opacity 0.5s;
+}
+.hw-intro--hold .hw-intro-line, .hw-intro--quick .hw-intro-line { opacity: 1; }
+.hw-intro-line span { position: absolute; inset: 0; background: #b3122e; transform: translateX(-100%); animation: hw-line 1.3s ease-in-out infinite; }
+@keyframes hw-line { to { transform: translateX(100%); } }
+/* quick mode (repeat load in a session): no fog/bats/flash — the wordmark simply appears */
+.hw-intro--quick .hw-intro-word { animation: hw-word 0.4s ease forwards; }
+.hw-intro--quick.hw-intro--hold .hw-intro-word { animation: hw-word-hold 1.8s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) {
+  .hw-intro-line span { animation: none; transform: none; opacity: 0.6; }
+  .hw-intro--hold .hw-intro-word { animation: none; opacity: 1; }
+}
 
 /* =========================================================================
    PHASE 2 — HOME HERO
@@ -658,6 +678,62 @@ body.hw-cursor .cursor { mix-blend-mode: normal; }
 .hw-set-name { font-family: "Cormorant Garamond", serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: 0.14em; line-height: 1.05; }
 .hw-set-tag { font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 1.2rem; color: var(--o-accent); }
 .hw-set-cta { margin-top: 0.8rem; font-family: "DM Mono", monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+
+/* =========================================================================
+   LIMITED LAUNCH OFFER — price block, offer label, ribbon
+========================================================================= */
+.hw-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.hw-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.35rem 0.8rem; }
+.hw-price-now { font-family: "Cormorant Garamond", serif; font-weight: 400; line-height: 1; color: var(--hw-bone, #efe6dc); }
+.hw-price--md .hw-price-now { font-size: 1.9rem; }
+.hw-price--lg .hw-price-now { font-size: 3rem; }
+.hw-price-mrp { font-family: "Inter", sans-serif; color: rgba(239, 230, 220, 0.5); text-decoration: line-through; text-decoration-thickness: 1px; }
+.hw-price--md .hw-price-mrp { font-size: 0.95rem; }
+.hw-price--lg .hw-price-mrp { font-size: 1.25rem; }
+.hw-price-off {
+  font-family: "DM Mono", monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.28rem 0.6rem; color: #f7efe8; background: #8d1228; align-self: center;
+}
+.hw-product--azur .hw-price-off { background: var(--t-accent); color: #06101f; }
+
+.hw-offer-tag {
+  font-family: "DM Mono", monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--hw-red-text, #e0485f);
+}
+.hw-product--azur .hw-offer-tag { color: var(--t-accent); }
+.hw-offer-tag--card { margin: 1rem 0 0.45rem; }
+.hw-offer-tag--hero { margin: -0.7rem 0 1.1rem; }
+.hw-offer-tag--buy { margin: 1.1rem 0 0.5rem; }
+.hw-buy .hw-price { margin-bottom: 1.4rem; }
+.hw-card .hw-price { margin-bottom: 1.2rem; }
+.hw-btn-mrp { margin-left: 0.7rem; font-size: 0.9em; opacity: 0.6; text-decoration: line-through; }
+
+.hw-card-ribbon {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  font-family: "DM Mono", monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 0.4rem 0.75rem; color: var(--hw-bone); background: rgba(7, 5, 8, 0.72);
+  border: 1px solid var(--c-accent);
+}
+
+/* home hero offer line */
+.hw-offer {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin: 0 auto 1.3rem; padding: 0.75rem 1.4rem;
+  /* a dark pill keeps the offer readable over the hero video */
+  background: rgba(5, 3, 5, 0.66); border: 1px solid rgba(179, 18, 46, 0.55);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+
+@media (min-width: 700px) { .hw-offer { flex-direction: row; align-items: center; gap: 1.2rem; padding: 0.6rem 1.3rem; } }
+.hw-offer-label { font-family: "DM Mono", monospace; font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--hw-red-text); }
+.hw-offer-prices { display: inline-flex; align-items: baseline; gap: 0.7rem; }
+.hw-offer-prices strong { font-family: "Cormorant Garamond", serif; font-weight: 400; font-size: 1.7rem; color: var(--hw-bone); line-height: 1; }
+.hw-offer-prices del { color: rgba(239, 230, 220, 0.5); font-size: 0.95rem; }
+.hw-offer-pct {
+  font-family: "DM Mono", monospace; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.25rem 0.55rem; background: #8d1228; color: #f7efe8; align-self: center;
+}
 
 /* =========================================================================
    RESPONSIVE

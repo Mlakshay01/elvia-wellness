@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { HALLOWEEN_COPY, HALLOWEEN_PRODUCT_LIST } from "../config/halloween";
+import { HALLOWEEN_COPY, HALLOWEEN_PRODUCT_LIST, HALLOWEEN_MRP, HALLOWEEN_PRICE, discountPercent } from "../config/halloween";
 import useHeroVideoSrc from "../hooks/useHeroVideoSrc";
 import { useParallax, useReducedMotion } from "./hooks";
 
@@ -22,6 +22,7 @@ export default function HalloweenHero() {
         <video
           key={heroVideoSrc}
           className="hw-hero-video"
+          data-boot-wait=""
           src={heroVideoSrc}
           autoPlay
           muted
@@ -63,6 +64,7 @@ export default function HalloweenHero() {
                   width="400"
                   height="700"
                   alt={`${p.name} Eau de Parfum by KAEORN — ${p.tagline}`}
+                  data-boot-wait=""
                   decoding="async"
                   fetchPriority="high"
                   draggable="false"
@@ -79,6 +81,14 @@ export default function HalloweenHero() {
 
       <div className="hw-hero-foot">
         <p className="hw-sub hw-reveal" style={{ "--i": 4 }}>{HALLOWEEN_COPY.heroSub}</p>
+        <p className="hw-offer hw-reveal" style={{ "--i": 4.5 }}>
+          <span className="hw-offer-label">{HALLOWEEN_COPY.offerLabel} · {HALLOWEEN_COPY.offerSeasonal}</span>
+          <span className="hw-offer-prices">
+            <strong>₹{HALLOWEEN_PRICE}</strong>
+            <del>₹{HALLOWEEN_MRP}</del>
+            <span className="hw-offer-pct">{discountPercent()}% off</span>
+          </span>
+        </p>
         <button type="button" className="hw-btn hw-reveal" style={{ "--i": 5 }} onClick={scrollToCollection}>
           {HALLOWEEN_COPY.heroCta}
         </button>
