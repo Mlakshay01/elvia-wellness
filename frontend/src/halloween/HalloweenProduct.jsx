@@ -60,7 +60,7 @@ export default function HalloweenProduct({ productKey }) {
 
   const [authType, setAuthType] = useState(null);
   const [added, setAdded] = useState(false);
-  const [sizeId, setSizeId] = useState("100ml");
+  const [sizeId, setSizeId] = useState("30ml");
   const SIZE_OPTIONS = getSizeOptions(p.route);
   const selected = SIZE_OPTIONS.find((o) => o.id === sizeId) || SIZE_OPTIONS[SIZE_OPTIONS.length - 1];
   const price = selected?.price ?? p.price;
