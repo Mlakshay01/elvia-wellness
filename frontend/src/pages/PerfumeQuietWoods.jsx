@@ -17,7 +17,6 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/soie-femme-floral-perfume");
 const images = [
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834177/1e43d3c0-73c1-4212-b1ef-e14bdf3cbdf0_nqswic.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834178/Untitled_boztm8.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839251/IMG_20260919_230137_nurfig.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839250/IMG_20260919_230026_b3lyoz.png",
 ];
