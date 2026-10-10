@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800"><defs>
+  <linearGradient id="liqaz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0ff"/><stop offset="1" stop-color="#1d4f9c"/></linearGradient>
+  <linearGradient id="glaz" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cfe8ff" stop-opacity=".30"/><stop offset=".5" stop-color="#cfe8ff" stop-opacity=".08"/><stop offset="1" stop-color="#cfe8ff" stop-opacity=".28"/></linearGradient>
+  <linearGradient id="capaz" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8fa0b5"/><stop offset=".35" stop-color="#dfe8f2"/><stop offset="1" stop-color="#8fa0b5"/></linearGradient>
+  <filter id="bluraz" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  <filter id="softaz" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs><defs><linearGradient id="surfaz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1a3a"/><stop offset="1" stop-color="#06080f"/></linearGradient></defs><rect width="1000" height="800" fill="url(#surfaz)"/><ellipse cx="500" cy="440" rx="330" ry="40" fill="#000" opacity=".4" filter="url(#softaz)"/><g transform="translate(130 640) rotate(-90) scale(1)"><g>
+  <ellipse cx="200" cy="668" rx="130" ry="12" fill="#000" opacity=".35" filter="url(#softaz)"/>
+  <rect x="90" y="250" width="220" height="410" rx="30" fill="url(#glaz)" stroke="#cfe8ff" stroke-opacity=".45" stroke-width="2"/>
+  <rect x="102" y="330" width="196" height="318" rx="20" fill="url(#liqaz)" opacity=".92"/>
+  <rect x="170" y="212" width="60" height="42" fill="#cfe8ff" fill-opacity=".25" stroke="#cfe8ff" stroke-opacity=".4"/>
+  <rect x="148" y="104" width="104" height="112" rx="8" fill="url(#capaz)"/>
+  <rect x="148" y="104" width="104" height="8" rx="4" fill="#fff" opacity=".16"/>
+  <rect x="130" y="430" width="140" height="108" rx="3" fill="#0b0a0c" opacity=".78" stroke="#8fd0ff" stroke-opacity=".6"/>
+  <text x="200" y="492" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="5" fill="#e8f1fb">AZUR</text>
+  <text x="200" y="516" text-anchor="middle" font-family="Georgia, serif" font-size="9" letter-spacing="4" fill="#e8f1fb" opacity=".6">KAEORN</text>
+  <rect x="106" y="270" width="9" height="360" rx="4" fill="#ffffff" opacity=".28"/>
+</g></g></svg>

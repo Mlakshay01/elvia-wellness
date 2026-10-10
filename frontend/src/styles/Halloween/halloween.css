@@ -1,0 +1,698 @@
+/* =========================================================================
+   HALLOWEEN EDITION — styles
+   Luxury and restrained: ink black, blood red, midnight blue, ice blue, bone.
+   No clip-art: fog, light, embers, bats as silhouettes.
+   Motion rule: animate transform / opacity only.
+========================================================================= */
+
+/* ── PALETTE (variables live under the body class; components also carry them
+      so the pages never depend on the class being present) ── */
+body.halloween,
+.hw-hero, .hw-collection, .hw-product, .hw-intro, .hw-sound {
+  --hw-ink: #070508;
+  --hw-ink-2: #0e0a10;
+  --hw-blood: #7a0c1e;
+  --hw-blood-bright: #b3122e;
+  --hw-red-text: #e0485f;
+  --hw-midnight: #0b1a3a;
+  --hw-ice: #9fd3ff;
+  --hw-bone: #efe6dc;
+  --hw-bone-dim: rgba(239, 230, 220, 0.64);
+  --hw-line: rgba(239, 230, 220, 0.14);
+  --hw-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── SHARED TYPE + BUTTONS ── */
+.hw-eyebrow {
+  font-family: "DM Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--hw-red-text);
+  margin-bottom: 1.1rem;
+}
+.hw-h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 300;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.hw-h2 em { font-style: italic; color: var(--hw-red-text); }
+
+.hw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "DM Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.95rem 2.2rem;
+  background: var(--hw-blood);
+  color: var(--hw-bone);
+  border: 1px solid rgba(255, 90, 110, 0.32);
+  cursor: none;
+  text-decoration: none;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.hw-btn:hover { background: #9a1128; transform: translateY(-1px); }
+.hw-btn--ghost { background: transparent; border-color: var(--hw-line); }
+.hw-btn--ghost:hover { background: transparent; border-color: var(--hw-bone); }
+.hw-btn.is-added { background: var(--hw-bone); color: var(--hw-ink); }
+
+/* ── ENTRANCE (hero text and bottles): plays only when the intro has just dissolved ── */
+body.hw-intro-on { overflow: hidden; }
+body.hw-intro-on .hw-reveal { opacity: 0; }
+body.hw-revealing .hw-reveal {
+  animation: hw-rise 1.1s var(--hw-ease) both;
+  animation-delay: calc(var(--i, 0) * 0.14s);
+}
+@keyframes hw-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ── NAVBAR over dark Halloween surfaces ──
+   hw-nav-light: home hero (light text until scrolled) · hw-dark: product pages (always dark) */
+body.hw-dark { background: #050304; }
+/* The site sets overflow-x:hidden on html+body, which turns body into a scroll container and silently
+   breaks position:sticky (the pinned notes section). `clip` clips the same way without doing that. */
+html:has(body.hw-dark), body.hw-dark { overflow-x: clip; }
+body.hw-nav-light nav:not(.scrolled) .nav-logo,
+body.hw-nav-light nav:not(.scrolled) .nav-back,
+body.hw-dark nav .nav-logo,
+body.hw-dark nav .nav-back { color: var(--hw-bone, #efe6dc); }
+body.hw-nav-light nav:not(.scrolled) .nav-center a,
+body.hw-nav-light nav:not(.scrolled) .nav-link,
+body.hw-dark nav .nav-center a,
+body.hw-dark nav .nav-link { color: rgba(239, 230, 220, 0.66); }
+body.hw-nav-light nav:not(.scrolled) .nav-center a:hover,
+body.hw-nav-light nav:not(.scrolled) .nav-link:hover,
+body.hw-dark nav .nav-center a:hover,
+body.hw-dark nav .nav-link:hover { color: #efe6dc; }
+body.hw-nav-light nav:not(.scrolled) .nav-signin,
+body.hw-nav-light nav:not(.scrolled) .nav-cart,
+body.hw-dark nav .nav-signin,
+body.hw-dark nav .nav-cart { color: #efe6dc; border-color: rgba(239, 230, 220, 0.28); }
+body.hw-nav-light nav:not(.scrolled) .cart-badge,
+body.hw-dark nav .cart-badge { background: #efe6dc; color: #070508; }
+body.hw-dark nav.scrolled {
+  background: rgba(7, 5, 8, 0.84);
+  border-color: rgba(239, 230, 220, 0.12);
+}
+body.hw-nav-light:not(:has(nav.scrolled)) .nav-ham span,
+body.hw-dark .nav-ham span { background: #efe6dc; }
+
+/* The extra "Halloween Edition" link would otherwise push the centred links into the right-hand
+   group on ~1440px laptops, so tighten the gap while the theme is on. */
+@media (max-width: 1600px) {
+  body.halloween .nav-center { gap: 1.25rem; }
+}
+@media (max-width: 1360px) {
+  .nav-center .hw-nav-ed { display: none; } /* "Halloween Edition" → "Halloween" on narrower laptops */
+}
+
+/* Cursor: blood red. The site's cursor uses multiply-blend, which would vanish on black. */
+body.hw-cursor .cursor { mix-blend-mode: normal; }
+
+/* ── FLOATING SOUND TOGGLE (bottom-left) ── */
+.hw-sound {
+  position: fixed;
+  left: max(1rem, env(safe-area-inset-left));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 9100;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  color: var(--hw-bone);
+  background: rgba(7, 5, 8, 0.72);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(179, 18, 46, 0.55);
+  border-radius: 50%;
+  cursor: none;
+  transition: border-color 0.25s, transform 0.25s, color 0.25s;
+}
+.hw-sound:hover { border-color: #e0485f; transform: scale(1.06); }
+.hw-sound:focus-visible { outline: 2px solid var(--hw-ice); outline-offset: 3px; }
+.hw-sound[aria-pressed="false"] { color: rgba(239, 230, 220, 0.55); }
+@media (max-width: 768px) { .hw-sound { cursor: pointer; } }
+
+/* =========================================================================
+   PHASE 1 — INTRO   (timings are fractions of --hw-t = HALLOWEEN.introMs)
+========================================================================= */
+.hw-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  overflow: hidden;
+  background: #030204;
+  cursor: none;
+  animation: hw-dissolve calc(var(--hw-t) * 0.2) ease calc(var(--hw-t) * 0.8) forwards;
+}
+.hw-intro--leave { animation: hw-leave 0.3s ease forwards; }
+@keyframes hw-dissolve { to { opacity: 0; transform: scale(1.04); } }
+@keyframes hw-leave { to { opacity: 0; } }
+
+.hw-intro-fog {
+  position: absolute;
+  inset: -25%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.hw-intro-fog--a {
+  background:
+    radial-gradient(ellipse 45% 30% at 30% 62%, rgba(110, 120, 150, 0.30), transparent 70%),
+    radial-gradient(ellipse 40% 26% at 72% 74%, rgba(122, 12, 30, 0.34), transparent 70%);
+  animation: hw-fog-in calc(var(--hw-t) * 0.3) ease forwards, hw-fog-a calc(var(--hw-t) * 1.6) linear infinite alternate;
+}
+.hw-intro-fog--b {
+  background:
+    radial-gradient(ellipse 50% 28% at 70% 40%, rgba(90, 105, 140, 0.24), transparent 70%),
+    radial-gradient(ellipse 36% 24% at 22% 82%, rgba(60, 10, 25, 0.38), transparent 70%);
+  animation: hw-fog-in calc(var(--hw-t) * 0.34) ease calc(var(--hw-t) * 0.06) forwards, hw-fog-b calc(var(--hw-t) * 1.8) linear infinite alternate;
+}
+@keyframes hw-fog-in { to { opacity: 1; } }
+@keyframes hw-fog-a { from { transform: translate3d(-6%, 0, 0); } to { transform: translate3d(6%, -3%, 0); } }
+@keyframes hw-fog-b { from { transform: translate3d(5%, 2%, 0); } to { transform: translate3d(-6%, -2%, 0); } }
+
+/* one lightning flash (single soft pulse — no strobing) */
+.hw-intro-flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(ellipse 70% 60% at 52% 6%, #eaf1ff 0%, #8da0d4 40%, transparent 78%);
+  animation: hw-flash calc(var(--hw-t) * 0.3) ease-out calc(var(--hw-t) * 0.2) forwards;
+}
+.hw-intro-bolt {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 62%;
+  width: auto;
+  aspect-ratio: 1 / 2;
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: hw-flash-bolt calc(var(--hw-t) * 0.2) ease-out calc(var(--hw-t) * 0.2) forwards;
+}
+@keyframes hw-flash { 0% { opacity: 0; } 8% { opacity: 0.5; } 100% { opacity: 0; } }
+@keyframes hw-flash-bolt { 0% { opacity: 0; } 8% { opacity: 0.9; } 100% { opacity: 0; } }
+
+/* bats crossing (silhouettes) */
+.hw-bat {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.hw-bat svg { display: block; transform-origin: 50% 60%; animation: hw-flap 0.17s ease-in-out infinite alternate; }
+.hw-bat--r { animation: hw-fly-r calc(var(--hw-t) * var(--dur)) linear calc(var(--hw-t) * var(--d)) forwards; }
+.hw-bat--l { animation: hw-fly-l calc(var(--hw-t) * var(--dur)) linear calc(var(--hw-t) * var(--d)) forwards; }
+@keyframes hw-flap { from { transform: scaleY(1); } to { transform: scaleY(0.42); } }
+@keyframes hw-fly-r {
+  0% { transform: translate3d(-18vw, 3vh, 0) scale(var(--s)); opacity: 0; }
+  12% { opacity: 1; }
+  50% { transform: translate3d(48vw, -4vh, 0) scale(var(--s)); }
+  88% { opacity: 1; }
+  100% { transform: translate3d(118vw, 2vh, 0) scale(var(--s)); opacity: 0; }
+}
+@keyframes hw-fly-l {
+  0% { transform: translate3d(118vw, 2vh, 0) scale(calc(var(--s) * -1), var(--s)); opacity: 0; }
+  12% { opacity: 1; }
+  50% { transform: translate3d(48vw, 5vh, 0) scale(calc(var(--s) * -1), var(--s)); }
+  88% { opacity: 1; }
+  100% { transform: translate3d(-18vw, -3vh, 0) scale(calc(var(--s) * -1), var(--s)); opacity: 0; }
+}
+
+.hw-intro-word {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 300;
+  font-size: clamp(2.4rem, 9vw, 6rem);
+  letter-spacing: 0.45em;
+  padding-left: 0.45em;
+  color: #c4163a;
+  text-shadow: 0 0 30px rgba(179, 18, 46, 0.55), 0 0 2px rgba(255, 130, 140, 0.35);
+  opacity: 0;
+  animation: hw-word calc(var(--hw-t) * 0.34) ease calc(var(--hw-t) * 0.4) forwards;
+}
+@keyframes hw-word { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+/* =========================================================================
+   PHASE 2 — HOME HERO
+========================================================================= */
+.hw-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--nav-h) + 1rem) 1.5rem 2.5rem;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--hw-bone);
+  background: radial-gradient(ellipse 85% 65% at 50% 55%, #1d0812 0%, #0a0509 55%, #040203 100%);
+}
+.hw-hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; pointer-events: none;
+}
+.hw-hero-bg::before { /* dark wash so the headline stays readable; tweak .35 */
+  content: ""; position: absolute; inset: 0; background: rgba(4, 2, 3, 0.35);
+}
+.hw-hero-bg { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.hw-mist { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
+.hw-mist--1 {
+  width: 95vw; height: 62vh; left: -22vw; bottom: -14vh;
+  background: radial-gradient(closest-side, rgba(122, 12, 30, 0.30), transparent);
+  animation: hw-drift-a 28s ease-in-out infinite alternate;
+}
+.hw-mist--2 {
+  width: 90vw; height: 56vh; right: -26vw; bottom: 4vh;
+  background: radial-gradient(closest-side, rgba(40, 72, 150, 0.24), transparent);
+  animation: hw-drift-b 34s ease-in-out infinite alternate;
+}
+.hw-mist--3 {
+  width: 80vw; height: 40vh; left: 10vw; top: 4vh;
+  background: radial-gradient(closest-side, rgba(239, 230, 220, 0.06), transparent);
+  animation: hw-drift-a 40s ease-in-out infinite alternate-reverse;
+}
+@keyframes hw-drift-a { from { transform: translate3d(-5%, 0, 0); } to { transform: translate3d(9%, -4%, 0); } }
+@keyframes hw-drift-b { from { transform: translate3d(6%, 2%, 0); } to { transform: translate3d(-9%, -3%, 0); } }
+.hw-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.66) 100%);
+}
+.hw-particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+.hw-hero-copy, .hw-stage, .hw-hero-foot { position: relative; z-index: 2; }
+.hw-title {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 300;
+  font-size: clamp(2.6rem, min(8.4vw, 12.5vh), 7rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--hw-bone);
+  text-shadow: 0 0 44px rgba(179, 18, 46, 0.28);
+}
+.hw-sub {
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+  font-size: clamp(0.85rem, 1.8vw, 1rem);
+  line-height: 1.8;
+  color: var(--hw-bone-dim);
+}
+
+.hw-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 5vw, 5.5rem);
+  margin: clamp(1rem, 3vh, 2.2rem) 0;
+  perspective: 1100px;
+}
+.hw-bottle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(100px, min(38vw, 23vh), 250px);
+  color: inherit;
+  text-decoration: none;
+  cursor: none;
+  --k: -12;
+}
+.hw-bottle--azur { --k: -18; }
+.hw-bottle-glow {
+  position: absolute;
+  left: 50%; top: 42%;
+  width: 165%;
+  aspect-ratio: 1;
+  z-index: -1;
+  pointer-events: none;
+  transform: translate(-50%, -50%) translate3d(calc(var(--px, 0) * 10px), calc(var(--py, 0) * 8px), 0);
+  background: radial-gradient(closest-side, var(--glow), transparent 70%);
+  opacity: 0.75;
+  animation: hw-pulse 6s ease-in-out infinite;
+  transition: opacity 0.5s;
+}
+.hw-bottle:hover .hw-bottle-glow { opacity: 1; animation-play-state: paused; }
+@keyframes hw-pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.95; } }
+.hw-bottle-tilt {
+  display: block;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform:
+    translate3d(calc(var(--px, 0) * var(--k) * 1px), calc(var(--py, 0) * -6px), 0)
+    rotateY(calc(var(--px, 0) * 14deg))
+    rotateX(calc(var(--py, 0) * -8deg));
+}
+.hw-bottle-float { display: block; animation: hw-float 7s ease-in-out infinite; animation-delay: var(--fd, 0s); }
+@keyframes hw-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.6deg); }
+  50% { transform: translate3d(0, -14px, 0) rotate(0.6deg); }
+}
+.hw-bottle img {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.55));
+  -webkit-user-drag: none; user-select: none;
+}
+.hw-bottle-caption { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; align-items: center; }
+.hw-bottle-name {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.05rem; letter-spacing: 0.3em; padding-left: 0.3em;
+  transition: color 0.3s;
+}
+.hw-bottle:hover .hw-bottle-name { color: #fff; }
+.hw-bottle-tag {
+  font-family: "DM Mono", monospace;
+  font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--hw-bone-dim);
+}
+
+/* marquee while the theme is on */
+.marquee-wrap.hw-marquee { background: #08050a; border-color: #4a0a16; }
+.hw-marquee .marquee-item { color: #d4344f; }
+.hw-marquee .marquee-sep { color: rgba(239, 230, 220, 0.22); }
+
+/* ── COLLECTION ── */
+.hw-collection {
+  position: relative;
+  color: var(--hw-bone);
+  padding: clamp(4.5rem, 9vw, 8rem) clamp(1.5rem, 5vw, 4rem);
+  background: linear-gradient(180deg, #040203 0%, #0a0509 100%);
+}
+.hw-collection-inner { max-width: 1200px; margin: 0 auto; }
+.hw-collection-head {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+.hw-collection-intro {
+  margin-top: 1.4rem; max-width: 420px;
+  font-size: 0.95rem; line-height: 1.8; color: var(--hw-bone-dim);
+}
+.hw-countdown-label {
+  font-family: "DM Mono", monospace;
+  font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--hw-red-text); margin-bottom: 1rem;
+}
+.hw-countdown-row { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--hw-line); }
+.hw-countdown-cell {
+  display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
+  padding: 1rem 0.4rem;
+  border-right: 1px solid var(--hw-line);
+}
+.hw-countdown-cell:last-child { border-right: 0; }
+.hw-countdown-num {
+  font-family: "Cormorant Garamond", serif; font-weight: 300;
+  font-size: clamp(1.8rem, 4vw, 2.7rem); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.hw-countdown-unit {
+  font-family: "DM Mono", monospace; font-size: 0.52rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--hw-bone-dim);
+}
+
+.hw-card-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1rem, 2.5vw, 2rem); }
+.hw-card {
+  position: relative; overflow: hidden; cursor: none;
+  border: 1px solid var(--hw-line);
+  background: linear-gradient(170deg, var(--c-from), var(--c-to));
+  transition: border-color 0.4s, transform 0.5s var(--hw-ease);
+}
+.hw-card:hover { border-color: var(--c-accent); transform: translateY(-4px); }
+.hw-card-art { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3.3; padding: 1.5rem 0 0.5rem; }
+.hw-card-glow {
+  position: absolute; left: 50%; top: 48%; width: 80%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, var(--c-glow), transparent 70%); opacity: 0.6; transition: opacity 0.5s;
+}
+.hw-card:hover .hw-card-glow { opacity: 0.95; }
+.hw-card-art img {
+  position: relative; height: 94%; width: auto; max-width: 70%;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.5));
+  transition: transform 0.9s var(--hw-ease);
+}
+.hw-card:hover .hw-card-art img { transform: translateY(-8px); }
+.hw-card-body { padding: 1.6rem 1.75rem 2rem; border-top: 1px solid var(--hw-line); }
+.hw-card-eyebrow {
+  display: block; margin-bottom: 0.6rem;
+  font-family: "DM Mono", monospace; font-size: 0.58rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--hw-bone-dim);
+}
+.hw-card-name { font-family: "Cormorant Garamond", serif; font-weight: 400; font-size: 2.1rem; letter-spacing: 0.12em; line-height: 1.1; }
+.hw-card-tag { margin-top: 0.4rem; font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 1.15rem; color: var(--c-accent); }
+.hw-card-mood { margin-top: 0.5rem; font-family: "DM Mono", monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--hw-bone-dim); }
+.hw-card-price { margin: 1.1rem 0 1.2rem; font-family: "Cormorant Garamond", serif; font-size: 1.7rem; }
+.hw-card-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+.hw-card-actions .hw-btn { padding: 0.8rem 1.5rem; font-size: 0.65rem; }
+
+/* =========================================================================
+   PHASE 3 — PRODUCT PAGES  (NOCTURNE / AZUR share this template)
+========================================================================= */
+.hw-product { color: var(--t-text, #efe6dc); background: var(--t-to, #050304); position: relative; }
+
+/* the page's own accent for small labels (red on NOCTURNE, ice on AZUR) */
+.hw-product--azur .hw-eyebrow { color: var(--t-accent); }
+
+/* ── 1. hero ── */
+.hw-p-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: 100svh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem;
+  padding: calc(var(--nav-h) + 0.5rem) 1.5rem 3.5rem;
+  text-align: center;
+}
+.hw-product--nocturne .hw-p-hero { background: linear-gradient(172deg, #4d0b1c 0%, #1f0711 38%, #070204 100%); }
+.hw-product--azur .hw-p-hero { background: linear-gradient(180deg, #050912 0%, #0b1a3a 42%, #17386e 78%, #3d6ca8 100%); }
+.hw-p-hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 24%; z-index: 1; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--t-to));
+}
+.hw-p-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.hw-p-particles { z-index: 1; }
+.hw-mist--p1 { width: 100vw; height: 60vh; left: -30vw; bottom: -12vh; animation: hw-drift-a 30s ease-in-out infinite alternate; }
+.hw-mist--p2 { width: 85vw; height: 50vh; right: -28vw; top: 18vh; animation: hw-drift-b 36s ease-in-out infinite alternate; }
+.hw-mist--ember { background: radial-gradient(closest-side, rgba(150, 15, 40, 0.30), transparent); }
+.hw-mist--frost { background: radial-gradient(closest-side, rgba(170, 212, 255, 0.17), transparent); }
+
+.hw-pname-bg {
+  position: absolute; left: 50%; top: 45%; z-index: 0;
+  font-family: "Cormorant Garamond", serif; font-weight: 300;
+  font-size: clamp(3.6rem, 16.5vw, 19rem); line-height: 1; letter-spacing: 0.04em;
+  white-space: nowrap; color: var(--t-accent); opacity: 0.09;
+  pointer-events: none; user-select: none;
+  transform: translate(-50%, -50%) translate3d(calc(var(--px, 0) * -18px), calc(var(--py, 0) * -10px), 0);
+  will-change: transform;
+}
+.hw-p-stage { position: relative; z-index: 2; display: grid; place-items: center; perspective: 1200px; }
+.hw-p-tilt {
+  display: block; transform-style: preserve-3d; will-change: transform;
+  transform:
+    translate3d(calc(var(--px, 0) * 10px), calc(var(--py, 0) * 6px), 0)
+    rotateY(calc(var(--px, 0) * 16deg))
+    rotateX(calc(var(--py, 0) * -9deg));
+}
+.hw-p-float { position: relative; display: block; transform-style: preserve-3d; animation: hw-p-float 10s ease-in-out infinite; }
+@keyframes hw-p-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotateY(-7deg); }
+  50% { transform: translate3d(0, -16px, 0) rotateY(7deg); }
+}
+.hw-p-bottle {
+  display: block; width: min(60vw, 34vh); min-width: 150px; max-width: 380px; height: auto;
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.55));
+}
+.hw-spot {
+  position: absolute; left: 50%; bottom: -10%; width: 190%; height: 44%; z-index: -1; pointer-events: none;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 50%, var(--t-glow), transparent 68%);
+  opacity: 0.85; animation: hw-pulse 7s ease-in-out infinite;
+}
+.hw-moon {
+  position: absolute; left: 50%; top: 42%; width: 170%; aspect-ratio: 1; z-index: -1; pointer-events: none;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(226, 242, 255, 0.55) 0%, rgba(150, 205, 255, 0.28) 34%, transparent 68%);
+  animation: hw-pulse 9s ease-in-out infinite;
+}
+.hw-reflect {
+  position: absolute; left: 0; top: 100%; width: 100%; height: auto; pointer-events: none;
+  transform: scaleY(-1); opacity: 0.2; filter: blur(1px);
+  -webkit-mask-image: linear-gradient(to top, #000 0, transparent 55%);
+  mask-image: linear-gradient(to top, #000 0, transparent 55%);
+}
+.hw-p-info { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; margin-top: 0.4rem; }
+.hw-p-title {
+  font-family: "Cormorant Garamond", serif; font-weight: 400;
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem); letter-spacing: 0.34em; padding-left: 0.34em; line-height: 1.1;
+}
+.hw-p-tagline {
+  margin: 0.5rem 0 1.4rem;
+  font-family: "Cormorant Garamond", serif; font-style: italic;
+  font-size: clamp(1.15rem, 2vw, 1.5rem); color: var(--t-accent);
+}
+
+/* ── 2. scroll-pinned notes ── */
+.hw-pin { position: relative; height: 320svh; background: linear-gradient(180deg, var(--t-to), var(--t-mid) 50%, var(--t-to)); }
+.hw-pin-sticky {
+  position: sticky; top: 0; height: 100svh; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: var(--nav-h) clamp(1.25rem, 6vw, 5rem) 2rem;
+}
+.hw-pin-eyebrow { text-align: center; }
+.hw-pin-grid {
+  width: 100%; max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr minmax(180px, 34vh) 1fr; grid-template-rows: repeat(3, auto);
+  align-items: center; column-gap: clamp(1rem, 5vw, 4rem); row-gap: clamp(1rem, 6vh, 3.5rem);
+}
+.hw-pin-notes { display: contents; list-style: none; }
+.hw-pin-bottle {
+  grid-column: 2; grid-row: 1 / span 3; position: relative; display: grid; place-items: center; perspective: 900px;
+}
+.hw-pin-bottle img {
+  position: relative; width: 100%; height: auto;
+  filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.5));
+  transform: rotateY(calc((var(--p, 0.5) - 0.5) * 50deg));
+  will-change: transform;
+}
+.hw-pin-halo {
+  position: absolute; left: 50%; top: 50%; width: 190%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, var(--t-glow), transparent 70%);
+  opacity: calc(0.3 + var(--p, 0.5) * 0.5);
+}
+.hw-note { display: flex; flex-direction: column; gap: 0.35rem; opacity: 0; transform: translateY(14px); transition: opacity 0.9s var(--hw-ease), transform 0.9s var(--hw-ease); }
+.hw-note.is-on { opacity: 1; transform: none; }
+.hw-note--top { grid-column: 1; grid-row: 1; text-align: right; align-items: flex-end; }
+.hw-note--heart { grid-column: 3; grid-row: 2; text-align: left; align-items: flex-start; }
+.hw-note--base { grid-column: 1; grid-row: 3; text-align: right; align-items: flex-end; }
+.hw-note-label { font-family: "DM Mono", monospace; font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--t-accent); }
+.hw-note-name { font-family: "Cormorant Garamond", serif; font-weight: 300; font-size: clamp(1.8rem, 3.6vw, 3.1rem); line-height: 1.05; }
+.hw-note-desc { font-size: 0.85rem; color: var(--hw-bone-dim, rgba(239, 230, 220, 0.64)); }
+.hw-pin--static { height: auto; }
+.hw-pin--static .hw-pin-sticky { position: static; height: auto; min-height: 80svh; padding-top: 5rem; padding-bottom: 5rem; }
+.hw-pin--static .hw-note { opacity: 1; transform: none; transition: none; }
+
+/* ── 3. macro mood strip ── */
+.hw-strip { padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 5vw, 4rem); background: var(--t-to); }
+.hw-strip > .hw-eyebrow { max-width: 1200px; margin: 0 auto 1.6rem; }
+.hw-strip-row { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1.35fr; gap: clamp(0.75rem, 2vw, 1.5rem); align-items: start; }
+.hw-strip-item { position: relative; overflow: hidden; border: 1px solid var(--hw-line, rgba(239, 230, 220, 0.14)); }
+.hw-strip-item--lifestyle { margin-top: clamp(1.5rem, 5vw, 4rem); }
+.hw-strip-item img { display: block; width: 100%; height: auto; transition: transform 1.4s var(--hw-ease); }
+.hw-strip-item:hover img { transform: scale(1.05); }
+.hw-strip-item figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 2rem 1rem 0.9rem;
+  font-family: "DM Mono", monospace; font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--hw-bone-dim, rgba(239, 230, 220, 0.7));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+}
+
+/* scroll reveal for everything below the fold (armed client-side only; SSR HTML stays visible) */
+.hw-armed .hw-io { opacity: 0; transform: translateY(26px); transition: opacity 0.9s var(--hw-ease), transform 0.9s var(--hw-ease); }
+.hw-armed .hw-io.is-in { opacity: 1; transform: none; }
+
+/* ── 4. buy ── */
+.hw-buy {
+  max-width: 1200px; margin: 0 auto;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+  display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 6rem); align-items: center;
+}
+.hw-buy-art { position: relative; display: grid; place-items: center; }
+.hw-buy-glow {
+  position: absolute; left: 50%; top: 50%; width: 120%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, var(--t-glow), transparent 70%); opacity: 0.55;
+}
+.hw-buy-art img { position: relative; width: min(70%, 300px); height: auto; filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.5)); }
+.hw-buy-story { margin-top: 0; max-width: 480px; line-height: 1.85; color: var(--hw-bone-dim, rgba(239, 230, 220, 0.64)); }
+.hw-buy .hw-p-tagline { margin: 0.4rem 0 1.2rem; }
+.hw-size { display: flex; align-items: center; gap: 1rem; margin: 1.5rem 0 0.5rem; }
+.hw-size-label { font-family: "DM Mono", monospace; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--hw-bone-dim, rgba(239, 230, 220, 0.64)); }
+.hw-size-pill { padding: 0.55rem 1.3rem; border: 1px solid var(--t-accent); border-radius: 50px; font-size: 0.85rem; }
+.hw-size-invert { margin-top: 1.2rem; filter: invert(1); }
+.hw-buy-price { margin: 0.9rem 0 1.4rem; font-family: "Cormorant Garamond", serif; font-size: 2.5rem; font-weight: 400; }
+.hw-buy-cta { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.hw-acc-wrap { margin-top: 2.2rem; border-top: 1px solid var(--hw-line, rgba(239, 230, 220, 0.14)); }
+.hw-acc { border-bottom: 1px solid var(--hw-line, rgba(239, 230, 220, 0.14)); }
+.hw-acc summary {
+  list-style: none; cursor: none; display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 0; font-family: "DM Mono", monospace; font-size: 0.7rem; letter-spacing: 0.2em;
+}
+.hw-acc summary::-webkit-details-marker { display: none; }
+.hw-acc summary span::before { content: "+"; font-size: 1.1rem; }
+.hw-acc[open] summary span::before { content: "−"; }
+.hw-acc-body { padding: 0 0 1.4rem; line-height: 1.85; font-size: 0.92rem; color: var(--hw-bone-dim, rgba(239, 230, 220, 0.64)); }
+
+/* ── 5. reviews: the shared (light) component, inverted with its own CSS variables ── */
+.hw-reviews { --ink: #efe6dc; --paper: var(--t-to); }
+.hw-reviews section { border-top-color: rgba(239, 230, 220, 0.14) !important; }
+.hw-reviews article { border-top-color: rgba(239, 230, 220, 0.12) !important; }
+.hw-reviews form { background: rgba(255, 255, 255, 0.04) !important; border-color: rgba(239, 230, 220, 0.16) !important; }
+.hw-reviews input, .hw-reviews textarea { background: rgba(255, 255, 255, 0.06) !important; border-color: rgba(239, 230, 220, 0.25) !important; color: #efe6dc !important; }
+.hw-reviews button { border-color: rgba(239, 230, 220, 0.3) !important; }
+
+/* ── 6. complete the set ── */
+.hw-set { display: flex; justify-content: center; padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem); }
+.hw-set-card {
+  position: relative; overflow: hidden; width: 100%; max-width: 780px;
+  display: flex; align-items: center; gap: clamp(1.5rem, 4vw, 3rem);
+  padding: 1.5rem clamp(1.25rem, 3vw, 2.5rem);
+  color: #efe6dc; text-decoration: none; cursor: none;
+  border: 1px solid rgba(239, 230, 220, 0.14);
+  background: linear-gradient(120deg, var(--o-from), var(--o-to));
+  transition: border-color 0.4s, transform 0.5s var(--hw-ease);
+}
+.hw-set-card:hover { border-color: var(--o-accent); transform: translateY(-3px); }
+.hw-set-card img { position: relative; height: clamp(150px, 22vw, 210px); width: auto; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5)); }
+.hw-set-text { display: flex; flex-direction: column; gap: 0.5rem; }
+.hw-set-name { font-family: "Cormorant Garamond", serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: 0.14em; line-height: 1.05; }
+.hw-set-tag { font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 1.2rem; color: var(--o-accent); }
+.hw-set-cta { margin-top: 0.8rem; font-family: "DM Mono", monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+/* =========================================================================
+   RESPONSIVE
+========================================================================= */
+@media (max-width: 860px) {
+  .hw-collection-head { grid-template-columns: 1fr; align-items: start; }
+  .hw-strip-row { grid-template-columns: none; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 0.5rem; }
+  .hw-strip-row::-webkit-scrollbar { display: none; }
+  .hw-strip-item { flex: 0 0 74vw; scroll-snap-align: center; margin-top: 0 !important; }
+  .hw-buy { grid-template-columns: 1fr; }
+  .hw-buy-art img { width: min(52%, 240px); }
+}
+@media (max-width: 720px) {
+  .hw-card-row { grid-template-columns: 1fr; }
+  .hw-card-art { aspect-ratio: 4 / 3.2; }
+  .hw-pin-grid { grid-template-columns: 1fr; grid-template-rows: auto; row-gap: 0.9rem; justify-items: center; }
+  .hw-pin-bottle { grid-column: 1; grid-row: 1; width: min(34vh, 52vw); }
+  .hw-note--top, .hw-note--heart, .hw-note--base { grid-column: 1; text-align: center; align-items: center; }
+  .hw-note--top { grid-row: 2; } .hw-note--heart { grid-row: 3; } .hw-note--base { grid-row: 4; }
+  .hw-note-name { font-size: 1.6rem; }
+  .hw-note-desc { display: none; }
+  .hw-set-card { flex-direction: column; text-align: center; }
+  .hw-set-text { align-items: center; }
+}
+
+/* =========================================================================
+   REDUCED MOTION — no float, mist, particles, parallax, pinned scroll or intro flash
+========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .hw-bottle-float, .hw-p-float, .hw-mist, .hw-bottle-glow, .hw-spot, .hw-moon { animation: none !important; }
+  .hw-particles { display: none; }
+  body.hw-revealing .hw-reveal { animation: none; }
+  body.hw-intro-on .hw-reveal { opacity: 1; }
+  .hw-armed .hw-io { opacity: 1; transform: none; transition: none; }
+  .hw-note { transition: none; }
+  .hw-bottle-tilt, .hw-p-tilt, .hw-pname-bg { transform: none; }
+  .hw-pname-bg { transform: translate(-50%, -50%); }
+}

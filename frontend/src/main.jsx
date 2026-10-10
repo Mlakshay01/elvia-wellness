@@ -16,6 +16,8 @@ import "./index.css";
 // Head tags written by the prerender step are removed here; react-helmet-async re-creates the
 // same tags for the current page, and keeps them correct on client-side navigation.
 document.head.querySelectorAll("[data-prerender]").forEach((el) => el.remove());
+// Body classes written by the prerender step (dark-page navbar); the pages re-apply them if still needed.
+document.body.classList.remove("hw-dark", "hw-nav-light");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
