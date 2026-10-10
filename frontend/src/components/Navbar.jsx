@@ -6,8 +6,9 @@ import AuthModal from "./AuthModal";
 import ProfileMenu from "./ProfileMenu";
 import "../styles/Home/Navbar.css";
 import { useCart } from "../context/CartContext";
+import { HALLOWEEN_COPY, isHalloweenActive } from "../config/halloween";
 
-const NAV_LINKS = [
+const BASE_NAV_LINKS = [
   { label: "Collection", id: "collection" },
   { label: "About", id: "about" },
   { label: "Ambassador", id: "ambassador" },
@@ -16,6 +17,10 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
+  // "Halloween Edition" is added only while the seasonal theme is on.
+  const NAV_LINKS = isHalloweenActive()
+    ? [{ label: HALLOWEEN_COPY.navLabel, id: "halloween" }, ...BASE_NAV_LINKS]
+    : BASE_NAV_LINKS;
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
@@ -112,7 +117,7 @@ export default function Navbar() {
                 scrollToSection(id);
               }}
             >
-              {label}
+              {id === "halloween" ? <>Halloween<span className="hw-nav-ed"> Edition</span></> : label}
             </a>
           ))}
         </div>

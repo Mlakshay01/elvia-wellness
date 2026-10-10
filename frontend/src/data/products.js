@@ -1,3 +1,5 @@
+import { HALLOWEEN_PRODUCT_LIST } from "../config/halloween";
+
 /* =========================================================
    30 ML PRICE
 
@@ -99,6 +101,24 @@ export const PRODUCTS = {
     category: "COLLECTION · EAU DE PARFUM",
     size: "3 × 30 ml",
   },
+
+  /* HALLOWEEN EDITION — NOCTURNE & AZUR (100 ml).
+     Generated from src/config/halloween.js so names, prices, routes and ids are defined once.
+     The ids must match backend/seedHalloweenPerfumes.js. These stay valid after the event.
+     (No 30 ml variants: the 30 ml option is currently switched off in getSizeOptions below.) */
+  ...Object.fromEntries(
+    HALLOWEEN_PRODUCT_LIST.map((p) => [
+      p.route,
+      {
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        image: p.images.front,
+        category: `HALLOWEEN EDITION · ${p.category}`,
+        size: p.size,
+      },
+    ]),
+  ),
 };
 
 /* =========================================================

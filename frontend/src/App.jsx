@@ -6,6 +6,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Loader from "./components/Loader";
+import HalloweenProduct from "./halloween/HalloweenProduct";
+import HalloweenGlobals from "./halloween/HalloweenGlobals";
+import { HALLOWEEN_PRODUCT_LIST, isHalloweenActive } from "./config/halloween";
+import "./styles/Halloween/halloween.css";
 
 import Home from "./pages/Home";
 import Blogs from "./pages/Blogs";
@@ -79,6 +83,7 @@ function Layout({ children }) {
       {!isAdmin && <Navbar />}
       <ScrollToTop />
       <Loader />
+      <HalloweenGlobals />
       {children}
       {!isAdmin && <Footer />}
     </>
@@ -87,6 +92,9 @@ function Layout({ children }) {
 
 /* ── CURSOR ── */
 function useCursor() {
+  const { pathname } = useLocation();
+  const halloweenCursor = isHalloweenActive() && !pathname.startsWith("/admin");
+
   useEffect(() => {
     const cr = document.getElementById("cr");
     const cdot = document.getElementById("cd");
@@ -94,8 +102,14 @@ function useCursor() {
 
     let mx = 0, my = 0, cx = 0, cy = 0;
 
-    cr.style.setProperty("border-color", "#0d0c0b");
-    cdot.style.setProperty("background", "#0d0c0b");
+    // Halloween: the cursor is blood red on every surface (it reads on both paper and near-black).
+    const RED = "#b3122e";
+    const ink = halloweenCursor ? RED : "#0d0c0b";
+    const onDark = halloweenCursor ? RED : "white";
+    document.body.classList.toggle("hw-cursor", halloweenCursor);
+
+    cr.style.setProperty("border-color", ink);
+    cdot.style.setProperty("background", ink);
 
     const checkDark = () => {
       let el = document.elementFromPoint(mx, my);
@@ -107,15 +121,15 @@ function useCursor() {
             const [r, g, b] = match.map(Number);
             const brightness = (r * 299 + g * 587 + b * 114) / 1000;
             const isDark = brightness < 80;
-            cr.style.setProperty("border-color", isDark ? "white" : "#0d0c0b");
-            cdot.style.setProperty("background", isDark ? "white" : "#0d0c0b");
+            cr.style.setProperty("border-color", isDark ? onDark : ink);
+            cdot.style.setProperty("background", isDark ? onDark : ink);
             return;
           }
         }
         el = el.parentElement;
       }
-      cr.style.setProperty("border-color", "#0d0c0b");
-      cdot.style.setProperty("background", "#0d0c0b");
+      cr.style.setProperty("border-color", ink);
+      cdot.style.setProperty("background", ink);
     };
 
     const onMove = (e) => {
@@ -154,8 +168,9 @@ function useCursor() {
       document.removeEventListener("mouseover", onEnter);
       document.removeEventListener("mouseout", onLeave);
       cancelAnimationFrame(raf);
+      document.body.classList.remove("hw-cursor");
     };
-  }, []);
+  }, [halloweenCursor]);
 }
 
 /* ── APP ROOT ── */
@@ -182,6 +197,10 @@ export default function AppRoot() {
           <Route path="/perfume/nox" element={<PerfumeNox />} />
           <Route path="/perfume/velion" element={<PerfumeVelion />} />
           <Route path="/perfume/discovery-set" element={<PerfumeDiscoverySet />} />
+          {/* Halloween Edition — routes come from src/config/halloween.js and stay live after the event */}
+          {HALLOWEEN_PRODUCT_LIST.map((p) => (
+            <Route key={p.key} path={p.route} element={<HalloweenProduct productKey={p.key} />} />
+          ))}
 
           {/* AMBASSADOR PROGRAM */}
           <Route path="/program/ambassador" element={<AmbassadorProgram />} />

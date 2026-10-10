@@ -22,6 +22,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadEnv } from "vite";
+// Same config the storefront uses — routes / ids can never drift from the app. (Plain ES, safe to import in Node.)
+import { HALLOWEEN_PRODUCT_LIST, isHalloweenActive } from "../src/config/halloween.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIST = path.join(ROOT, "dist");
@@ -38,6 +40,8 @@ const STATIC_ROUTES = [
   { path: "/perfume/soie-femme-floral-perfume", priority: "0.9", changefreq: "weekly" },
   { path: "/perfume/veil-fresh-perfume", priority: "0.9", changefreq: "weekly" },
   { path: "/perfume/discovery-set", priority: "0.9", changefreq: "weekly" },
+  // Halloween Edition perfumes (NOCTURNE, AZUR) — they stay live as normal products after the event
+  ...HALLOWEEN_PRODUCT_LIST.map((p) => ({ path: p.route, priority: "0.9", changefreq: "weekly" })),
   { path: "/perfume/nox", priority: "0.6", changefreq: "monthly" },
   { path: "/perfume/velion", priority: "0.6", changefreq: "monthly" },
   { path: "/blogs", priority: "0.8", changefreq: "weekly" },
@@ -95,9 +99,17 @@ function withoutOld(templateHtml) {
     .replace(/<link\s+rel="canonical"[^>]*\/?>\s*/i, "");
 }
 
-function buildPage(template, { head, body }) {
+/* Dark-page body classes for pages that open on a dark canvas, so the transparent navbar is readable
+   before the JS bundle boots. main.jsx clears them; the pages re-apply them themselves. */
+function bodyClassFor(route) {
+  if (HALLOWEEN_PRODUCT_LIST.some((p) => p.route === route)) return "hw-dark";
+  if (route === "/" && isHalloweenActive()) return "hw-nav-light";
+  return "";
+}
+
+function buildPage(template, { head, body, bodyClass = "" }) {
   const headHtml = head.map(markPrerender).join("\n    ");
-  return template
+  return (bodyClass ? template.replace("<body>", `<body class="${bodyClass}">`) : template)
     .replace("</head>", `    ${headHtml}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root">${body}</div>`)
     .replace(/<div id="root">\s*<\/div>/, `<div id="root">${body}</div>`);
@@ -161,7 +173,7 @@ globalThis.__PRERENDER_DATA__ = fetched
   : {};
 
 /* Customer reviews per product (so crawlers get the real review text + rating in the HTML) */
-const REVIEW_PRODUCT_IDS = ["the-noir-men", "perfume-veil-unisex", "perfume-soie-femme", "nox", "velion", "discovery-set"];
+const REVIEW_PRODUCT_IDS = ["the-noir-men", "perfume-veil-unisex", "perfume-soie-femme", "nox", "velion", "discovery-set", ...HALLOWEEN_PRODUCT_LIST.map((p) => p.id)];
 if (API) {
   const reviews = {};
   for (const id of REVIEW_PRODUCT_IDS) {
@@ -216,7 +228,7 @@ for (const r of routes) {
   }
   const { head, body: b1 } = splitHoisted(out.html);
   const { scripts, body } = extractJsonLd(b1);
-  const page = buildPage(template, { head: [...head, ...scripts], body });
+  const page = buildPage(template, { head: [...head, ...scripts], body, bodyClass: bodyClassFor(r.path) });
 
   /* ---- verification ---- */
   const url = r.path === "/" ? `${SITE}/` : `${SITE}${r.path}`;

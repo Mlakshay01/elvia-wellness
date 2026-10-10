@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import "../styles/Global/Utils.css";
+import { isHalloweenActive } from "../config/halloween";
+import HalloweenIntro from "../halloween/HalloweenIntro";
 
-export default function Loader() {
+function ClassicLoader() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -37,4 +39,10 @@ export default function Loader() {
       <div className="loader-sub">Because care deserves luxury</div>
     </div>
   );
+}
+
+/* While the Halloween theme is on, its intro replaces the KAEORN splash.
+   After the end date (or with the flag off) the original splash is used again. */
+export default function Loader() {
+  return isHalloweenActive() ? <HalloweenIntro /> : <ClassicLoader />;
 }

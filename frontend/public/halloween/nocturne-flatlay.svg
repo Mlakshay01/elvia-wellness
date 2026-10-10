@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800"><defs>
+  <linearGradient id="liqno" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c8213f"/><stop offset="1" stop-color="#4a0614"/></linearGradient>
+  <linearGradient id="glno" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a0a12" stop-opacity=".30"/><stop offset=".5" stop-color="#2a0a12" stop-opacity=".08"/><stop offset="1" stop-color="#2a0a12" stop-opacity=".28"/></linearGradient>
+  <linearGradient id="capno" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0c0c0e"/><stop offset=".35" stop-color="#2a2a2e"/><stop offset="1" stop-color="#0c0c0e"/></linearGradient>
+  <filter id="blurno" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  <filter id="softno" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5"/></filter>
+</defs><defs><linearGradient id="surfno" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b0510"/><stop offset="1" stop-color="#050204"/></linearGradient></defs><rect width="1000" height="800" fill="url(#surfno)"/><ellipse cx="500" cy="440" rx="330" ry="40" fill="#000" opacity=".4" filter="url(#softno)"/><g transform="translate(130 640) rotate(-90) scale(1)"><g>
+  <ellipse cx="200" cy="668" rx="130" ry="12" fill="#000" opacity=".35" filter="url(#softno)"/>
+  <rect x="90" y="250" width="220" height="410" rx="30" fill="url(#glno)" stroke="#2a0a12" stroke-opacity=".45" stroke-width="2"/>
+  <rect x="102" y="330" width="196" height="318" rx="20" fill="url(#liqno)" opacity=".92"/>
+  <rect x="170" y="212" width="60" height="42" fill="#2a0a12" fill-opacity=".25" stroke="#2a0a12" stroke-opacity=".4"/>
+  <rect x="148" y="104" width="104" height="112" rx="8" fill="url(#capno)"/>
+  <rect x="148" y="104" width="104" height="8" rx="4" fill="#fff" opacity=".16"/>
+  <rect x="130" y="430" width="140" height="108" rx="3" fill="#0b0a0c" opacity=".78" stroke="#c8213f" stroke-opacity=".6"/>
+  <text x="200" y="492" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="5" fill="#f1e6df">NOCTURNE</text>
+  <text x="200" y="516" text-anchor="middle" font-family="Georgia, serif" font-size="9" letter-spacing="4" fill="#f1e6df" opacity=".6">KAEORN</text>
+  <rect x="106" y="270" width="9" height="360" rx="4" fill="#ffd9de" opacity=".28"/>
+</g></g></svg>

@@ -15,6 +15,9 @@ const REVIEWABLE_PRODUCTS = [
   "nox",
   "velion",
   "discovery-set",
+  // Halloween Edition (must match frontend/src/config/halloween.js)
+  "perfume-nocturne",
+  "perfume-azur",
 ];
 
 const PAID_STATUSES = ["Paid", "Processing", "Shipped", "Out for Delivery", "Delivered"];

@@ -14,6 +14,12 @@ import NewArrivals from "../components/NewArrivals";
 import AmbassadorSection from "../components/AmbassadorSection";
 import CrawlLink from "../components/CrawlLink";
 import { ld, ORGANIZATION_JSONLD, WEBSITE_JSONLD } from "../seo/schema";
+import { HALLOWEEN_COPY, HALLOWEEN_PRODUCT_LIST } from "../config/halloween";
+import HalloweenHero from "../halloween/HalloweenHero";
+import useHeroVideoSrc from "../hooks/useHeroVideoSrc";
+import HalloweenCollection from "../halloween/HalloweenCollection";
+import { useBodyClass, useHalloweenActive } from "../halloween/hooks";
+import { playBell } from "../halloween/audioEngine";
 
 /* ── PRODUCT IMAGES ── */
 const softSkinImg =
@@ -43,6 +49,13 @@ const MARQUEE_ITEMS = [
   "·",
 ];
 
+/* Seasonal marquee items, added in front while the Halloween theme is on. */
+const HALLOWEEN_MARQUEE_ITEMS = [
+  HALLOWEEN_COPY.marqueeLabel,
+  "·",
+  ...HALLOWEEN_PRODUCT_LIST.flatMap((p) => [p.name, "·"]),
+];
+
 /* ----- WAITLIST------*/
 const NOTIFY_WAITLIST_URL =
   "https://script.google.com/macros/s/AKfycbyvEJM9wEdqZJ3wqsCWtUKwtCh2UkzTL6PEVyshRBcp_R8BJ-vGtpQONN76tciLQl8n/exec";
@@ -61,6 +74,8 @@ function PerfumeCard({
   user,
   setShowAuth,
   addReveal,
+  showClaims = true,
+  imgStyle,
 }) {
   const [added, setAdded] = useState(false);
   const cardRef = useRef(null);
@@ -76,6 +91,7 @@ function PerfumeCard({
       return;
     }
     const success = addToCart(to);
+    if (success && !showClaims) playBell(); // Halloween pair: soft bell (engine ignores it when Halloween is off / muted)
     setAdded(success ? "success" : "error");
     setTimeout(() => setAdded(null), 2000);
   }
@@ -91,7 +107,7 @@ function PerfumeCard({
         <img
           src={img}
           alt={`${name} – ${gender} Eau de Parfum by Kaeorn`}
-          style={styles.perfumeImage}
+          style={{ ...styles.perfumeImage, ...imgStyle }}
         />
         <div style={styles.perfumeOverlay}>
           <span style={styles.overlayText}>Discover →</span>
@@ -104,8 +120,8 @@ function PerfumeCard({
         </h4>
         <p style={styles.mood}>{mood}</p>
         <span style={styles.volume}>100 ml</span>
-        <span style={styles.volume}>Longevity: 8-10hrs</span>
-        <span>{concentration} Natural Oils</span>
+        {showClaims && <span style={styles.volume}>Longevity: 8-10hrs</span>}
+        {showClaims && <span>{concentration} Natural Oils</span>}
         <div style={styles.priceRow}>
           <span style={styles.price}>{price}</span>
           <span style={styles.mrp}>{mrp}</span>
@@ -146,6 +162,10 @@ export default function Home() {
   const [visible, setVisible] = useState(typeof window === "undefined");
   const { addToCart } = useCart();
   const [showAuth, setShowAuth] = useState(false);
+  const heroVideoSrc = useHeroVideoSrc();
+  const halloween = useHalloweenActive();
+  // Halloween hero is dark: the (transparent) navbar uses light text until the page is scrolled.
+  useBodyClass(halloween ? "hw-nav-light" : "");
 
   /* ── PAGE ENTER ── */
   useEffect(() => {
@@ -268,7 +288,30 @@ export default function Home() {
         }}
       >
         {/* ── HERO ── */}
+        {halloween ? (
+          <HalloweenHero />
+        ) : (
         <section className="hero" id="hero">
+          {heroVideoSrc && (
+            <video
+              key={heroVideoSrc}
+              className="hero-video"
+              src={heroVideoSrc}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+              ref={(el) => {
+                if (el) {
+                  el.muted = true;
+                  el.play().catch(() => {});
+                }
+              }}
+            />
+          )}
+          <div className="hero-video-overlay" />
           <div className="hero-ambient" />
           <div className="hero-content">
             {/* eyebrow: brand · product type */}
@@ -314,11 +357,15 @@ export default function Home() {
             </div>
           </div>
         </section>
+        )}
 
         {/* ── MARQUEE ── */}
-        <div className="marquee-wrap">
+        <div className={`marquee-wrap${halloween ? " hw-marquee" : ""}`}>
           <div className="marquee-track">
-            {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            {(() => {
+              const items = halloween ? [...HALLOWEEN_MARQUEE_ITEMS, ...MARQUEE_ITEMS] : MARQUEE_ITEMS;
+              return [...items, ...items];
+            })().map((item, i) => (
               <span
                 key={i}
                 className={`marquee-item${item === "·" ? " marquee-sep" : ""}`}
@@ -328,6 +375,17 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {/* ── HALLOWEEN EDITION (only while the theme is on) ── */}
+        {halloween && (
+          <HalloweenCollection
+            navigate={navigate}
+            addReveal={addReveal}
+            user={user}
+            addToCart={addToCart}
+            setShowAuth={setShowAuth}
+          />
+        )}
 
         {/*-- NEW COLLECTION --*/}
         <NewArrivals
@@ -345,7 +403,7 @@ export default function Home() {
               <div>
                 <p className="section-eyebrow">THE COLLECTION</p>
                 <h2 className="section-title">
-                  Three moods.
+                  {halloween ? "Three moods." : "Five moods."}
                   <br />
                   <em>One skin.</em>
                 </h2>
@@ -391,7 +449,22 @@ export default function Home() {
                 price: "₹1399",
                 // mrp: "₹1,399",
               },
-            ].map((p) => (
+            ]
+              .concat(
+                halloween
+                  ? []
+                  : HALLOWEEN_PRODUCT_LIST.map((p) => ({
+                      to: p.route,
+                      img: p.images.front,
+                      gender: p.mood.toUpperCase(),
+                      name: p.name,
+                      mood: p.tagline,
+                      price: `₹${p.price}`,
+                      showClaims: false,
+                      imgStyle: { objectFit: "contain", background: `linear-gradient(180deg, ${p.theme.bgFrom}, ${p.theme.bgTo})` },
+                    })),
+              )
+              .map((p) => (
               <PerfumeCard
                 key={p.name}
                 {...p}
