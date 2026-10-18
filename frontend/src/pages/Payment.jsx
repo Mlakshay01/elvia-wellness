@@ -284,6 +284,9 @@ export default function Payment() {
         totalAmount: serverTotalAmount,
 
         couponCode: orderData.order?.couponCode || null,
+
+        // set when the tiered Dussehra offer reduced this order
+        festiveOffer: orderData.order?.festiveOffer || null,
       });
 
       /* ======================================
@@ -508,7 +511,9 @@ export default function Payment() {
         {displayDiscount > 0 && (
           <div style={styles.summaryRow}>
             <span style={styles.summaryLabel}>
-              Discount {couponCode ? `(${couponCode})` : ""}
+              {serverPricing?.festiveOffer
+                ? `Dussehra offer (${serverPricing.festiveOffer.percent}% off signature scents)`
+                : `Discount ${couponCode ? `(${couponCode})` : ""}`}
             </span>
 
             <span style={styles.discountValue}>

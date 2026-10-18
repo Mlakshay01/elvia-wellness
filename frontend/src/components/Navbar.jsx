@@ -9,7 +9,7 @@ import { useCart } from "../context/CartContext";
 import { HALLOWEEN_COPY, isHalloweenActive } from "../config/halloween";
 
 const BASE_NAV_LINKS = [
-  { label: "Collection", id: "collection" },
+  { label: "Signature Scents", id: "collection" },
   { label: "About", id: "about" },
   { label: "Ambassador", id: "ambassador" },
   { label: "Coming Soon", id: "coming" },
@@ -19,7 +19,7 @@ const BASE_NAV_LINKS = [
 export default function Navbar() {
   // "Halloween Edition" is added only while the seasonal theme is on.
   const NAV_LINKS = isHalloweenActive()
-    ? [{ label: HALLOWEEN_COPY.navLabel, id: "halloween" }, ...BASE_NAV_LINKS]
+    ? [BASE_NAV_LINKS[0], { label: HALLOWEEN_COPY.navLabel, id: "halloween" }, ...BASE_NAV_LINKS.slice(1)]
     : BASE_NAV_LINKS;
   const navigate = useNavigate();
   const location = useLocation();
@@ -65,10 +65,8 @@ export default function Navbar() {
     if (location.pathname === "/") {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     } else {
-      navigate("/");
-      setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      }, 350);
+      // ScrollToTop reads the #hash and scrolls once the home page has mounted and settled
+      navigate({ pathname: "/", hash: `#${id}` });
     }
   }
 
@@ -117,7 +115,13 @@ export default function Navbar() {
                 scrollToSection(id);
               }}
             >
-              {id === "halloween" ? <>Halloween<span className="hw-nav-ed"> Edition</span></> : label}
+              {id === "halloween" ? (
+                <>Halloween<span className="hw-nav-ed"> Edition</span></>
+              ) : id === "collection" ? (
+                <>Signature<span className="hw-nav-ed"> Scents</span></>
+              ) : (
+                label
+              )}
             </a>
           ))}
         </div>

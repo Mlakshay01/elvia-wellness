@@ -65,8 +65,8 @@ export default function Footer() {
             <div className="footer-col reveal">
               <h4>Brand</h4>
               <Link to="/about">About</Link>
-              <a href="/#about">Our Story</a>
-              <a href="/#coming">Coming Soon</a>
+              <Link to="/#about">Our Story</Link>
+              <Link to="/#coming">Coming Soon</Link>
               <Link to="/blogs">Journal</Link>
               <Link to="/program/ambassador">Ambassador Program</Link>
             </div>

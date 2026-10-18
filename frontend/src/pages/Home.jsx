@@ -20,6 +20,9 @@ import useHeroVideoSrc from "../hooks/useHeroVideoSrc";
 import HalloweenCollection from "../halloween/HalloweenCollection";
 import { useBodyClass, useHalloweenActive } from "../halloween/hooks";
 import { playBell } from "../halloween/audioEngine";
+import { PRODUCTS } from "../data/products";
+import FestiveOffer from "../festive/FestiveOffer";
+import { useFestivePhase } from "../festive/useFestive";
 
 /* ── PRODUCT IMAGES ── */
 const softSkinImg =
@@ -77,6 +80,7 @@ function PerfumeCard({
   showClaims = true,
   imgStyle,
   size = "100 ml",
+  badge,
 }) {
   const [added, setAdded] = useState(false);
   const cardRef = useRef(null);
@@ -127,6 +131,7 @@ function PerfumeCard({
           <span style={styles.price}>{price}</span>
           <span style={styles.mrp}>{mrp}</span>
         </div>
+        {badge && <span className="fo-card-tag">{badge}</span>}
         <div className="prod-actions">
           <button
             className="prod-explore"
@@ -167,6 +172,13 @@ export default function Home() {
   const halloween = useHalloweenActive();
   // Halloween hero is dark: the (transparent) navbar uses light text until the page is scrolled.
   useBodyClass(halloween ? "hw-nav-light" : "");
+
+  // Dussehra festive offer (signature perfumes only — never the Halloween pair)
+  const festivePhase = useFestivePhase();
+  const festiveBadge =
+    festivePhase === "live" ? "Dussehra offer · up to 25% off" : festivePhase === "upcoming" ? "Dussehra offer · 20 Oct" : null;
+  const scrollToSignature = () =>
+    document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
 
   /* ── PAGE ENTER ── */
   useEffect(() => {
@@ -249,6 +261,112 @@ export default function Home() {
       observerRef.current.observe(el);
     }
   }, []);
+
+  const signatureNode = (
+        <section style={styles.perfumeSection} id="collection">
+          <div ref={addReveal} className="reveal">
+            <div className="collection-header">
+              <div>
+                <p className="section-eyebrow">THE SIGNATURE COLLECTION</p>
+                <h2 className="section-title">
+                  {halloween ? "Three moods." : "Five moods."}
+                  <br />
+                  <em>One skin.</em>
+                </h2>
+              </div>
+              <div>
+                <p className="collection-intro">
+                  Each Kaeorn scent is built around a feeling — not a trend.
+                  Wear the one that finds you.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div style={styles.perfumeRow}>
+            {[
+              {
+                to: "/perfume/noir-party-perfume",
+                img: softSkinImg,
+                gender: "MEN",
+                name: "THÉ NOIR",
+                mood: "Fruity · Aromatic · Gourmand",
+                concentration: "25%",
+                price: "₹1399",
+                // mrp: "₹1,399",
+              },
+              {
+                to: "/perfume/veil-fresh-perfume",
+                img: morningVeilImg,
+                gender: "UNISEX",
+                name: "VEIL",
+                mood: "Citrus · Spicy · Woody",
+                concentration: "25%",
+                price: "₹1399",
+                // mrp: "₹1,399",
+              },
+              {
+                to: "/perfume/soie-femme-floral-perfume",
+                img: quietWoodsImg,
+                gender: "WOMEN",
+                name: "SOIE FEMME",
+                mood: "Floral · Roasted · Gourmand",
+                concentration: "25%",
+                price: "₹1399",
+                // mrp: "₹1,399",
+              },
+            ]
+              .concat(
+                halloween
+                  ? []
+                  : HALLOWEEN_PRODUCT_LIST.map((p) => ({
+                      to: p.route,
+                      img: p.images.front,
+                      gender: p.mood.toUpperCase(),
+                      name: p.name,
+                      mood: p.tagline,
+                      price: `₹${p.price}`,
+                      mrp: p.mrp > p.price ? `₹${p.mrp}` : undefined,
+                      size: p.size,
+                      showClaims: false,
+                      imgStyle: { objectFit: "contain", background: `linear-gradient(180deg, ${p.theme.bgFrom}, ${p.theme.bgTo})` },
+                    })),
+              )
+              .map((p) => (
+              <PerfumeCard
+                key={p.name}
+                {...p}
+                navigate={navigate}
+                addToCart={addToCart}
+                user={user}
+                setShowAuth={setShowAuth}
+                addReveal={addReveal}
+                badge={p.showClaims === false ? null : festiveBadge}
+              />
+            ))}
+          </div>
+        </section>
+  );
+
+  const halloweenNode = halloween ? (
+    <HalloweenCollection
+      navigate={navigate}
+      addReveal={addReveal}
+      user={user}
+      addToCart={addToCart}
+      setShowAuth={setShowAuth}
+    />
+  ) : null;
+
+  const newArrivalsNode = (
+        <NewArrivals
+          navigate={navigate}
+          addReveal={addReveal}
+          user={user}
+          addToCart={addToCart}
+          setShowAuth={setShowAuth}
+        />
+  );
 
   return (
     <>
@@ -378,109 +496,24 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── HALLOWEEN EDITION (only while the theme is on) ── */}
-        {halloween && (
-          <HalloweenCollection
-            navigate={navigate}
-            addReveal={addReveal}
-            user={user}
-            addToCart={addToCart}
-            setShowAuth={setShowAuth}
-          />
+        {/* ── ORDER ────────────────────────────────────────────────────────────────
+            While the Halloween theme is on, the SIGNATURE scents (with the Dussehra offer) come
+            first, so they are never buried under the seasonal edition; Halloween follows.
+            Otherwise the original order is kept (new arrivals, then the signature scents). ── */}
+        {halloween ? (
+          <>
+            <FestiveOffer unitPrice={PRODUCTS["/perfume/noir-party-perfume"].price} onChoose={scrollToSignature} />
+            {signatureNode}
+            {halloweenNode}
+            {newArrivalsNode}
+          </>
+        ) : (
+          <>
+            {newArrivalsNode}
+            <FestiveOffer unitPrice={PRODUCTS["/perfume/noir-party-perfume"].price} onChoose={scrollToSignature} />
+            {signatureNode}
+          </>
         )}
-
-        {/*-- NEW COLLECTION --*/}
-        <NewArrivals
-          navigate={navigate}
-          addReveal={addReveal}
-          user={user}
-          addToCart={addToCart}
-          setShowAuth={setShowAuth}
-        />
-
-        {/* ── COLLECTION ── */}
-        <section style={styles.perfumeSection} id="collection">
-          <div ref={addReveal} className="reveal">
-            <div className="collection-header">
-              <div>
-                <p className="section-eyebrow">THE COLLECTION</p>
-                <h2 className="section-title">
-                  {halloween ? "Three moods." : "Five moods."}
-                  <br />
-                  <em>One skin.</em>
-                </h2>
-              </div>
-              <div>
-                <p className="collection-intro">
-                  Each Kaeorn scent is built around a feeling — not a trend.
-                  Wear the one that finds you.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div style={styles.perfumeRow}>
-            {[
-              {
-                to: "/perfume/noir-party-perfume",
-                img: softSkinImg,
-                gender: "MEN",
-                name: "THÉ NOIR",
-                mood: "Fruity · Aromatic · Gourmand",
-                concentration: "25%",
-                price: "₹1399",
-                // mrp: "₹1,399",
-              },
-              {
-                to: "/perfume/veil-fresh-perfume",
-                img: morningVeilImg,
-                gender: "UNISEX",
-                name: "VEIL",
-                mood: "Citrus · Spicy · Woody",
-                concentration: "25%",
-                price: "₹1399",
-                // mrp: "₹1,399",
-              },
-              {
-                to: "/perfume/soie-femme-floral-perfume",
-                img: quietWoodsImg,
-                gender: "WOMEN",
-                name: "SOIE FEMME",
-                mood: "Floral · Roasted · Gourmand",
-                concentration: "25%",
-                price: "₹1399",
-                // mrp: "₹1,399",
-              },
-            ]
-              .concat(
-                halloween
-                  ? []
-                  : HALLOWEEN_PRODUCT_LIST.map((p) => ({
-                      to: p.route,
-                      img: p.images.front,
-                      gender: p.mood.toUpperCase(),
-                      name: p.name,
-                      mood: p.tagline,
-                      price: `₹${p.price}`,
-                      mrp: p.mrp > p.price ? `₹${p.mrp}` : undefined,
-                      size: p.size,
-                      showClaims: false,
-                      imgStyle: { objectFit: "contain", background: `linear-gradient(180deg, ${p.theme.bgFrom}, ${p.theme.bgTo})` },
-                    })),
-              )
-              .map((p) => (
-              <PerfumeCard
-                key={p.name}
-                {...p}
-                navigate={navigate}
-                addToCart={addToCart}
-                user={user}
-                setShowAuth={setShowAuth}
-                addReveal={addReveal}
-              />
-            ))}
-          </div>
-        </section>
 
         {/* ── ABOUT ── */}
         <section className="about" id="about">
@@ -532,7 +565,7 @@ export default function Home() {
                 <div className="stat-l">Fragrances Crafted</div>
               </div>
               <div ref={addReveal} className="stat reveal reveal-delay-1">
-                <div className="stat-n">53</div>
+                <div className="stat-n">150</div>
                 <div className="stat-l">Happy Wearers</div>
               </div>
               <div ref={addReveal} className="stat reveal reveal-delay-2">

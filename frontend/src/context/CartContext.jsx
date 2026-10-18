@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { PRODUCTS } from "../data/products";
+import { computeBreakdown } from "../config/festive";
+import { useFestivePhase } from "../festive/useFestive";
 
 const CartContext = createContext();
 
@@ -169,6 +171,10 @@ function loadInitialCart() {
 }
 
 export function CartProvider({ children }) {
+  // Re-render every consumer exactly when the festive offer starts/ends, so the cart total
+  // flips by itself (even if the page is left open across 00:00).
+  useFestivePhase();
+
   /* =========================================================
      CART ITEMS
   ========================================================= */
@@ -466,11 +472,20 @@ export function CartProvider({ children }) {
   ========================================================= */
 
   function getFinalTotal() {
-    const subtotal = getCartTotal();
+    return getBreakdown().finalTotal;
+  }
 
-    const discount = getCouponDiscount();
+  /* =========================================================
+     FULL BREAKDOWN (display only)
 
-    return Math.max(0, subtotal - discount);
+     Includes the tiered festive offer on the SIGNATURE
+     perfumes (Halloween Edition never qualifies) and applies
+     the same "larger of festive offer / coupon" rule as the
+     server. The server recomputes all of this from MongoDB.
+  ========================================================= */
+
+  function getBreakdown() {
+    return computeBreakdown(cartItems, appliedCoupon);
   }
 
   /* =========================================================
@@ -561,7 +576,7 @@ export function CartProvider({ children }) {
   function getOrderSnapshot() {
     const originalAmount = getOriginalAmount();
 
-    const discountAmount = getCouponDiscount();
+    const discountAmount = getBreakdown().discount;
 
     const finalAmount = getFinalTotal();
 
@@ -644,6 +659,8 @@ export function CartProvider({ children }) {
         getCouponDiscount,
 
         getFinalTotal,
+
+        getBreakdown,
 
         /* ---------------- CHECKOUT ---------------- */
 

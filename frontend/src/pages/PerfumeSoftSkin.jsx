@@ -9,6 +9,7 @@ import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
 import SizeSelector from "../components/SizeSelector";
 import { getSizeOptions } from "../data/products";
+import FestiveBanner from "../festive/FestiveBanner";
 
 /* ── SIZES (30 ml / 100 ml) ── */
 const SIZE_OPTIONS = getSizeOptions("/perfume/noir-party-perfume");
@@ -274,6 +275,9 @@ export default function PerfumeSoftSkin() {
               {/* <span style={styles.strike}>₹{originalPrice}</span>
               <span style={styles.off}>{discount}% OFF</span> */}
             </div>
+
+            {/* Dussehra tiered offer: signature scents only */}
+            <FestiveBanner />
 
             <p style={styles.shortDesc}>
               Presence without announcement. THÉ NOIR is a woody, aromatic men's

@@ -13,6 +13,9 @@ export default function HalloweenHero() {
   const heroVideoSrc = useHeroVideoSrc();
   useParallax(stageRef, { enabled: !reduced });
 
+  const scrollToSignature = () =>
+    document.getElementById("collection")?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
+
   const scrollToCollection = () =>
     document.getElementById("halloween")?.scrollIntoView({ behavior: reduced ? "auto" : "smooth" });
 
@@ -89,9 +92,15 @@ export default function HalloweenHero() {
             <span className="hw-offer-pct">{discountPercent()}% off</span>
           </span>
         </p>
-        <button type="button" className="hw-btn hw-reveal" style={{ "--i": 5 }} onClick={scrollToCollection}>
-          {HALLOWEEN_COPY.heroCta}
-        </button>
+        <div className="hw-cta-row hw-reveal" style={{ "--i": 5 }}>
+          <button type="button" className="hw-btn" onClick={scrollToCollection}>
+            {HALLOWEEN_COPY.heroCta}
+          </button>
+          {/* so the signature scents are always one tap away, never buried under the seasonal edition */}
+          <button type="button" className="hw-btn hw-btn--ghost" onClick={scrollToSignature}>
+            Signature Scents
+          </button>
+        </div>
       </div>
     </section>
   );

@@ -772,3 +772,38 @@ body.hw-cursor .cursor { mix-blend-mode: normal; }
   .hw-bottle-tilt, .hw-p-tilt, .hw-pname-bg { transform: none; }
   .hw-pname-bg { transform: translate(-50%, -50%); }
 }
+/* Quiet secondary link under the hero CTA: points to the Signature Scents without a new bar or colour block */
+.hw-alt-link {
+  display: block; margin: 1.1rem auto 0; padding: 0.35rem 0;
+  background: none; border: 0; border-bottom: 1px solid rgba(239, 230, 220, 0.35);
+  font-family: "DM Mono", monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--hw-bone); opacity: 0.85; cursor: none; max-width: 92%;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
+}
+.hw-alt-link:hover { opacity: 1; border-color: var(--hw-bone); }
+@media (max-width: 768px) { .hw-alt-link { cursor: pointer; font-size: 0.58rem; letter-spacing: 0.12em; line-height: 1.5; } }
+
+/* =========================================================================
+   MOBILE ONLY (screens up to 768px, and touch devices) — desktop is untouched
+   1) the two bottles (NOCTURNE / AZUR) stay completely still: no float, tilt, parallax or glow pulse
+   2) the hero background video is brighter
+========================================================================= */
+@media (max-width: 768px), (pointer: coarse) {
+  html body .hw-hero .hw-bottle-float,
+  html body .hw-p-float,
+  html body .hw-hero .hw-bottle-glow {
+    animation: none !important;
+    transform: none !important;
+  }
+  html body .hw-hero .hw-bottle-tilt,
+  html body .hw-p-tilt {
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+  html body .hw-hero .hw-bottle-glow { opacity: 0.8; transform: translate(-50%, -50%) !important; }
+
+  html body .hw-hero video.hw-hero-video { filter: brightness(1.9) contrast(1.05) saturate(1.15) !important; }
+  html body .hw-hero .hw-hero-bg::before { background: rgba(4, 2, 3, 0.05) !important; }
+  html body .hw-hero .hw-vignette { background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.3) 100%) !important; }
+}
