@@ -6,6 +6,8 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const userAuth = require("../middleware/userAuth");
 const PartnerUser = require("../models/PartnerUser");
+// Tiered signature-fragrance festive offer (Dussehra). Pure rules; prices come from MongoDB below.
+const { FESTIVE, computeFestiveDiscount, resolveDiscounts } = require("../config/festiveOffer");
 
 const router = express.Router();
 
@@ -346,11 +348,50 @@ router.post("/create-order", userAuth, async (req, res) => {
       });
     }
 
-    const finalCouponCode = couponResult.couponCode;
+    /* ======================================
+       FESTIVE OFFER (Dussehra tiers)
 
-    const discountAmount = roundMoney(
-      Math.min(Math.max(0, couponResult.discountAmount), originalAmount),
-    );
+       Computed ONLY from the database prices
+       loaded above. Applies to the signature
+       perfumes only — never to the Halloween
+       Edition, which keeps its own pricing.
+       Combined with a coupon per the policy
+       in config/festiveOffer.js (default:
+       the customer gets the larger of the two).
+    ====================================== */
+
+    const festive = computeFestiveDiscount(validatedItems);
+
+    const resolved = resolveDiscounts({
+      originalAmount,
+      festive,
+      coupon: {
+        code: couponResult.couponCode,
+        percent: couponResult.discountPercent,
+        amount: roundMoney(
+          Math.min(Math.max(0, couponResult.discountAmount), originalAmount),
+        ),
+      },
+    });
+
+    // A coupon that lost to the festive offer is neither applied nor attributed to the partner.
+    const finalCouponCode = resolved.couponApplied
+      ? couponResult.couponCode
+      : null;
+
+    const discountAmount = resolved.discountAmount;
+
+    const festiveSnapshot =
+      resolved.festiveAmount > 0
+        ? {
+            offerId: FESTIVE.id,
+            name: FESTIVE.name,
+            tier: festive.tier,
+            percent: festive.percent,
+            eligibleQuantity: festive.eligibleQuantity,
+            discountAmount: resolved.festiveAmount,
+          }
+        : null;
 
     /* ======================================
        FINAL TOTAL
@@ -408,6 +449,7 @@ router.post("/create-order", userAuth, async (req, res) => {
       discountAmount,
       totalAmount,
       couponCode: finalCouponCode,
+      festiveOffer: festiveSnapshot,
 
       payment: {
         method: "Razorpay",
@@ -426,6 +468,7 @@ router.post("/create-order", userAuth, async (req, res) => {
     console.log("Discount:", newOrder.discountAmount);
     console.log("Final:", newOrder.totalAmount);
     console.log("Coupon:", newOrder.couponCode);
+    console.log("Festive offer:", newOrder.festiveOffer);
 
     /* ======================================
        CREATE RAZORPAY ORDER
@@ -450,6 +493,7 @@ router.post("/create-order", userAuth, async (req, res) => {
           orderId: newOrder._id.toString(),
           userId: userId.toString(),
           couponCode: finalCouponCode || "",
+          festiveOffer: festiveSnapshot ? `${festiveSnapshot.offerId}:${festiveSnapshot.percent}%` : "",
         },
       });
     } catch (razorpayError) {
@@ -496,6 +540,7 @@ router.post("/create-order", userAuth, async (req, res) => {
         discountAmount: newOrder.discountAmount,
         totalAmount: newOrder.totalAmount,
         couponCode: newOrder.couponCode,
+        festiveOffer: newOrder.festiveOffer || null,
       },
 
       razorpay: {

@@ -1,5 +1,18 @@
 const mongoose = require("mongoose");
 
+/* Which festive offer reduced the order (see config/festiveOffer.js). No _id: it is a plain snapshot. */
+const festiveOfferSchema = new mongoose.Schema(
+  {
+    offerId: { type: String, trim: true },
+    name: { type: String, trim: true },
+    tier: { type: String, trim: true },
+    percent: { type: Number, min: 0, max: 100 },
+    eligibleQuantity: { type: Number, min: 0 },
+    discountAmount: { type: Number, min: 0 },
+  },
+  { _id: false },
+);
+
 const orderSchema = new mongoose.Schema(
   {
     /* ======================================
@@ -221,6 +234,21 @@ const orderSchema = new mongoose.Schema(
       default: null,
       trim: true,
       uppercase: true,
+    },
+
+    /* ======================================
+       FESTIVE OFFER SNAPSHOT
+
+       Set when the tiered Dussehra offer
+       (signature perfumes) reduced this order.
+       discountAmount above already includes it;
+       this records WHICH offer/tier/percent so
+       accounting and support can see why.
+    ====================================== */
+
+    festiveOffer: {
+      type: festiveOfferSchema,
+      default: null,
     },
 
     /* ======================================

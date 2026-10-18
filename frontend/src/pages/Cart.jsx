@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useCart } from "../context/CartContext";
 import PageLoader from "../components/PageLoader";
+import { nextTierFor } from "../config/festive";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function Cart() {
     increaseQty,
     decreaseQty,
     removeFromCart,
-    getCartTotal,
+    getBreakdown,
 
     // Coupon state from CartContext
     // NOTE: context now exposes this key directly as `appliedCoupon`,
@@ -168,21 +169,27 @@ export default function Cart() {
      getCouponDiscount()/getFinalTotal() compute internally.
   ========================================================= */
 
-  const originalAmount = getCartTotal();
+  /* Includes the tiered festive offer (signature perfumes only; Halloween never qualifies) and the
+     "larger of festive offer / coupon" rule — the same maths the server applies at checkout. */
+  const breakdown = getBreakdown();
+
+  const originalAmount = breakdown.originalAmount;
 
   const discountPercent =
     appliedCoupon?.discountType === "percentage"
       ? Number(appliedCoupon.discountValue || 0)
       : 0;
 
-  const discount =
-    appliedCoupon?.discountType === "percentage"
-      ? Math.round((originalAmount * discountPercent) / 100)
-      : appliedCoupon?.discountType === "fixed"
-        ? Math.min(Number(appliedCoupon.discountValue || 0), originalAmount)
-        : 0;
+  const discount = breakdown.discount;
 
-  const finalTotal = Math.max(originalAmount - discount, 0);
+  const finalTotal = breakdown.finalTotal;
+
+  const festiveNext = breakdown.festive.active
+    ? nextTierFor(breakdown.festive.eligibleQuantity)
+    : null;
+  const festiveMore = festiveNext
+    ? festiveNext.min - breakdown.festive.eligibleQuantity
+    : 0;
 
   /* =========================================================
      LOADING
@@ -362,9 +369,27 @@ export default function Cart() {
             <span>₹{originalAmount}</span>
           </div>
 
+          {/* FESTIVE OFFER (Dussehra tiers, signature perfumes) */}
+
+          {breakdown.festiveAmount > 0 && (
+            <div
+              style={{
+                ...styles.row,
+                color: "#166534",
+              }}
+            >
+              <span>
+                Dussehra offer ({breakdown.festive.percent}% off signature
+                scents)
+              </span>
+
+              <span>−₹{breakdown.festiveAmount}</span>
+            </div>
+          )}
+
           {/* COUPON DISCOUNT */}
 
-          {discount > 0 && (
+          {breakdown.couponAmount > 0 && (
             <div
               style={{
                 ...styles.row,
@@ -373,8 +398,22 @@ export default function Cart() {
             >
               <span>Discount ({discountPercent}%)</span>
 
-              <span>−₹{discount}</span>
+              <span>−₹{breakdown.couponAmount}</span>
             </div>
+          )}
+
+          {appliedCoupon && breakdown.festiveAmount > 0 && !breakdown.couponApplied && (
+            <p style={{ fontSize: "0.78rem", color: "#7a5c14", margin: "0.2rem 0 0.6rem", lineHeight: 1.5 }}>
+              Your coupon wasn’t used: the Dussehra offer saves you more. Offers
+              can’t be combined.
+            </p>
+          )}
+
+          {festiveNext && (
+            <p style={{ fontSize: "0.78rem", color: "#7a5c14", margin: "0.2rem 0 0.6rem", lineHeight: 1.5 }}>
+              Add {festiveMore} more signature perfume{festiveMore > 1 ? "s" : ""} to
+              unlock {festiveNext.percent}% off.
+            </p>
           )}
 
           {/* DELIVERY */}

@@ -6,6 +6,10 @@ html, body {
   cursor: none;
 }
 
+/* Hide the page's vertical scrollbar everywhere (scrolling itself still works) */
+html, body { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {

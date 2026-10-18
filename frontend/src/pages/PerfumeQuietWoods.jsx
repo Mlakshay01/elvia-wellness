@@ -9,6 +9,7 @@ import { useCart } from "../context/CartContext";
 import AuthModal from "../components/AuthModal";
 import SizeSelector from "../components/SizeSelector";
 import { getSizeOptions } from "../data/products";
+import FestiveBanner from "../festive/FestiveBanner";
 
 /* ── SIZES (30 ml / 100 ml) ── */
 const SIZE_OPTIONS = getSizeOptions("/perfume/soie-femme-floral-perfume");
@@ -282,6 +283,9 @@ export default function PerfumeQuietWoods() {
               {/* <span style={styles.originalPrice}>₹{originalPrice}</span>
               <span style={styles.discount}>{discountPercent}% OFF</span> */}
             </div>
+
+            {/* Dussehra tiered offer: signature scents only */}
+            <FestiveBanner />
 
             <p style={styles.subtitle}>
               Femininity without force. Soie Femme is a luminous, skin-close
