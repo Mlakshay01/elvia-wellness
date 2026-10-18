@@ -17,7 +17,7 @@ export const FESTIVE = {
   name: "Dussehra Festival Offer",
   // Dussehra (Vijayadashami) 2026 = Tuesday 20 October. 24 hours, India time.
   startsAt: "2026-10-19T00:00:00+05:30",
-  endsAt: "2026-10-20T00:00:00+05:30",
+  endsAt: "2026-10-21T00:00:00+05:30",
   eligibleProductIds: ["the-noir-men", "perfume-veil-unisex", "perfume-soie-femme"],
   couponPolicy: "best-of", // "best-of" | "stack"
   tiers: [

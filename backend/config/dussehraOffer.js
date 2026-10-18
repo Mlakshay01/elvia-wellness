@@ -11,7 +11,7 @@ const DUSSEHRA_OFFER = {
   enabled: true,
   name: "Dussehra Signature Offer",
   start: "2026-10-19T00:00:00+05:30",
-  end: "2026-10-20T00:00:00+05:30",
+  end: "2026-10-21T00:00:00+05:30",
   eligibleProductIds: ["the-noir-men", "perfume-veil-unisex", "perfume-soie-femme"],
   tiers: [
     { units: 1, percent: 10 },
