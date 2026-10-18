@@ -22,7 +22,7 @@ export const DUSSEHRA_OFFER = {
 
   /** 24 hours, India time. `end` is exclusive (midnight at the end of the day). */
   start: "2026-10-19T00:00:00+05:30",
-  end: "2026-10-20T00:00:00+05:30",
+  end: "2026-10-21T00:00:00+05:30",
 
   /** Canonical product ids (100 ml signature scents only). */
   eligibleProductIds: ["the-noir-men", "perfume-veil-unisex", "perfume-soie-femme"],
