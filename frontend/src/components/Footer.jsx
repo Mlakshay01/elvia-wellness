@@ -49,7 +49,7 @@ export default function Footer() {
           <div className="footer-top">
             <div className="footer-logo-block reveal">
               <div className="footer-logo">KAEORN</div>
-              <p className="footer-tagline">Because care deserves luxury.</p>
+              <p className="footer-tagline">The Art of being Remembered.</p>
             </div>
             <div className="footer-col reveal">
               <h4>Collection</h4>
