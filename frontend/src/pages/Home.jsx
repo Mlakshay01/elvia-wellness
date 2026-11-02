@@ -170,8 +170,8 @@ export default function Home() {
   const [showAuth, setShowAuth] = useState(false);
   const heroVideoSrc = useHeroVideoSrc();
   const halloween = useHalloweenActive();
-  // Halloween hero is dark: the (transparent) navbar uses light text until the page is scrolled.
-  useBodyClass(halloween ? "hw-nav-light" : "");
+  // The hero video is dark (and so was the Halloween hero): the transparent navbar uses light text until the page is scrolled.
+  useBodyClass("hw-nav-light");
 
   // Dussehra festive offer (signature perfumes only — never the Halloween pair)
   const festivePhase = useFestivePhase();
@@ -505,7 +505,7 @@ export default function Home() {
         {/* ── ORDER ────────────────────────────────────────────────────────────────
             While the Halloween theme is on, the SIGNATURE scents (with the Dussehra offer) come
             first, so they are never buried under the seasonal edition; Halloween follows.
-            Otherwise the original order is kept (new arrivals, then the signature scents). ── */}
+            Otherwise: signature scents first, then the solid perfumes (new arrivals) below. ── */}
         {halloween ? (
           <>
             <FestiveOffer
@@ -518,12 +518,12 @@ export default function Home() {
           </>
         ) : (
           <>
-            {newArrivalsNode}
             <FestiveOffer
               unitPrice={PRODUCTS["/perfume/noir-party-perfume"].price}
               onChoose={scrollToSignature}
             />
             {signatureNode}
+            {newArrivalsNode}
           </>
         )}
 
@@ -566,7 +566,7 @@ export default function Home() {
                   hold every fragrance to. Made in India, for the world.
                 </p>
                 <div className="about-quote">
-                  <blockquote>"Because care deserves luxury."</blockquote>
+                  <blockquote>"The Art of being Remembered."</blockquote>
                   <cite>— KAEORN</cite>
                 </div>
               </div>

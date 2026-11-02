@@ -46,7 +46,7 @@ function ClassicLoader() {
       <div className="loader-line-wrap">
         <div className="loader-line-fill"></div>
       </div>
-      <div className="loader-sub">Because care deserves luxury</div>
+      <div className="loader-sub">The Art of being Remembered</div>
     </div>
   );
 }

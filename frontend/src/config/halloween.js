@@ -12,7 +12,7 @@
 
 export const HALLOWEEN = {
   /** Master switch. false = the whole site is normal, regardless of date. */
-  enabled: true,
+  enabled: false,
 
   /**
    * The theme, intro, audio and banner switch themselves OFF at this moment.
