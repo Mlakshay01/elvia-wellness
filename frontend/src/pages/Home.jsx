@@ -78,6 +78,8 @@ function PerfumeCard({
   setShowAuth,
   addReveal,
   showClaims = true,
+  showSpecs = true,
+  longevity = "8-10hrs",
   imgStyle,
   size = "100 ml",
   badge,
@@ -125,8 +127,8 @@ function PerfumeCard({
         </h4>
         <p style={styles.mood}>{mood}</p>
         <span style={styles.volume}>{size}</span>
-        {showClaims && <span style={styles.volume}>Longevity: 8-10hrs</span>}
-        {showClaims && <span>{concentration} Natural Oils</span>}
+        {showSpecs && <span style={styles.volume}>Longevity: {longevity}</span>}
+        {showSpecs && <span>{concentration} Natural Oils</span>}
         <div style={styles.priceRow}>
           <span style={styles.price}>{price}</span>
           <span style={styles.mrp}>{mrp}</span>
@@ -284,7 +286,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={styles.perfumeRow}>
+      <div className={`perfume-row perfume-row--${halloween ? 3 : 5}`}>
         {[
           {
             to: "/perfume/noir-party-perfume",
@@ -329,7 +331,9 @@ export default function Home() {
                   price: `₹${p.price}`,
                   mrp: p.mrp > p.price ? `₹${p.mrp}` : undefined,
                   size: p.size,
-                  showClaims: false,
+                  concentration: p.oils,
+                  longevity: p.longevity,
+                  showClaims: false, // still no festive badge / bell tweak for these
                   imgStyle: {
                     objectFit: "contain",
                     background: `linear-gradient(180deg, ${p.theme.bgFrom}, ${p.theme.bgTo})`,
@@ -566,7 +570,7 @@ export default function Home() {
                   hold every fragrance to. Made in India, for the world.
                 </p>
                 <div className="about-quote">
-                  <blockquote>"The Art of being Remembered."</blockquote>
+                  <blockquote>"The Art Of Being Remembered."</blockquote>
                   <cite>— KAEORN</cite>
                 </div>
               </div>
@@ -689,18 +693,14 @@ const styles = {
     color: "var(--muted)",
     marginTop: "1.25rem",
   },
-  perfumeRow: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-    gap: "1.5px",
-    background: "var(--border)",
-    marginBottom: "4rem",
-  },
+  /* perfumeRow layout lives in styles/Home/PerfumeSection.css (.perfume-row) */
   perfumeCard: {
     background: "var(--paper)",
     cursor: "none",
     position: "relative",
     overflow: "hidden",
+    display: "flex",
+    flexDirection: "column", // cards stretch to the row height; info block fills the rest
   },
   offset: {
     transform: "translateY(32px)",
@@ -738,6 +738,9 @@ const styles = {
   cardInfo: {
     padding: "1.75rem 1.75rem 2rem",
     borderTop: "1px solid var(--border)",
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
   },
   gender: {
     fontFamily: "'DM Mono', monospace",
@@ -776,6 +779,8 @@ const styles = {
     display: "flex",
     alignItems: "baseline",
     gap: ".75rem",
+    marginTop: "auto", // price + buttons sit at the bottom, so every card lines up even when one has fewer spec lines
+    paddingTop: ".75rem",
   },
   price: {
     fontFamily: "'Cormorant Garamond', serif",

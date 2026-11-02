@@ -2,9 +2,14 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import "../styles/Global/Utils.css";
 import { isHalloweenActive } from "../config/halloween";
 import HalloweenIntro from "../halloween/HalloweenIntro";
-import { bootAllowed, removeBootCover, waitForPageReady } from "../boot/bootGate";
+import {
+  bootAllowed,
+  removeBootCover,
+  waitForPageReady,
+} from "../boot/bootGate";
 
-const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const CLASSIC_MIN_MS = 2200; // the original splash length — the hero's staged entrance is timed to it
 const MAX_WAIT_MS = 7000; // never hold the visitor longer than this
@@ -22,7 +27,10 @@ function ClassicLoader() {
 
   useEffect(() => {
     if (phase === "off") return;
-    const gate = waitForPageReady({ minMs: CLASSIC_MIN_MS, maxMs: MAX_WAIT_MS });
+    const gate = waitForPageReady({
+      minMs: CLASSIC_MIN_MS,
+      maxMs: MAX_WAIT_MS,
+    });
     const tHold = setTimeout(() => setHolding(true), CLASSIC_MIN_MS + 120);
     let tEnd = 0;
     gate.promise.then(() => {
@@ -41,12 +49,15 @@ function ClassicLoader() {
   if (phase === "off") return null;
 
   return (
-    <div id="loader" className={`${phase === "out" ? "out" : ""}${holding ? " loader-hold" : ""}`}>
+    <div
+      id="loader"
+      className={`${phase === "out" ? "out" : ""}${holding ? " loader-hold" : ""}`}
+    >
       <div className="loader-word">KAEORN</div>
       <div className="loader-line-wrap">
         <div className="loader-line-fill"></div>
       </div>
-      <div className="loader-sub">The Art of being Remembered</div>
+      <div className="loader-sub">The Art Of Being Remembered</div>
     </div>
   );
 }

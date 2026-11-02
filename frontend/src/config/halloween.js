@@ -109,6 +109,8 @@ export const HALLOWEEN_PRODUCTS = {
     tagline: "Born after dark",
     category: "EAU DE PARFUM",
     size: "30 ml",
+    longevity: "8-10hrs", // TODO(owner): confirm for this scent (same as the signature range for now)
+    oils: "25%", // TODO(owner): confirm natural-oil concentration
     mrp: HALLOWEEN_MRP,
     price: HALLOWEEN_PRICE,
     mood: "Dark berry · Deep red",
@@ -153,6 +155,8 @@ export const HALLOWEEN_PRODUCTS = {
     tagline: "Blue beyond midnight",
     category: "EAU DE PARFUM",
     size: "30 ml",
+    longevity: "8-10hrs", // TODO(owner): confirm for this scent (same as the signature range for now)
+    oils: "25%", // TODO(owner): confirm natural-oil concentration
     mrp: HALLOWEEN_MRP,
     price: HALLOWEEN_PRICE,
     mood: "Oud · Cool blue",
