@@ -174,3 +174,23 @@
   display: block;
   margin-bottom: 1.25rem;
 }
+
+/* ── SIGNATURE ROW ── always fills its rows: no lone card with empty space beside it ── */
+.perfume-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5px;
+  background: var(--border);
+  margin-bottom: 4rem;
+}
+/* wide desktop: one clean row (5 scents, or 3 while the seasonal pair is hidden) */
+@media (min-width: 1100px) {
+  .perfume-row--5 { grid-template-columns: repeat(5, 1fr); }
+  .perfume-row--3 { grid-template-columns: repeat(3, 1fr); }
+}
+/* tablet: 3 on top, 2 below stretched to fill the full width */
+@media (min-width: 700px) and (max-width: 1099px) {
+  .perfume-row--5 { grid-template-columns: repeat(6, 1fr); }
+  .perfume-row--5 > * { grid-column: span 2; }
+  .perfume-row--5 > *:nth-child(n+4) { grid-column: span 3; }
+}

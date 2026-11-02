@@ -49,17 +49,31 @@ export default function Footer() {
           <div className="footer-top">
             <div className="footer-logo-block reveal">
               <div className="footer-logo">KAEORN</div>
-              <p className="footer-tagline">The Art of being Remembered.</p>
+              <p className="footer-tagline">The Art Of Being Remembered.</p>
             </div>
             <div className="footer-col reveal">
               <h4>Collection</h4>
-              <Link className="link" to="/perfume/noir-party-perfume">Thé Noir Men</Link>
-              <Link className="link" to="/perfume/soie-femme-floral-perfume">Soié Femme</Link>
-              <Link className="link" to="/perfume/veil-fresh-perfume">Veil</Link>
-              <Link className="link" to="/perfume/nocturne">Nocturne</Link>
-              <Link className="link" to="/perfume/azur">Azur</Link>
-              <Link className="link" to="/perfume/nox">Nox</Link>
-              <Link className="link" to="/perfume/velion">Velion</Link>
+              <Link className="link" to="/perfume/noir-party-perfume">
+                Thé Noir Men
+              </Link>
+              <Link className="link" to="/perfume/soie-femme-floral-perfume">
+                Soié Femme
+              </Link>
+              <Link className="link" to="/perfume/veil-fresh-perfume">
+                Veil
+              </Link>
+              <Link className="link" to="/perfume/nocturne">
+                Nocturne
+              </Link>
+              <Link className="link" to="/perfume/azur">
+                Azur
+              </Link>
+              <Link className="link" to="/perfume/nox">
+                Nox
+              </Link>
+              <Link className="link" to="/perfume/velion">
+                Velion
+              </Link>
               {/* <Link className="link" to="/perfume/discovery-set">Discovery Set</Link> */}
             </div>
             <div className="footer-col reveal">
@@ -72,10 +86,18 @@ export default function Footer() {
             </div>
             <div className="footer-col reveal">
               <h4>Connect</h4>
-              <a href="https://www.instagram.com/kaeorn.co" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.instagram.com/kaeorn.co"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Instagram
               </a>
-              <a href="https://www.youtube.com/@KAEORNWELLNESS" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.youtube.com/@KAEORNWELLNESS"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 YouTube
               </a>
             </div>
@@ -85,13 +107,25 @@ export default function Footer() {
               © 2026 KAEORN. All rights reserved.
             </span>
             <div className="footer-social">
-              <Link className="link" to="/privacy">Privacy</Link>
-              <Link className="link" to="/terms">Terms</Link>
-              <Link className="link" to="/contact">Contact</Link>
-              <Link className="link" to="/refund">Refund</Link>
-              <Link className="link" to="/shipping">Shipping</Link>
+              <Link className="link" to="/privacy">
+                Privacy
+              </Link>
+              <Link className="link" to="/terms">
+                Terms
+              </Link>
+              <Link className="link" to="/contact">
+                Contact
+              </Link>
+              <Link className="link" to="/refund">
+                Refund
+              </Link>
+              <Link className="link" to="/shipping">
+                Shipping
+              </Link>
 
-              <Link className="link" to="/">kaeorn.com</Link>
+              <Link className="link" to="/">
+                kaeorn.com
+              </Link>
             </div>
           </div>
         </div>
