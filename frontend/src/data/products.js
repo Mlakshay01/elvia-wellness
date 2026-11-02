@@ -56,7 +56,7 @@ export const PRODUCTS = {
     name: "SOIE FEMME",
     price: 1399,
     image:
-      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png",
+      "",
     category: "WOMEN · EAU DE PARFUM",
     size: "100 ml",
   },
@@ -66,7 +66,7 @@ export const PRODUCTS = {
     name: "SOIE FEMME (30 ml)",
     price: PRICE_30ML,
     image:
-      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1793632538/IMG_20260919_210944_cynhod.png",
     category: "WOMEN · EAU DE PARFUM",
     size: "30 ml",
   },

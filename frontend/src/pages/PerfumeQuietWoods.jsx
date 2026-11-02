@@ -16,7 +16,7 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/soie-femme-floral-perfume");
 
 /* ── IMAGES ── */
 const images = [
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1793632538/IMG_20260919_210944_cynhod.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834177/1e43d3c0-73c1-4212-b1ef-e14bdf3cbdf0_nqswic.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839251/IMG_20260919_230137_nurfig.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839250/IMG_20260919_230026_b3lyoz.png",
@@ -158,13 +158,26 @@ export default function PerfumeQuietWoods() {
         />
         <meta property="og:type" content="product" />
         <script type="application/ld+json">
-          {ld(productJsonLd("/perfume/soie-femme-floral-perfume", { description: "SOIE FEMME by KAEORN — a luminous feminine Eau de Parfum with notes of Coffee, Jasmine and Vanilla. Made in India.", category: "Women · Eau de Parfum", availability: "InStock", images: images.slice(0, 3), rating: reviewsData.summary, reviews: reviewsData.reviews }))}
+          {ld(
+            productJsonLd("/perfume/soie-femme-floral-perfume", {
+              description:
+                "SOIE FEMME by KAEORN — a luminous feminine Eau de Parfum with notes of Coffee, Jasmine and Vanilla. Made in India.",
+              category: "Women · Eau de Parfum",
+              availability: "InStock",
+              images: images.slice(0, 3),
+              rating: reviewsData.summary,
+              reviews: reviewsData.reviews,
+            }),
+          )}
         </script>
         <script type="application/ld+json">
           {ld(
             breadcrumbJsonLd([
               { name: "Home", path: "/" },
-              { name: "SOIE FEMME", path: "/perfume/soie-femme-floral-perfume" },
+              {
+                name: "SOIE FEMME",
+                path: "/perfume/soie-femme-floral-perfume",
+              },
             ]),
           )}
         </script>
@@ -371,7 +384,6 @@ export default function PerfumeQuietWoods() {
                 collarbone. Don't rub after spraying. Let it breathe and settle
                 naturally with your body heat.
               </Accordion>
-
 
               <Accordion
                 title="KAEORN PHILOSOPHY"

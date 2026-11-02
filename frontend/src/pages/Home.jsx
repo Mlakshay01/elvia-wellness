@@ -30,7 +30,7 @@ const softSkinImg =
 const morningVeilImg =
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png";
 const quietWoodsImg =
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834140/IMG_20260919_210944_cynhod.png";
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1793632538/IMG_20260919_210944_cynhod.png";
 
 /* ── MARQUEE ITEMS ── */
 const MARQUEE_ITEMS = [
