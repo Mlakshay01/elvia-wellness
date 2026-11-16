@@ -16,9 +16,9 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/noir-party-perfume");
 
 /* ── IMAGES ── */
 const galleryImages = [
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834772/copy_of_untitled_2_tv5rbj.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834177/83cc75e6-d111-423b-9e60-ba509e9a2edb_yrklsy.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839262/IMG_20260919_230228_tn6icp.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843072/noie_new_hero_b76r3x.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843071/noir_model_wtzqjw.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843072/noir_packaging_front_yivybh.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839251/IMG_20260919_230114_bcq8xv.png",
 ];
 
