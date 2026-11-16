@@ -18,8 +18,8 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/soie-femme-floral-perfume");
 const images = [
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843962/KAEORN_Soie_Femme_Perfume_Bottle_ezlp52.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794844167/soie_femme_model_rfu0xj.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839251/IMG_20260919_230137_nurfig.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839250/IMG_20260919_230026_b3lyoz.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794845831/soie_femme_packaging_new_dkkows.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794845971/femme_new_back_nqd1ko.png",
 ];
 
 const bg =
@@ -150,7 +150,7 @@ export default function PerfumeQuietWoods() {
         />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834177/1e43d3c0-73c1-4212-b1ef-e14bdf3cbdf0_nqswic.png"
+          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843962/KAEORN_Soie_Femme_Perfume_Bottle_ezlp52.png"
         />
         <meta
           property="og:url"

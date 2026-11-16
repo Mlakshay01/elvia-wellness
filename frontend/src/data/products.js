@@ -36,7 +36,7 @@ export const PRODUCTS = {
     name: "VEIL",
     price: 1399,
     image:
-      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794847815/veil_hero_fsb8te.png",
     category: "UNISEX · EAU DE PARFUM",
     size: "100 ml",
   },
@@ -46,7 +46,7 @@ export const PRODUCTS = {
     name: "VEIL (30 ml)",
     price: PRICE_30ML,
     image:
-      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794847815/veil_hero_fsb8te.png",
     category: "UNISEX · EAU DE PARFUM",
     size: "30 ml",
   },

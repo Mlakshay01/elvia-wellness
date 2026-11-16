@@ -16,10 +16,10 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/veil-fresh-perfume");
 
 /* ── IMAGES ── */
 const images = [
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/f2560d35-eddb-4828-922f-6aae483047c8_hr1fvr.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839249/IMG_20260919_230205_avek4m.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839252/IMG_20260919_230057_phzkt1.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794847815/veil_hero_fsb8te.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794847814/veil_model_xjp5wk.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794848909/kaeorn_packaging_front_tpt7xc.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794847814/veil_packaging_back_dlhxqn.png",
 ];
 
 const bg =
@@ -150,7 +150,7 @@ export default function PerfumeMorningVeil() {
         />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/f2560d35-eddb-4828-922f-6aae483047c8_hr1fvr.png"
+          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1794847815/veil_hero_fsb8te.png"
         />
         <meta
           property="og:url"
@@ -437,7 +437,7 @@ const styles = {
     position: "relative",
     borderRadius: 26,
     overflow: "hidden",
-    aspectRatio: "3 / 4",
+  
   },
 
   imageSlide: {
@@ -447,7 +447,7 @@ const styles = {
 
   galleryImage: {
     width: "100%",
-    height: "85%",
+    height: "100%",
     objectFit: "cover",
     borderRadius: 26,
     display: "block",

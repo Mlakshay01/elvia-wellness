@@ -17,9 +17,9 @@ const SIZE_OPTIONS = getSizeOptions("/perfume/noir-party-perfume");
 /* ── IMAGES ── */
 const galleryImages = [
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843072/noie_new_hero_b76r3x.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843071/noir_model_wtzqjw.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794846469/noir_model_gzqjcc.png",
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843072/noir_packaging_front_yivybh.png",
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789839251/IMG_20260919_230114_bcq8xv.png",
+  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794846181/noir_back_new_vzacjc.png",
 ];
 
 const backgroundImg =
@@ -140,7 +140,7 @@ export default function PerfumeSoftSkin() {
         />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834772/copy_of_untitled_2_tv5rbj.png"
+          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843072/noie_new_hero_b76r3x.png"
         />
         <meta
           property="og:url"

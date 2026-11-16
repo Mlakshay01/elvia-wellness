@@ -26,8 +26,7 @@ import { useFestivePhase } from "../festive/useFestive";
 
 /* ── PRODUCT IMAGES ── */
 const softSkinImg = PRODUCTS["/perfume/noir-party-perfume"].image;
-const morningVeilImg =
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png";
+const morningVeilImg = PRODUCTS["/perfume/veil-fresh-perfume"].image;
 const quietWoodsImg = PRODUCTS["/perfume/soie-femme-floral-perfume"].image;
 
 /* ── MARQUEE ITEMS ── */
@@ -395,7 +394,7 @@ export default function Home() {
         <meta property="og:url" content="https://kaeorn.com/" />
         <meta
           property="og:image"
-          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1793121600/7bcb779b-94a1-40d4-9154-ce1cc164ee3a_mfd4k0.png"
+          content="https://res.cloudinary.com/dhh2i1soo/image/upload/v1794850245/kaeorn-promotional_ntk3xu.png"
         />
         <meta property="og:site_name" content="Kaeorn" />
 
