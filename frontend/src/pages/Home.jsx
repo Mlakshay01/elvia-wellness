@@ -25,12 +25,10 @@ import FestiveOffer from "../festive/FestiveOffer";
 import { useFestivePhase } from "../festive/useFestive";
 
 /* ── PRODUCT IMAGES ── */
-const softSkinImg =
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834772/copy_of_untitled_2_tv5rbj.png";
+const softSkinImg = PRODUCTS["/perfume/noir-party-perfume"].image;
 const morningVeilImg =
   "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834174/IMG_20260919_210916_xy3hjl.png";
-const quietWoodsImg =
-  "https://res.cloudinary.com/dhh2i1soo/image/upload/v1793632538/IMG_20260919_210944_cynhod.png";
+const quietWoodsImg = PRODUCTS["/perfume/soie-femme-floral-perfume"].image;
 
 /* ── MARQUEE ITEMS ── */
 const MARQUEE_ITEMS = [

@@ -16,7 +16,7 @@ export const PRODUCTS = {
     name: "THÉ NOIR",
     price: 1399,
     image:
-      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/Untitled_2_tv5rbj.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843072/noie_new_hero_b76r3x.png",
     category: "MEN · EAU DE PARFUM",
     size: "100 ml",
   },
@@ -26,7 +26,7 @@ export const PRODUCTS = {
     name: "THÉ NOIR (30 ml)",
     price: PRICE_30ML,
     image:
-      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1789834176/Untitled_2_tv5rbj.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843072/noie_new_hero_b76r3x.png",
     category: "MEN · EAU DE PARFUM",
     size: "30 ml",
   },
@@ -56,7 +56,7 @@ export const PRODUCTS = {
     name: "SOIE FEMME",
     price: 1399,
     image:
-      "",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843962/KAEORN_Soie_Femme_Perfume_Bottle_ezlp52.png",
     category: "WOMEN · EAU DE PARFUM",
     size: "100 ml",
   },
@@ -66,7 +66,7 @@ export const PRODUCTS = {
     name: "SOIE FEMME (30 ml)",
     price: PRICE_30ML,
     image:
-      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1793632538/IMG_20260919_210944_cynhod.png",
+      "https://res.cloudinary.com/dhh2i1soo/image/upload/v1794843962/KAEORN_Soie_Femme_Perfume_Bottle_ezlp52.png",
     category: "WOMEN · EAU DE PARFUM",
     size: "30 ml",
   },
